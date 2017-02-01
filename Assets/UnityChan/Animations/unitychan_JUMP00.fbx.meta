@@ -617,7 +617,10 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'Character1_Spine' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 0
@@ -655,44 +658,20 @@ ModelImporter:
           serializedVersion: 2
           curve:
           - serializedVersion: 2
-            time: 0
+            time: 0.0073855235
             value: 0
             inSlope: 0
             outSlope: 0
             tangentMode: 0
           - serializedVersion: 2
-            time: 0.20257828
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          - serializedVersion: 2
-            time: 0.31781375
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          - serializedVersion: 2
-            time: 0.4990792
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          - serializedVersion: 2
-            time: 0.6234818
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          - serializedVersion: 2
-            time: 1
-            value: 0
+            time: 1.0028805
+            value: -0.00045863166
             inSlope: 0
             outSlope: 0
             tangentMode: 0
           preInfinity: 2
           postInfinity: 2
-          rotationOrder: 4
+          rotationOrder: 0
       - name: GravityControl
         curve:
           serializedVersion: 2
