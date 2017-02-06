@@ -34,55 +34,64 @@ public class TransitionUpdater : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         m_transition += Time.deltaTime;
-        if (poses.Count>3)
-        {
-            UpdateAnimationASD();
-        }
         if (m_transition > 1.0f)
         {
             m_transition = 0.0f;
+        }
+        if (poses.Count>3)
+        {
+            UpdateAnimationASD();
         }
     }
 
     void UpdateAnimationASD()
     {
-        GameObject t_hips = GameObject.Find("Hips");
+        GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
-        if (m_transition < 0.25f)
+        
+        for (int i = 0; i < t_bones.Length; i++)
         {
-            for (int i = 0; i < t_bones.Length; i++)
-            {
-                t_bones[i].localRotation = Quaternion.Slerp(poses[0][i], poses[1][i],
-                 m_transition / 0.25f);
-            }
+           t_bones[i].localRotation = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_transition);
         }
 
-        else if (m_transition < 0.5f)
-        {
-            for (int i = 0; i < t_bones.Length; i++)
-            {
-                t_bones[i].localRotation = Quaternion.Slerp(poses[1][i], poses[2][i],
-                    (m_transition - 0.25f) / 0.25f);
-            }
-            //print(poses[1][1].name + poses[1][1].transform.localRotation.eulerAngles);
-        }
-        else if (m_transition < 0.75f)
-        {
-            for (int i = 0; i < t_bones.Length; i++)
-            {
-                t_bones[i].localRotation = Quaternion.Slerp(poses[2][i], poses[3][i],
-                    (m_transition - 0.5f) / 0.25f);
-            }
-        }
-        else if (m_transition < 1.0f)
-        {
-            for (int i = 0; i < t_bones.Length; i++)
-            {
-                t_bones[i].localRotation = Quaternion.Slerp(poses[3][i], poses[0][i],
-                    (m_transition - 0.75f) / 0.25f);
-            }
-        }
+
+        //if (m_transition < 0.25f)
+        //{
+        //    for (int i = 0; i < t_bones.Length; i++)
+        //    {
+        //        t_bones[i].localRotation = Quaternion.Slerp(poses[0][i], poses[1][i],
+        //         m_transition / 0.25f);
+        //    }
+        //}
+        //
+        //else if (m_transition < 0.5f)
+        //{
+        //    for (int i = 0; i < t_bones.Length; i++)
+        //    {
+        //        t_bones[i].localRotation = Quaternion.Slerp(poses[1][i], poses[2][i],
+        //            (m_transition - 0.25f) / 0.25f);
+        //    }
+        //    //print(poses[1][1].name + poses[1][1].transform.localRotation.eulerAngles);
+        //}
+        //else if (m_transition < 0.75f)
+        //{
+        //    for (int i = 0; i < t_bones.Length; i++)
+        //    {
+        //        
+        //        t_bones[i].localRotation = Quaternion.Slerp(poses[2][i], poses[3][i],
+        //            (m_transition - 0.5f) / 0.25f);
+        //    }
+        //}
+        //else if (m_transition < 1.0f)
+        //{
+        //    for (int i = 0; i < t_bones.Length; i++)
+        //    {                    
+        //        t_bones[i].localRotation = Quaternion.Slerp(poses[3][i], poses[0][i],
+        //            (m_transition - 0.75f) / 0.25f);
+        //    }
+        //}
     }
+    
 
     void SaveKeyFrames0()
     {
