@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class QuaternionExtensions
+public static class QuaternionExtensionsC
 {
 
     // Quaternion extensions for Unity by Vegard Myklebust.
@@ -17,7 +17,7 @@ public static class QuaternionExtensions
         {
             float angle = Mathf.Acos(a0);
             float sinAngle = Mathf.Sin(angle);
-            if (Mathf.Abs(sinAngle) >= 1.0e-15)
+            if (Mathf.Abs(sinAngle) >= 0.0000000000000000000000001f)
             {
                 float coeff = angle / sinAngle;
                 a.x *= coeff;
@@ -32,11 +32,11 @@ public static class QuaternionExtensions
         Quaternion result = a;
         float a0 = result.w;
         result.w = 0.0f;
-        if (Mathf.Abs(a0) < 1.0)
+        if (Mathf.Abs(a0) <= 1.0f)
         {
             float angle = Mathf.Acos(a0);
             float sinAngle = Mathf.Sin(angle);
-            if (Mathf.Abs(sinAngle) >= 1.0e-15)
+            if (Mathf.Abs(sinAngle) >= 0.000000000000001f)
             {
                 float coeff = angle / sinAngle;
                 result.x *= coeff;
@@ -86,7 +86,7 @@ public static class QuaternionExtensions
         float angle = Mathf.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
         float sinAngle = Mathf.Sin(angle);
         a.w = Mathf.Cos(angle);
-        if (Mathf.Abs(sinAngle) >= 1.0e-15)
+        if (Mathf.Abs(sinAngle) >= 0.0000000000000001f)
         {
             float coeff = sinAngle / angle;
             a.x *= coeff;
@@ -98,10 +98,10 @@ public static class QuaternionExtensions
     public static Quaternion Exped(this Quaternion a)
     {
         Quaternion result = a;
-        float angle = Mathf.Sqrt(result.x * result.x + result.y * result.y + result.z * result.z);
+        float angle = Mathf.Sqrt(result.x * result.x + result.y * result.y + result.z * result.z); // + result.w *result.w gjorde ingen skillnad
         float sinAngle = Mathf.Sin(angle);
         result.w = Mathf.Cos(angle);
-        if (Mathf.Abs(sinAngle) >= 1.0e-15)
+        if (Mathf.Abs(sinAngle) >= 0.00000000000000000000000001f)
         {
             float coeff = sinAngle / angle;
             result.x *= coeff;
@@ -114,7 +114,7 @@ public static class QuaternionExtensions
     public static float Normalize(this Quaternion a)
     {
         float length = Length(a);
-        if (length > 1.0e-15)
+        if (length > 0.000000000000000000000000000000000001f)
         {
             float invlen = 1.0f / length;
             a.w *= invlen;
@@ -137,7 +137,7 @@ public static class QuaternionExtensions
     {
         Quaternion result = a;
         float length = Length(a);
-        if (length > 1.0e-15)
+        if (length > 0.0000000000001f)
         {
             float invlen = 1.0f / length;
             result.w *= invlen;
@@ -159,7 +159,7 @@ public static class QuaternionExtensions
     {
         return Mathf.Sqrt(a.w * a.w + a.x * a.x + a.y * a.y + a.z * a.z);
     }
-    
+
     //public static Quaternion op_Addition(Quaternion a, Quaternion b)
     //{
     //    return a.Add(b);
@@ -190,8 +190,8 @@ public static class QuaternionExtensions
     {
         float dot = Quaternion.Dot(from, to);
 
-        if (Mathf.Abs(dot) > 0.9999f)
-            return from;
+        if (Mathf.Abs(dot) > 0.95f)
+            return Quaternion.Lerp(from, to, factor);
 
         float theta = Mathf.Acos(dot);
         float sinT = 1.0f / Mathf.Sin(theta);

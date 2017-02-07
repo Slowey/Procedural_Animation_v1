@@ -17,7 +17,6 @@ public class LinearInterp : MonoBehaviour
     {
         m_animator = GetComponent<Animator>();
         m_transition = 0.0f;
-
         Invoke("SaveKeyFrames0", 0.25f);
         Invoke("SaveKeyFrames1", 0.5f);
         Invoke("SaveKeyFrames2", 0.75f);
