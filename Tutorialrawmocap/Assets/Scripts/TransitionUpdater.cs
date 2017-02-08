@@ -15,6 +15,7 @@ public class TransitionUpdater : MonoBehaviour
     //List<List<Transform>> poses = new List<List<Transform>>();
     List<List<Quaternion>> poses = new List<List<Quaternion>>();
     List<List<Vector3>> positions = new List<List<Vector3>>();
+    bool headBob = true;
     // Use this for initialization
     void Start()
     {
@@ -45,6 +46,10 @@ public class TransitionUpdater : MonoBehaviour
         {
             m_transition -= 1.0f;
         }
+        if(headBob)
+        {
+            HeadbobUpdate();
+        }
         if (poses.Count > 3)
         {
             UpdateAnimationASD();
@@ -52,6 +57,32 @@ public class TransitionUpdater : MonoBehaviour
         else
             m_transition = 0;
 
+    }
+    void HeadbobUpdate()
+    {
+        if (m_transition > 0.25 && m_transition < 0.75f)
+        {
+            float ourX = ((m_transition - 0.25f) * 4) - 1;
+            float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
+            // float theX = ourXTwo
+            gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
+        }
+        else if (m_transition < 0.25f)
+        {
+            float ourX = ((m_transition + 0.25f) * 4) - 1;
+            float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
+            // float theX = ourXTwo
+            gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
+            print(ourX + "under .25");
+        }
+        else if (m_transition > 0.75f)
+        {
+            float ourX = ((m_transition - 0.75f) * 4) - 1;
+            float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
+            // float theX = ourXTwo
+            gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
+            print(ourX + "över .75");
+        }
     }
     void UpdateAnimationASD()
     {

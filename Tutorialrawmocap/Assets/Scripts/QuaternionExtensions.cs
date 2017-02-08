@@ -190,7 +190,7 @@ public static class QuaternionExtensionsC
     {
         float dot = Quaternion.Dot(from, to);
 
-        if (Mathf.Abs(dot) > 0.95f)
+        if (Mathf.Abs(dot) > 0.9999f)
             return Quaternion.Lerp(from, to, factor);
 
         float theta = Mathf.Acos(dot);
