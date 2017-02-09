@@ -15,7 +15,7 @@ public class TransitionUpdater : MonoBehaviour
     //List<List<Transform>> poses = new List<List<Transform>>();
     List<List<Quaternion>> poses = new List<List<Quaternion>>();
     List<Vector3> hipspos = new List<Vector3>();
-    bool headBob = true;
+    public bool headBob = true;
     // Use this for initialization
     void Start()
     {
@@ -28,7 +28,6 @@ public class TransitionUpdater : MonoBehaviour
         Invoke("SaveKeyFrames3", 1.0f);
         //m_animator.Play(m_crossHash, 0, 0);
         //m_animator.Update(0.0f);
-        headBob = false;
     }
 
     // Update is called once per frame
@@ -103,30 +102,32 @@ public class TransitionUpdater : MonoBehaviour
                 t_bones[i].rotation = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_transition).quat;
             }
         }
-        if (m_transition < 0.25f)
+        if (!headBob)
         {
-            t_bones[0].position = Vector3.Slerp(hipspos[0], hipspos[1],
-                m_transition / 0.25f);
-        }
-        
-        else if (m_transition < 0.5f)
-        {
-            t_bones[0].position = Vector3.Slerp(hipspos[1], hipspos[2],
-                (m_transition - 0.25f) / 0.25f);
-            //print(poses[1][1].name + poses[1][1].transform.rotation.eulerAngles);
-        }
-        else if (m_transition < 0.75f)
-        {
-            t_bones[0].position = Vector3.Slerp(hipspos[2], hipspos[3],
-                (m_transition - 0.5f) / 0.25f);
-        }
-        else if (m_transition < 1.0f)
-        {              
-            t_bones[0].position = Vector3.Slerp(hipspos[3], hipspos[0],
-                (m_transition - 0.75f) / 0.25f);
+            if (m_transition < 0.25f)
+            {
+                t_bones[0].position = Vector3.Slerp(hipspos[0], hipspos[1],
+                    m_transition / 0.25f);
+            }
+
+            else if (m_transition < 0.5f)
+            {
+                t_bones[0].position = Vector3.Slerp(hipspos[1], hipspos[2],
+                    (m_transition - 0.25f) / 0.25f);
+                //print(poses[1][1].name + poses[1][1].transform.rotation.eulerAngles);
+            }
+            else if (m_transition < 0.75f)
+            {
+                t_bones[0].position = Vector3.Slerp(hipspos[2], hipspos[3],
+                    (m_transition - 0.5f) / 0.25f);
+            }
+            else if (m_transition < 1.0f)
+            {
+                t_bones[0].position = Vector3.Slerp(hipspos[3], hipspos[0],
+                    (m_transition - 0.75f) / 0.25f);
+            }
         }
     }
-
 
     void SaveKeyFrames0()
     {
