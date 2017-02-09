@@ -14,7 +14,7 @@ public class TransitionUpdater : MonoBehaviour
     int m_crossMirrorHash = Animator.StringToHash("WalkFWD_Cross_Mirror");
     //List<List<Transform>> poses = new List<List<Transform>>();
     List<List<Quaternion>> poses = new List<List<Quaternion>>();
-    List<List<Vector3>> positions = new List<List<Vector3>>();
+    List<Vector3> hipspos = new List<Vector3>();
     bool headBob = true;
     // Use this for initialization
     void Start()
@@ -28,13 +28,7 @@ public class TransitionUpdater : MonoBehaviour
         Invoke("SaveKeyFrames3", 1.0f);
         //m_animator.Play(m_crossHash, 0, 0);
         //m_animator.Update(0.0f);
-        ////Provar med bara rotations. Lägg till Positions också ifall vi har deformations
-        //t_hips = GameObject.Find("Hips");
-        //t_transforms = t_hips.GetComponentsInChildren<Transform>();
-        //for (int i = 0; i < t_transforms.Length; i++)
-        //{
-        //    print(t_transforms[i].name + " " + t_transforms[i].rotation.eulerAngles);
-        //}
+        headBob = false;
     }
 
     // Update is called once per frame
@@ -73,7 +67,7 @@ public class TransitionUpdater : MonoBehaviour
             float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
             // float theX = ourXTwo
             gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
-            print(ourX + "under .25");
+            //print(ourX + "under .25");
         }
         else if (m_transition > 0.75f)
         {
@@ -81,7 +75,7 @@ public class TransitionUpdater : MonoBehaviour
             float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
             // float theX = ourXTwo
             gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
-            print(ourX + "över .75");
+            //print(ourX + "över .75");
         }
     }
     void UpdateAnimationASD()
@@ -99,63 +93,38 @@ public class TransitionUpdater : MonoBehaviour
                 //testStruct d = new  testStruct();
                 SQUAD.testStruct d = new SQUAD.testStruct();
                 d = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_prevTrans);
-                print(d.alongLine);
+                //print(d.alongLine);
                 d = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_transition);
                 t_bones[i].rotation = d.quat;
-                print(d.alongLine);
+                //print(d.alongLine);
             }
             else
             {
                 t_bones[i].rotation = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_transition).quat;
             }
         }
-
-        //for (int i = 0; i < t_bones.Length; i++)
-        //{
-        //    if (i == 2 && m_transition > 0.5f && m_prevTrans < 0.5f)
-        //    {
-        //        print(t_bones[i].rotation.eulerAngles);
-        //        t_bones[i].rotation = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_transition);
-        //        print(t_bones[i].rotation.eulerAngles);
-        //    }
-        //    else
-        //        t_bones[i].rotation = SQUAD.Spline(poses[0][i], poses[1][i], poses[2][i], poses[3][i], m_transition);
-        //}
-        // if (m_transition < 0.25f)
-        // {
-        //     for (int i = 0; i < t_bones.Length; i++)
-        //     {
-        //         t_bones[i].position = Vector3.Slerp(positions[0][i], positions[1][i],
-        //          m_transition / 0.25f);
-        //     }
-        // }
-        // 
-        // else if (m_transition < 0.5f)
-        // {
-        //     for (int i = 0; i < t_bones.Length; i++)
-        //     {
-        //         t_bones[i].position = Vector3.Slerp(positions[1][i], positions[2][i],
-        //             (m_transition - 0.25f) / 0.25f);
-        //     }
-        //     //print(poses[1][1].name + poses[1][1].transform.rotation.eulerAngles);
-        // }
-        // else if (m_transition < 0.75f)
-        // {
-        //     for (int i = 0; i < t_bones.Length; i++)
-        //     {
-        //         
-        //         t_bones[i].position = Vector3.Slerp(positions[2][i], positions[3][i],
-        //             (m_transition - 0.5f) / 0.25f);
-        //     }
-        // }
-        // else if (m_transition < 1.0f)
-        // {
-        //     for (int i = 0; i < t_bones.Length; i++)
-        //     {                    
-        //         t_bones[i].position = Vector3.Slerp(positions[3][i], positions[0][i],
-        //             (m_transition - 0.75f) / 0.25f);
-        //     }
-        // }
+        if (m_transition < 0.25f)
+        {
+            t_bones[0].position = Vector3.Slerp(hipspos[0], hipspos[1],
+                m_transition / 0.25f);
+        }
+        
+        else if (m_transition < 0.5f)
+        {
+            t_bones[0].position = Vector3.Slerp(hipspos[1], hipspos[2],
+                (m_transition - 0.25f) / 0.25f);
+            //print(poses[1][1].name + poses[1][1].transform.rotation.eulerAngles);
+        }
+        else if (m_transition < 0.75f)
+        {
+            t_bones[0].position = Vector3.Slerp(hipspos[2], hipspos[3],
+                (m_transition - 0.5f) / 0.25f);
+        }
+        else if (m_transition < 1.0f)
+        {              
+            t_bones[0].position = Vector3.Slerp(hipspos[3], hipspos[0],
+                (m_transition - 0.75f) / 0.25f);
+        }
     }
 
 
@@ -168,15 +137,13 @@ public class TransitionUpdater : MonoBehaviour
         t_hips = GameObject.Find("Hips");
         t_hips.GetComponentsInChildren<Transform>(t_transforms);
         List<Quaternion> t_quaternions = new List<Quaternion>();
-        List<Vector3> t_positions = new List<Vector3>();
         for (int i = 0; i < t_transforms.Count; i++)
         {
             t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
                 t_transforms[i].rotation.w));
-            t_positions.Add(new Vector3(t_transforms[i].position.x, t_transforms[i].position.y, t_transforms[i].position.z));
         }
         poses.Add(t_quaternions);
-        positions.Add(t_positions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
     }
     void SaveKeyFrames1()
     {
@@ -187,15 +154,14 @@ public class TransitionUpdater : MonoBehaviour
         t_hips = GameObject.Find("Hips");
         t_hips.GetComponentsInChildren<Transform>(t_transforms);
         List<Quaternion> t_quaternions = new List<Quaternion>();
-        List<Vector3> t_positions = new List<Vector3>();
         for (int i = 0; i < t_transforms.Count; i++)
         {
             t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
                 t_transforms[i].rotation.w));
-            t_positions.Add(new Vector3(t_transforms[i].position.x, t_transforms[i].position.y, t_transforms[i].position.z));
         }
         poses.Add(t_quaternions);
-        positions.Add(t_positions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
+
 
     }
     void SaveKeyFrames2()
@@ -207,15 +173,13 @@ public class TransitionUpdater : MonoBehaviour
         t_hips = GameObject.Find("Hips");
         t_hips.GetComponentsInChildren<Transform>(t_transforms);
         List<Quaternion> t_quaternions = new List<Quaternion>();
-        List<Vector3> t_positions = new List<Vector3>();
         for (int i = 0; i < t_transforms.Count; i++)
         {
             t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
                 t_transforms[i].rotation.w));
-            t_positions.Add(new Vector3(t_transforms[i].position.x, t_transforms[i].position.y, t_transforms[i].position.z));
         }
         poses.Add(t_quaternions);
-        positions.Add(t_positions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
     }
     void SaveKeyFrames3()
     {
@@ -227,19 +191,28 @@ public class TransitionUpdater : MonoBehaviour
         t_hips = GameObject.Find("Hips");
         t_hips.GetComponentsInChildren<Transform>(t_transforms);
         List<Quaternion> t_quaternions = new List<Quaternion>();
-        List<Vector3> t_positions = new List<Vector3>();
+        
         for (int i = 0; i < t_transforms.Count; i++)
         {
             t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
                 t_transforms[i].rotation.w));
-            t_positions.Add(new Vector3(t_transforms[i].position.x, t_transforms[i].position.y, t_transforms[i].position.z));
         }
         poses.Add(t_quaternions);
-        positions.Add(t_positions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
         print(poses[0][1].eulerAngles);
         print(poses[1][1].eulerAngles);
         print(poses[2][1].eulerAngles);
         print(poses[3][1].eulerAngles);
+
+        print(hipspos[0].y);
+        print(hipspos[1].y);
+        print(hipspos[2].y);
+        print(hipspos[3].y);
+
+        MakeGameObjectsForDebuggingRotations();
+    }
+    void MakeGameObjectsForDebuggingRotations()
+    {
         GameObject hello = new GameObject();
         hello.name = "hello";
         GameObject rot1 = new GameObject();
