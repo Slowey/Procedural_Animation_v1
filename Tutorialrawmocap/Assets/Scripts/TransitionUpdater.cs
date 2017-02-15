@@ -6,6 +6,12 @@ using UnityEngine;
 public class TransitionUpdater : MonoBehaviour
 {
     public enum AnimationClips { Walking, Runnning, Crouching};
+    [Range(0.0f, 20.0f)]
+    public float deltaTimeIncreaser = 2.3f;
+    [Range(0.0f, 2.0f)]
+    public float damper = 0.6f;
+    [Range(0.0f, 10.0f)]
+    public float angularVelo = 6.0f;
     public AnimationClips activeClip;
     AnimationClips prevClip;
     Animator m_animator;
@@ -88,7 +94,7 @@ public class TransitionUpdater : MonoBehaviour
             case AnimationClips.Crouching:
                 if (poses.Count > 1)
                 {
-                    m_animDuck.UpdateAnimation(m_transition, poses, hipspos);
+                    m_animDuck.UpdateAnimation(m_transition, poses, hipspos, deltaTimeIncreaser, angularVelo, damper);
                 }
                 break;
             default:

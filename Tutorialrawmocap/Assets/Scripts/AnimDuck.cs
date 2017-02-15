@@ -12,7 +12,11 @@ public class AnimDuck : MonoBehaviour
     float timerTransition = 0.0f;
     float springDamperPos = 0.0f;
     float springDamperVel = 0.0f;
-    public void UpdateAnimation(float p_transition, List<List<Quaternion>> p_poses, List<Vector3> p_hipspos)
+    public float deltaTimeIncreaser = 0.0f;
+    public float angularVelocity = 0.0f;
+    public float damper = 0.0f;
+    float deltatimemodifier = 0.001f;
+    public void UpdateAnimation(float p_transition, List<List<Quaternion>> p_poses, List<Vector3> p_hipspos, float p_deltaTimeIncreaser, float p_angularVelocity, float p_damper)
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
@@ -29,9 +33,9 @@ public class AnimDuck : MonoBehaviour
             timeToChange = true;
             timer = 0.0f;
         }
-        if (p_transition < 0.5f && timeToChange && !crouching) //crouch
+        if (p_transition < 0.5f && timeToChange && !crouching) //Stand
         {
-            SpringDamper(ref springDamperPos, ref springDamperVel, 1, Time.deltaTime, 10.0f, 0.6f);
+            SpringDamper(ref springDamperPos, ref springDamperVel, 1, (Time.deltaTime+Mathf.Pow(springDamperPos,2)*Time.deltaTime) * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             for (int i = 0; i < t_bones.Length; i++)
             {
                 //t_bones[i].rotation = Quaternion.Slerp(p_poses[0][i], p_poses[1][i], p_transition/0.5f);
@@ -48,10 +52,11 @@ public class AnimDuck : MonoBehaviour
             crouching = true;
             springDamperPos = 0.0f;
         }
-        else if (p_transition > 0.5f && timeToChange && crouching) //stand
+        else if (p_transition > 0.5f && timeToChange && crouching) //crouch
         {
-            SpringDamper(ref springDamperPos, ref springDamperVel, 1, Time.deltaTime*2.342f, 6.0f, 0.6f);
-            print(springDamperPos);
+            deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.4f), 0.0f, 20.0f);
+            SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
+            //print(springDamperPos);
             for (int i = 0; i < t_bones.Length; i++)
             {
                 //t_bones[i].rotation = Quaternion.Slerp(p_poses[1][i], p_poses[0][i], (p_transition - 0.5f) / 0.5f);
@@ -67,6 +72,7 @@ public class AnimDuck : MonoBehaviour
             timeToChange = false;
             crouching = false;
             springDamperPos = 0.0f;
+            deltatimemodifier = 0.001f;
         }
         prevTrans = p_transition;
     }
