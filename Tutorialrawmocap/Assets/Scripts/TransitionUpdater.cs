@@ -17,6 +17,7 @@ public class TransitionUpdater : MonoBehaviour
     Animator m_animator;
     AnimWalkFWD m_animWalk;
     AnimDuck m_animDuck;
+    AnimRun m_animRun;
     float m_transition;
     float m_prevTrans;
     int m_extendHash;// = Animator.StringToHash("WalkFWD_Extend");
@@ -29,8 +30,9 @@ public class TransitionUpdater : MonoBehaviour
     List<List<Quaternion>> poses = new List<List<Quaternion>>();
     List<Vector3> hipspos = new List<Vector3>();
     public bool headBob = true;
-    bool walkFWD =  true;
+    bool walkFWD =  true; //Tror inte denna används.
     bool loadAnims = true;
+    float m_timeAdjuster = 1.0f;
     // Use this for initialization
     void Start()
     {
@@ -38,7 +40,9 @@ public class TransitionUpdater : MonoBehaviour
         m_transition = 0.0f;
         m_animWalk  = new AnimWalkFWD();
         m_animDuck = new AnimDuck();
+        m_animRun = new AnimRun();
         m_animWalk.InitAnim(m_animator);
+        m_animRun.InitAnim(m_animator);
     }
 
     // Update is called once per frame
@@ -49,7 +53,7 @@ public class TransitionUpdater : MonoBehaviour
             loadAnims = true;
         }
         m_prevTrans = m_transition;
-        m_transition += Time.deltaTime;
+        m_transition += Time.deltaTime / m_timeAdjuster;
         if (m_transition > 1.0f)
         {
             m_transition -= 1.0f;
@@ -66,10 +70,16 @@ public class TransitionUpdater : MonoBehaviour
                     m_crossHash = m_animWalk.GetCrossHash();
                     m_crossMirrorHash = m_animWalk.GetCrossMirrorHash();
                     InvokeKeyFramesWalkingFWD();
+                    m_timeAdjuster = m_animWalk.timeAdjuster;
                     break;
                case AnimationClips.Runnning:
-
-                   break;
+                    m_extendHash = m_animRun.GetExtendHash();
+                    m_extendMirrorHash = m_animRun.GetExtendMirrorHash();
+                    m_crossHash = m_animRun.GetCrossHash();
+                    m_crossMirrorHash = m_animRun.GetCrossMirrorHash();
+                    InvokeKeyFramesWalkingFWD();
+                    m_timeAdjuster = m_animRun.timeAdjuster;
+                    break;
                case AnimationClips.Crouching:
                    Invoke("SaveKeyFramesCrouching", 0.25f);
                    Invoke("SaveKeyFramesStanding", 0.5f);
@@ -90,6 +100,11 @@ public class TransitionUpdater : MonoBehaviour
                 }
                 break;
             case AnimationClips.Runnning:
+                if (poses.Count > 3)
+                {
+                    //print(poses[0][1] + " " + poses[1][1] + " "+ poses[2][1]+" " + poses[3][1]);
+                m_animRun.RunningUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);//UpdateAnimationASD();
+                }
                 break;
             case AnimationClips.Crouching:
                 if (poses.Count > 1)

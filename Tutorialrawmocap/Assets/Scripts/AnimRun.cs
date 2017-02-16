@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimWalkFWD : MonoBehaviour {
+public class AnimRun : MonoBehaviour
+{
 
     Animator m_animator;
-    int m_extendHash = Animator.StringToHash("WalkFWD_Extend");
-    int m_extendMirrorHash = Animator.StringToHash("WalkFWD_Extend_Mirror");
-    int m_crossHash = Animator.StringToHash("WalkFWD_Cross");
-    int m_crossMirrorHash = Animator.StringToHash("WalkFWD_Cross_Mirror");
-    public float timeAdjuster = 1.0f;
+    int m_extendHash = Animator.StringToHash("RunExtend");
+    int m_extendMirrorHash = Animator.StringToHash("RunExtendMirrored");
+    int m_crossHash = Animator.StringToHash("RunCross");
+    int m_crossMirrorHash = Animator.StringToHash("RunCrossMirrored");
+    public float timeAdjuster = 0.7f;
 
     // Use this for initialization
     public void InitAnim(Animator p_animator)
@@ -41,14 +42,14 @@ public class AnimWalkFWD : MonoBehaviour {
     {
         return m_crossMirrorHash;
     }
-    public void WalkingUpdate(float p_transition,float p_prevTrans, List<List<Quaternion>> p_poses,
+    public void RunningUpdate(float p_transition, float p_prevTrans, List<List<Quaternion>> p_poses,
         List<Vector3> p_hipspos, bool p_headbob, GameObject p_gameObject)
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 0.0f).eulerAngles);
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 1.0f).eulerAngles);
-        
+
         for (int i = 0; i < t_bones.Length; i++)
         {
             if (i == 2 && p_transition > 0.5f && p_prevTrans < 0.5f)
