@@ -81,8 +81,9 @@ public class TransitionUpdater : MonoBehaviour
                     m_timeAdjuster = m_animRun.timeAdjuster;
                     break;
                case AnimationClips.Crouching:
-                   Invoke("SaveKeyFramesCrouching", 0.25f);
-                   Invoke("SaveKeyFramesStanding", 0.5f);
+                    Invoke("SaveKeyFramesCrouching", 0.25f);
+                    Invoke("SaveKeyFramesStanding", 0.5f);
+                    m_timeAdjuster = m_animDuck.timeAdjuster;
                     break;
                default:
                     break;
