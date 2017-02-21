@@ -21,12 +21,12 @@ public class AnimDuck : MonoBehaviour
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
         float offset = 0f;
-        float p_transitionExp1 = Mathf.Sqrt(p_transition/2);
-        float p_transitionExp2 = 2 * Mathf.Pow(p_transition-0.5f, 2);
+        float p_transitionExp1 = Mathf.Sqrt(p_transition / 2);
+        float p_transitionExp2 = 2 * Mathf.Pow(p_transition - 0.5f, 2);
 
         if (!timeToChange)
         {
-            timer += Time.deltaTime;
+            timer += Time.deltaTime / 2;
         }
         if (timer > 2.0f && !timeToChange)
         {
@@ -35,15 +35,18 @@ public class AnimDuck : MonoBehaviour
         }
         if (p_transition < 0.5f && timeToChange && !crouching) //Stand
         {
-            SpringDamper(ref springDamperPos, ref springDamperVel, 1, (Time.deltaTime+Mathf.Pow(springDamperPos,2)*Time.deltaTime) * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
+            deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
+            SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
+            //SpringDamper(ref springDamperPos, ref springDamperVel, 1, (Time.deltaTime+Mathf.Pow(springDamperPos,2)*Time.deltaTime) * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             for (int i = 0; i < t_bones.Length; i++)
             {
                 //t_bones[i].rotation = Quaternion.Slerp(p_poses[0][i], p_poses[1][i], p_transition/0.5f);
-                t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[0][i], p_poses[1][i], springDamperPos);
+                t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[0][i], p_poses[1][i], Mathf.Clamp(springDamperPos, 0, 2));
                 //t_bones[i].rotation = poses[1][i];
             }
             //Vector3 test = Vector3.Slerp(p_hipspos[0], p_hipspos[1], p_transitionExp1 / 0.5f);
-            Vector3 test = Vector3.SlerpUnclamped(p_hipspos[0], p_hipspos[1], springDamperPos);
+            Vector3 test = Vector3.Slerp(p_hipspos[0], p_hipspos[1], Mathf.Clamp(springDamperPos, 0, 2));
+            print(p_transition);
             t_bones[0].transform.position = new Vector3(test.x, test.y + offset, test.z);
         }
         if (prevTrans < 0.5f && p_transition > 0.5f && timeToChange && !crouching)
@@ -51,20 +54,22 @@ public class AnimDuck : MonoBehaviour
             timeToChange = false;
             crouching = true;
             springDamperPos = 0.0f;
+            deltatimemodifier = 0.001f;
         }
         else if (p_transition > 0.5f && timeToChange && crouching) //crouch
         {
-            deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.4f), 0.0f, 20.0f);
+            print("Im crouching");
+            deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
             SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             //print(springDamperPos);
             for (int i = 0; i < t_bones.Length; i++)
             {
                 //t_bones[i].rotation = Quaternion.Slerp(p_poses[1][i], p_poses[0][i], (p_transition - 0.5f) / 0.5f);
-                t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[1][i], p_poses[0][i], springDamperPos);
+                t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[1][i], p_poses[0][i], Mathf.Clamp(springDamperPos, 0, 2));
             }
             //Vector3 test = Vector3.Slerp(p_hipspos[1], p_hipspos[0], (p_transitionExp2) / 0.5f);
-            Vector3 test2 = Vector3.SlerpUnclamped(p_hipspos[1], p_hipspos[0], springDamperPos);
-            t_bones[0].transform.position = new Vector3(test2.x, test2.y+offset, test2.z);
+            Vector3 test2 = Vector3.SlerpUnclamped(p_hipspos[1], p_hipspos[0], Mathf.Clamp(springDamperPos, 0, 2));
+            t_bones[0].transform.position = new Vector3(test2.x, test2.y + offset, test2.z);
             //t_bones[0].transform.position = new Vector3(p_hipspos[1].x, p_hipspos[1].y, p_hipspos[1].z);
         }
         if (prevTrans > 0.9f && p_transition < 0.1f && timeToChange && crouching)
@@ -76,7 +81,7 @@ public class AnimDuck : MonoBehaviour
         }
         prevTrans = p_transition;
     }
-    
+
     /******************************************************************************
         Copyright (c) 2008-2012 Ryan Juckett
         http://www.ryanjuckett.com/
@@ -121,71 +126,71 @@ public class AnimDuck : MonoBehaviour
         )
     {
 
-    // if there is no angular frequency, the spring will not move
-    if (angularFrequency < epsilon)
-                return;
+        // if there is no angular frequency, the spring will not move
+        if (angularFrequency < epsilon)
+            return;
 
-    // clamp the damping ratio in legal range
-    if (dampingRatio < 0.0f)
-                dampingRatio = 0.0f;
+        // clamp the damping ratio in legal range
+        if (dampingRatio < 0.0f)
+            dampingRatio = 0.0f;
 
-    // calculate initial state in equilibrium relative space
-    float initialPos = pPos - equilibriumPos;
-    float initialVel = pVel;
+        // calculate initial state in equilibrium relative space
+        float initialPos = pPos - equilibriumPos;
+        float initialVel = pVel;
 
-    // if over-damped
-    if (dampingRatio > 1.0f + epsilon)
-    {
-        // calculate constants based on motion parameters
-        // Note: These could be cached off between multiple calls using the same
-        //       parameters for deltaTime, angularFrequency and dampingRatio.
-        float za = -angularFrequency * dampingRatio;
-        float zb = angularFrequency * Mathf.Sqrt(dampingRatio * dampingRatio - 1.0f);
-        float z1 = za - zb;
-        float z2 = za + zb;
-        float expTerm1 = Mathf.Exp(z1 * deltaTime);  //Lite osäker om detta stämmer
-        float expTerm2 = Mathf.Exp(z2 * deltaTime);  //Lite osäker om detta stämmer
+        // if over-damped
+        if (dampingRatio > 1.0f + epsilon)
+        {
+            // calculate constants based on motion parameters
+            // Note: These could be cached off between multiple calls using the same
+            //       parameters for deltaTime, angularFrequency and dampingRatio.
+            float za = -angularFrequency * dampingRatio;
+            float zb = angularFrequency * Mathf.Sqrt(dampingRatio * dampingRatio - 1.0f);
+            float z1 = za - zb;
+            float z2 = za + zb;
+            float expTerm1 = Mathf.Exp(z1 * deltaTime);  //Lite osäker om detta stämmer
+            float expTerm2 = Mathf.Exp(z2 * deltaTime);  //Lite osäker om detta stämmer
 
-        // update motion
-        float c1 = (initialVel - initialPos * z2) / (-2.0f * zb); // z1 - z2 = -2*zb
-        float c2 = initialPos - c1;
-        pPos = equilibriumPos + c1 * expTerm1 + c2 * expTerm2;
-        pVel = c1 * z1 * expTerm1 + c2 * z2 * expTerm2;
-    }
-    // else if critically damped
-    else if (dampingRatio > 1.0f - epsilon)
-            {
-        // calculate constants based on motion parameters
-        // Note: These could be cached off between multiple calls using the same
-        //       parameters for deltaTime, angularFrequency and dampingRatio.
-        float expTerm = Mathf.Exp(-angularFrequency * deltaTime);
-
-        // update motion
-        float c1 = initialVel + angularFrequency * initialPos;
-                float c2 = initialPos;
-                float c3 = (c1 * deltaTime + c2) * expTerm;
-                pPos = equilibriumPos + c3;
-                pVel = (c1 * expTerm) - (c3 * angularFrequency);
-            }
-    // else under-damped
-    else
-            {
-        // calculate constants based on motion parameters
-        // Note: These could be cached off between multiple calls using the same
-        //       parameters for deltaTime, angularFrequency and dampingRatio. 1234 Kan lägga dessa i classen
-        float omegaZeta = angularFrequency * dampingRatio;
-        float alpha = angularFrequency * Mathf.Sqrt(1.0f - dampingRatio * dampingRatio);
-        float expTerm = Mathf.Exp(-omegaZeta * deltaTime);
-        float cosTerm = Mathf.Cos(alpha * deltaTime);
-        float sinTerm = Mathf.Sin(alpha * deltaTime);
-
-        // update motion
-        float c1 = initialPos;
-        float c2 = (initialVel + omegaZeta * initialPos) / alpha;
-        pPos = equilibriumPos + expTerm * (c1 * cosTerm + c2 * sinTerm);
-        pVel = -expTerm * ((c1 * omegaZeta - c2 * alpha) * cosTerm +
-                                   (c1 * alpha + c2 * omegaZeta) * sinTerm);
-            }
-
+            // update motion
+            float c1 = (initialVel - initialPos * z2) / (-2.0f * zb); // z1 - z2 = -2*zb
+            float c2 = initialPos - c1;
+            pPos = equilibriumPos + c1 * expTerm1 + c2 * expTerm2;
+            pVel = c1 * z1 * expTerm1 + c2 * z2 * expTerm2;
         }
+        // else if critically damped
+        else if (dampingRatio > 1.0f - epsilon)
+        {
+            // calculate constants based on motion parameters
+            // Note: These could be cached off between multiple calls using the same
+            //       parameters for deltaTime, angularFrequency and dampingRatio.
+            float expTerm = Mathf.Exp(-angularFrequency * deltaTime);
+
+            // update motion
+            float c1 = initialVel + angularFrequency * initialPos;
+            float c2 = initialPos;
+            float c3 = (c1 * deltaTime + c2) * expTerm;
+            pPos = equilibriumPos + c3;
+            pVel = (c1 * expTerm) - (c3 * angularFrequency);
+        }
+        // else under-damped
+        else
+        {
+            // calculate constants based on motion parameters
+            // Note: These could be cached off between multiple calls using the same
+            //       parameters for deltaTime, angularFrequency and dampingRatio. 1234 Kan lägga dessa i classen
+            float omegaZeta = angularFrequency * dampingRatio;
+            float alpha = angularFrequency * Mathf.Sqrt(1.0f - dampingRatio * dampingRatio);
+            float expTerm = Mathf.Exp(-omegaZeta * deltaTime);
+            float cosTerm = Mathf.Cos(alpha * deltaTime);
+            float sinTerm = Mathf.Sin(alpha * deltaTime);
+
+            // update motion
+            float c1 = initialPos;
+            float c2 = (initialVel + omegaZeta * initialPos) / alpha;
+            pPos = equilibriumPos + expTerm * (c1 * cosTerm + c2 * sinTerm);
+            pVel = -expTerm * ((c1 * omegaZeta - c2 * alpha) * cosTerm +
+                                       (c1 * alpha + c2 * omegaZeta) * sinTerm);
+        }
+
+    }
 }

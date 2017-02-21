@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/SQUADExample/SQUAD.unity
-  isLoaded: 1
-  isActive: 1
