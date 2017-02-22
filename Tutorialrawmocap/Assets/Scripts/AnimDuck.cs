@@ -16,7 +16,7 @@ public class AnimDuck : MonoBehaviour
     public float angularVelocity = 0.0f;
     public float damper = 0.0f;
     float deltatimemodifier = 0.001f;
-    public float timeAdjuster = 4;
+    public float timeAdjuster = 3.466667f;
     public void UpdateAnimation(float p_transition, List<List<Quaternion>> p_poses, List<Vector3> p_hipspos, float p_deltaTimeIncreaser, float p_angularVelocity, float p_damper)
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
@@ -25,15 +25,15 @@ public class AnimDuck : MonoBehaviour
         float p_transitionExp1 = Mathf.Sqrt(p_transition / 2);
         float p_transitionExp2 = 2 * Mathf.Pow(p_transition - 0.5f, 2);
 
-        if (!timeToChange)
-        {
-            timer += Time.deltaTime / 2;
-        }
-        if (timer > 1.0f && !timeToChange)
-        {
-            timeToChange = true;
-            timer = 0.0f;
-        }
+        //if (!timeToChange)
+        //{
+        //    timer += Time.deltaTime / 2;
+        //}
+        //if (timer > 1.0f && !timeToChange)
+        //{
+        //    timeToChange = true;
+        //    timer = 0.0f;
+        //}
         if (p_transition < 0.5f && !crouching) //Stand
         {
             deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
@@ -50,7 +50,7 @@ public class AnimDuck : MonoBehaviour
             //print(p_transition);
             t_bones[0].transform.position = new Vector3(test.x, test.y + offset, test.z);
         }
-        if (prevTrans < 0.5f && p_transition > 0.5f && timeToChange && !crouching)
+        if (prevTrans < 0.5f && p_transition > 0.5f && !crouching)
         {
             timeToChange = false;
             crouching = true;
@@ -73,7 +73,7 @@ public class AnimDuck : MonoBehaviour
             t_bones[0].transform.position = new Vector3(test2.x, test2.y + offset, test2.z);
             //t_bones[0].transform.position = new Vector3(p_hipspos[1].x, p_hipspos[1].y, p_hipspos[1].z);
         }
-        if (prevTrans > 0.9f && p_transition < 0.1f && timeToChange && crouching)
+        if (prevTrans > 0.9f && p_transition < 0.1f && crouching)
         {
             timeToChange = false;
             crouching = false;
