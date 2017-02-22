@@ -29,12 +29,12 @@ public class AnimDuck : MonoBehaviour
         {
             timer += Time.deltaTime / 2;
         }
-        if (timer > 2.0f && !timeToChange)
+        if (timer > 1.0f && !timeToChange)
         {
             timeToChange = true;
             timer = 0.0f;
         }
-        if (p_transition < 0.5f && timeToChange && !crouching) //Stand
+        if (p_transition < 0.5f && !crouching) //Stand
         {
             deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
             SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
@@ -47,7 +47,7 @@ public class AnimDuck : MonoBehaviour
             }
             //Vector3 test = Vector3.Slerp(p_hipspos[0], p_hipspos[1], p_transitionExp1 / 0.5f);
             Vector3 test = Vector3.Slerp(p_hipspos[0], p_hipspos[1], Mathf.Clamp(springDamperPos, 0, 2));
-            print(p_transition);
+            //print(p_transition);
             t_bones[0].transform.position = new Vector3(test.x, test.y + offset, test.z);
         }
         if (prevTrans < 0.5f && p_transition > 0.5f && timeToChange && !crouching)
@@ -57,9 +57,9 @@ public class AnimDuck : MonoBehaviour
             springDamperPos = 0.0f;
             deltatimemodifier = 0.001f;
         }
-        else if (p_transition > 0.5f && timeToChange && crouching) //crouch
+        else if (p_transition > 0.5f && crouching) //crouch
         {
-            print("Im crouching");
+            //print("Im crouching");
             deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
             SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             //print(springDamperPos);

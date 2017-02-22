@@ -18,7 +18,7 @@ public class CurveDraw : MonoBehaviour {
         if (transform.position.x  > -5.0f)
         {
             deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.4f), 0.0f, 20.0f);
-            print(deltatimemodifier);
+            //print(deltatimemodifier);
             SpringDamper(ref springPos, ref springVel, 1.4f, deltatimemodifier * Time.deltaTime * transitionUpdater.deltaTimeIncreaser, transitionUpdater.angularVelo, transitionUpdater.damper);
             transform.position = new Vector3(transform.position.x - Time.deltaTime, springPos, transform.position.z);
         }
