@@ -89,6 +89,7 @@ public class TransitionUpdater : MonoBehaviour
                     break;
             }
             loadAnims = false;
+            m_transition = 0;
         }
 
         switch (activeClip)

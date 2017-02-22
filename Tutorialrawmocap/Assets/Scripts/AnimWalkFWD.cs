@@ -9,6 +9,7 @@ public class AnimWalkFWD : MonoBehaviour {
     int m_extendMirrorHash = Animator.StringToHash("WalkFWD_Extend_Mirror");
     int m_crossHash = Animator.StringToHash("WalkFWD_Cross");
     int m_crossMirrorHash = Animator.StringToHash("WalkFWD_Cross_Mirror");
+
     public float timeAdjuster = 1.0f;
 
     // Use this for initialization

@@ -16,7 +16,22 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
         otherGameObject = GameObject.FindGameObjectWithTag("Player");
         //transUpdaterScript = otherGameObject.GetComponent<TransitionUpdater>();
         animator = gameObject.GetComponent<Animator>();
+        m_activeClip = (AnimationClips)transUpdaterScript.activeClip;
+        switch (m_activeClip)
+        {
+            case AnimationClips.Walking:
+                animator.Play("WalkFWD", -1, 0.75f);
+                break;
+            case AnimationClips.Runnning:
+                animator.Play("RunCycle 0", -1, 0.0f);
 
+                break;
+            case AnimationClips.Crouching:
+
+                break;
+            default:
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -26,21 +41,26 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
         animator.SetInteger("whatAnim", (int)m_activeClip);
         // print("hej");
         // print((int)m_activeClip);
-
-
-        switch (m_activeClip)
+        if(m_activeClip != prevClip)
         {
-            case AnimationClips.Walking:
+            switch (m_activeClip)
+            {
+                case AnimationClips.Walking:
+                    animator.Play("WalkFWD", -1, 0.75f);
+                    break;
+                case AnimationClips.Runnning:
+                    animator.Play("RunCycle 0", -1, 0.0f);
 
-                break;
-            case AnimationClips.Runnning:
-                break;
-            case AnimationClips.Crouching:
+                    break;
+                case AnimationClips.Crouching:
 
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
-        //prevClip = m_activeClip;
+
+
+        prevClip = m_activeClip;
     }
 }
