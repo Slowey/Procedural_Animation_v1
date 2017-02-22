@@ -27,6 +27,7 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
 
                 break;
             case AnimationClips.Crouching:
+                animator.Play("Crouch2Idle", -1, 0.2f);
 
                 break;
             default:

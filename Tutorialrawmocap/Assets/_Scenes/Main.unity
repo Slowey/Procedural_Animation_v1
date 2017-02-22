@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12e9f11c4baefd44b2eb7fcf89fec36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deltaTimeIncreaser: 5
+  deltaTimeIncreaser: 2.22
   damper: 0.7
   angularVelo: 10
   activeClip: 2
