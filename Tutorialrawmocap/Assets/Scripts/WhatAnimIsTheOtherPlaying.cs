@@ -6,7 +6,7 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
 {
     GameObject otherGameObject;
     public TransitionUpdater transUpdaterScript;
-    enum AnimationClips { Walking, Runnning, Crouching };
+    enum AnimationClips { Walking, Runnning, Crouching, Idle};
     AnimationClips m_activeClip;
     AnimationClips prevClip;
     Animator animator;
@@ -29,6 +29,9 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
             case AnimationClips.Crouching:
                 animator.Play("Crouch2Idle", -1, 0.2f);
 
+                break;
+            case AnimationClips.Idle:
+                animator.Play("IdleCycle", -1, 0.0f);
                 break;
             default:
                 break;
@@ -54,7 +57,10 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
 
                     break;
                 case AnimationClips.Crouching:
-
+                    animator.Play("Crouch2Idle", -1, 0.0f);
+                    break;
+                case AnimationClips.Idle:
+                    animator.Play("IdleCycle", -1, 0.0f);
                     break;
                 default:
                     break;
