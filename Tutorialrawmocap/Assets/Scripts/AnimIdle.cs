@@ -49,9 +49,16 @@ public class AnimIdle : MonoBehaviour {
             //}
             //else
             // {
-             t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+            if (t_bones[i].name.Contains("RightHand"))
+            {
+                t_bones[i].rotation = SQUAD.SplineForceShortWay(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+            }
+            else
+            {
+                t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+            }
             //t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1], p_transition);
-            // t_bones[i].rotation = Quaternion.Slerp(p_poses[0][i], p_poses[1][i], p_transition);
+             //t_bones[i].rotation = Quaternion.Slerp(p_poses[0][i], p_poses[1][i], p_transition);
             //}
         }
         //print(p_transition);

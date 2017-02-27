@@ -76,6 +76,45 @@ public static class SQUAD
         return f;
     }
 
+    public static testStruct SplineForceShortWay(Quaternion q1, Quaternion q2, Quaternion q3, Quaternion q4, float t)
+    {
+        float section = Mathf.Floor(4.0f * t);
+        float alongLine = 4.0f * t - section;
+        if (section == 0)
+        {
+            testStruct d = new testStruct();
+            //Prova med q4 som start (loopinterpolation) typ
+            d.quat = SplineSegmentForceShortWay(q4, q1, q2, q3, alongLine);
+            d.alongLine = alongLine;
+            return d;
+        }
+        else if (section == 1)
+        {
+            testStruct d = new testStruct();
+            d.quat = SplineSegmentForceShortWay(q1, q2, q3, q4, alongLine);
+            d.alongLine = alongLine;
+            return d;
+        }
+        else if (section == 2)
+        {
+            testStruct d = new testStruct();
+            d.quat = SplineSegmentForceShortWay(q2, q3, q4, q1, alongLine);
+            d.alongLine = alongLine;
+            return d;
+        }
+        else if (section == 3)
+        {
+            testStruct d = new testStruct();
+            d.quat = SplineSegmentForceShortWay(q3, q4, q1, q2, alongLine);
+            d.alongLine = alongLine;
+            return d;
+        }
+        testStruct f = new testStruct();
+        f.quat = new Quaternion(-1, -1, -1, -1);
+        f.alongLine = 0;
+        return f;
+    }
+
     //public static Quaternion Spline(Quaternion q1, Quaternion q2, Quaternion q3, Quaternion q4, float t)
     //{
     //    int section = (int)(4.0f * t);
@@ -138,6 +177,12 @@ public static class SQUAD
         Quaternion qb = Intermediate(q2, q3, q4);
         return PerformSQUAD(q2, qa, qb, q3, t); //prova byta ordning?
     }
+    static Quaternion SplineSegmentForceShortWay(Quaternion q1, Quaternion q2, Quaternion q3, Quaternion q4, float t)
+    {
+        Quaternion qa = Intermediate(q1, q2, q3);
+        Quaternion qb = Intermediate(q2, q3, q4);
+        return PerformSQUADForceShortWay(q2, qa, qb, q3, t); //prova byta ordning?
+    }
     // Tries to compute sensible tangent values for the quaternion
     static Quaternion Intermediate(Quaternion q1, Quaternion q2, Quaternion q3)
     {
@@ -160,5 +205,12 @@ public static class SQUAD
         Quaternion slerp1 = QuaternionExtensionsC.SlerpNoInvert(q2, q3, t);
         Quaternion slerp2 = QuaternionExtensionsC.SlerpNoInvert(t1, t2, t);
         return QuaternionExtensionsC.SlerpNoInvert(slerp1, slerp2, slerpT);
+    }
+    static Quaternion PerformSQUADForceShortWay(Quaternion q2, Quaternion t1, Quaternion t2, Quaternion q3, float t)
+    {
+        float slerpT = 2.0f * t * (1.0f - t);
+        Quaternion slerp1 = QuaternionExtensionsC.SlerpNoInvert(q2, q3, t);
+        Quaternion slerp2 = QuaternionExtensionsC.SlerpNoInvert(t1, t2, t);
+        return QuaternionExtensionsC.SlerpNoInvertForceShortWay(slerp1, slerp2, slerpT);
     }
 }

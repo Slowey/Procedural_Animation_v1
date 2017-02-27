@@ -192,7 +192,25 @@ public static class QuaternionExtensionsC
 
         if (Mathf.Abs(dot) > 0.9999f)
             return Quaternion.Lerp(from, to, factor);
+        float theta = Mathf.Acos(dot);
+        float sinT = 1.0f / Mathf.Sin(theta);
+        float newFactor = Mathf.Sin(factor * theta) * sinT;
+        float invFactor = Mathf.Sin((1.0f - factor) * theta) * sinT;
 
+        Quaternion r_quat = new Quaternion(invFactor * from.x + newFactor * to.x, invFactor * from.y + newFactor * to.y,
+            invFactor * from.z + newFactor * to.z, invFactor * from.w + newFactor * to.w);
+        return r_quat;
+    }
+    public static Quaternion SlerpNoInvertForceShortWay(Quaternion from, Quaternion to, float factor)
+    {
+        float dot = Quaternion.Dot(from, to);
+
+        if (Mathf.Abs(dot) > 0.9999f)
+            return Quaternion.Lerp(from, to, factor);
+        if (dot < 0.0f)
+        {
+            from = new Quaternion(from.x * -1, from.y * -1, from.z * -1, from.w * -1);
+        }
         float theta = Mathf.Acos(dot);
         float sinT = 1.0f / Mathf.Sin(theta);
         float newFactor = Mathf.Sin(factor * theta) * sinT;
