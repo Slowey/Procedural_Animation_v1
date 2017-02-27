@@ -16,7 +16,7 @@ public class AnimDuck : MonoBehaviour
     public float angularVelocity = 0.0f;
     public float damper = 0.0f;
     float deltatimemodifier = 0.001f;
-    public float timeAdjuster = 3.466667f;
+    public float timeAdjuster = 3.46666666667f;
     public void UpdateAnimation(float p_transition, List<List<Quaternion>> p_poses, List<Vector3> p_hipspos, float p_deltaTimeIncreaser, float p_angularVelocity, float p_damper)
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
