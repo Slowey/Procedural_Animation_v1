@@ -40,7 +40,7 @@ public class AnimIdle : MonoBehaviour {
         {
             t_tempTransition -= 1;
         }
-        print(t_tempTransition + " "+p_transition);
+        //print(t_tempTransition + " "+p_transition);
         for (int i = 0; i < t_bones.Length; i++)
         {
             if (t_bones[i].name.Contains("RightHand"))

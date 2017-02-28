@@ -289,7 +289,7 @@ public class TransitionUpdater : MonoBehaviour
         }
         poses.Add(t_quaternions);
         hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
-        print(hipspos+"crouchinvoke");
+        //print(hipspos+"crouchinvoke");
     }
     void SaveKeyFramesCrouching()
     {
@@ -308,7 +308,7 @@ public class TransitionUpdater : MonoBehaviour
                 t_transforms[i].rotation.w));
         }
         poses.Add(t_quaternions);
-        print(hipspos+"crouchinvoke");
+        //print(hipspos+"crouchinvoke");
         hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
     }
     void MakeGameObjectsForDebuggingRotations()
