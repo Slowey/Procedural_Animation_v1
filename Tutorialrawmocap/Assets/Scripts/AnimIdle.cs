@@ -35,35 +35,41 @@ public class AnimIdle : MonoBehaviour {
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 0.0f).eulerAngles);
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 1.0f).eulerAngles);
-        
+        float t_tempTransition = p_transition * 2;
+        if (t_tempTransition > 1.0f)
+        {
+            t_tempTransition -= 1;
+        }
+        print(t_tempTransition + " "+p_transition);
         for (int i = 0; i < t_bones.Length; i++)
         {
             if (t_bones[i].name.Contains("RightHand"))
             {
-                if (p_transition < 0.25f)
-                {
-                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (p_transition - 0.25f) / 0.25f);
-                }
-                else if(p_transition < 0.5f)
-                {
-                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], (p_transition - 0.5f)/0.25f);
-                }
-                else if(p_transition<0.75f)
-                {
-                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (p_transition - 0.75f) / 0.25f);
-                }
-                else if (p_transition <1.0f)
-                {
-                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], (p_transition -1.0f)  / 0.25f);
-                }
-                //if (p_transition > 0.5f)
+                //if (p_transition < 0.25f)
                 //{
-                //    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], p_transition / 0.5f);
+                //    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (p_transition - 0.25f) / 0.25f);
                 //}
-                //else
+                //else if(p_transition < 0.5f)
                 //{
-                //    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], (p_transition-0.5f) / 0.5f);
+                //    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], (p_transition - 0.5f)/0.25f);
                 //}
+                //else if(p_transition<0.75f)
+                //{
+                //    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (p_transition - 0.75f) / 0.25f);
+                //}
+                //else if (p_transition <1.0f)
+                //{
+                //    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], (p_transition -1.0f)  / 0.25f);
+                //}
+
+                if (t_tempTransition > 0.5f)
+                {
+                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
+                }
+                else
+                {
+                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
+                }
                 //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
             }
             else
