@@ -31,7 +31,7 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
 
                 break;
             case AnimationClips.Idle:
-                animator.Play("IdleCycle", -1, 0.0f);
+                animator.Play("IdleCycle", -1, 0.5f);
                 break;
             default:
                 break;
@@ -60,7 +60,7 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
                     animator.Play("Crouch2Idle", -1, 0.0f);
                     break;
                 case AnimationClips.Idle:
-                    animator.Play("IdleCycle", -1, 0.0f);
+                    animator.Play("IdleCycle", -1, 0.5f);
                     break;
                 default:
                     break;
