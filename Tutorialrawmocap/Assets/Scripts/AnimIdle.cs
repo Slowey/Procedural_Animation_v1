@@ -51,11 +51,21 @@ public class AnimIdle : MonoBehaviour {
             // {
             if (t_bones[i].name.Contains("RightHand"))
             {
-                t_bones[i].rotation = SQUAD.SplineForceShortWay(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+                //Quaternion t_quat = new Quaternion(p_poses[1][i].x * -1, p_poses[1][i].y * -1, p_poses[1][i].z * -1, p_poses[1][i].w * -1);
+                //t_bones[i].rotation = SQUAD.Spline(t_quat, p_poses[0][i], t_quat, p_poses[0][i], p_transition).quat;
+
+                if (p_transition>0.5f)
+                {
+                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], p_transition/0.5f);
+                }
+                else
+                {
+                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], (p_transition -0.5f)/0.5f);
+                }
             }
             else
             {
-                t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+                t_bones[i].rotation = SQUAD.Spline(p_poses[1][i], p_poses[0][i], p_poses[1][i], p_poses[0][i], p_transition).quat;
             }
             //t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1], p_transition);
              //t_bones[i].rotation = Quaternion.Slerp(p_poses[0][i], p_poses[1][i], p_transition);

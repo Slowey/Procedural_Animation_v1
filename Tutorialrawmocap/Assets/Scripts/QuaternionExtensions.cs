@@ -205,12 +205,13 @@ public static class QuaternionExtensionsC
     {
         float dot = Quaternion.Dot(from, to);
 
-        if (Mathf.Abs(dot) > 0.9999f)
-            return Quaternion.Lerp(from, to, factor);
         if (dot < 0.0f)
         {
             from = new Quaternion(from.x * -1, from.y * -1, from.z * -1, from.w * -1);
         }
+        dot = Quaternion.Dot(from, to);
+        if (Mathf.Abs(dot) > 0.9999f)
+            return Quaternion.Lerp(from, to, factor);
         float theta = Mathf.Acos(dot);
         float sinT = 1.0f / Mathf.Sin(theta);
         float newFactor = Mathf.Sin(factor * theta) * sinT;

@@ -209,8 +209,11 @@ public static class SQUAD
     static Quaternion PerformSQUADForceShortWay(Quaternion q2, Quaternion t1, Quaternion t2, Quaternion q3, float t)
     {
         float slerpT = 2.0f * t * (1.0f - t);
-        Quaternion slerp1 = QuaternionExtensionsC.SlerpNoInvert(q2, q3, t);
-        Quaternion slerp2 = QuaternionExtensionsC.SlerpNoInvert(t1, t2, t);
+        //Quaternion slerp1 = QuaternionExtensionsC.SlerpNoInvert(q2, q3, t);
+        //Quaternion slerp2 = QuaternionExtensionsC.SlerpNoInvert(t1, t2, t);
+        //return QuaternionExtensionsC.SlerpNoInvertForceShortWay(slerp1, slerp2, slerpT);
+        Quaternion slerp1 = QuaternionExtensionsC.SlerpNoInvertForceShortWay(q2, q3, t);
+        Quaternion slerp2 = QuaternionExtensionsC.SlerpNoInvertForceShortWay(t1, t2, t);
         return QuaternionExtensionsC.SlerpNoInvertForceShortWay(slerp1, slerp2, slerpT);
     }
 }
