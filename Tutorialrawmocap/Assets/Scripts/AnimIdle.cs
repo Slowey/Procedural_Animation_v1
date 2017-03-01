@@ -48,7 +48,6 @@ public class AnimIdle : MonoBehaviour {
         float mod = (hipstest % (Mathf.PI * 2));
         if (mod < 0.01f || mod > ((Mathf.PI *2) -0.01f))
         {
-            print("Urin!!!");
             yrand = Random.Range(0.5f, 1);
             xrand = Random.Range(0.5f, 1);
             zrand = Random.Range(0.5f, 1);
