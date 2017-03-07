@@ -36,11 +36,13 @@ public static class SQUAD
     {
         public Quaternion quat;
         public float alongLine;
+        public float m_section;
     }
     public static testStruct Spline(Quaternion q1, Quaternion q2, Quaternion q3, Quaternion q4, float t)
     {
         float section = Mathf.Floor(4.0f * t);
         float alongLine = 4.0f * t - section;
+        
         if (section == 0)
         {
             testStruct d = new testStruct();
@@ -75,6 +77,48 @@ public static class SQUAD
         f.alongLine = 0;
         return f;
     }
+    /// ////////////////////////////// SplineMoreThanFivePoints
+
+    public static testStruct SplineMoreThanFivePoints(List<Quaternion> p_qList, float t)
+    {
+        int t_listSize = p_qList.Count;
+        int section =(int) Mathf.Floor((t_listSize - 1) * t);// Mathf.Floor(4.0f * t); // kanske knas här
+        float alongLine = t_listSize * t - section;
+        if (section == 0)
+        {
+            testStruct d = new testStruct();
+            //Prova med q4 som start (loopinterpolation) typ
+            d.quat = SplineSegment(p_qList[section + 1], p_qList[section], p_qList[section + 1], p_qList[section + 2], alongLine);// SplineSegment(q4, q1, q2, q3, alongLine);
+            d.alongLine = alongLine;
+            d.m_section = section;
+            return d;
+            //return SplineSegment(quaternions[section], quaternions[section], quaternions[section+1], quaternions[section+2], alongLine)
+        }
+        else if (section == t_listSize - 2 && section > 0)
+        {
+            testStruct d = new testStruct();
+            d.quat = SplineSegment(p_qList[section - 1], p_qList[section], p_qList[section + 1], p_qList[section], alongLine);// SplineSegment(q1, q2, q3, q4, alongLine);
+            
+            d.alongLine = alongLine;
+            d.m_section = section;
+            return d;
+        }
+        else if (section >= 1 && section < t_listSize - 2)
+        {
+            testStruct d = new testStruct();
+            d.quat = SplineSegment(p_qList[section - 1], p_qList[section], p_qList[section + 1], p_qList[section + 2], alongLine);//SplineSegment(q2, q3, q4, q1, alongLine);
+            d.alongLine = alongLine;
+            d.m_section = section;
+            return d;
+        }
+
+        testStruct f = new testStruct();
+        f.quat = new Quaternion(-1, -1, -1, -1);
+        f.alongLine = 0;
+            f.m_section = section;
+        return f;
+    }
+    /// ////////////////////////////////
 
     public static testStruct SplineForceShortWay(Quaternion q1, Quaternion q2, Quaternion q3, Quaternion q4, float t)
     {

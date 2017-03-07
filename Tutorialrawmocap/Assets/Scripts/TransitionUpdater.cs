@@ -13,6 +13,7 @@ public class TransitionUpdater : MonoBehaviour
     [Range(0.0f, 10.0f)]
     public float angularVelo = 6.0f;
     public AnimationClips activeClip;
+    public int m_framesToAdd = 0;
     AnimationClips prevClip;
     Animator m_animator;
     AnimWalkFWD m_animWalk;
@@ -25,6 +26,9 @@ public class TransitionUpdater : MonoBehaviour
     int m_extendMirrorHash;// = Animator.StringToHash("WalkFWD_Extend_Mirror");
     int m_crossHash;// = Animator.StringToHash("WalkFWD_Cross");
     int m_crossMirrorHash;// = Animator.StringToHash("WalkFWD_Cross_Mirror");
+    int m_between1_1;
+    int m_between2_1;
+    int m_between2_2;
     int m_crouchingHash = Animator.StringToHash("Crouching");
     int m_standingHash = Animator.StringToHash("Standing");
     //List<List<Transform>> poses = new List<List<Transform>>();
@@ -43,6 +47,7 @@ public class TransitionUpdater : MonoBehaviour
         m_animDuck = new AnimDuck();
         m_animRun = new AnimRun();
         m_animIdle = new AnimIdle();
+        m_animIdle.SetFrames(m_framesToAdd);
         m_animWalk.InitAnim(m_animator);
         m_animRun.InitAnim(m_animator);
     }
@@ -90,7 +95,11 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Idle:
                     m_extendHash = m_animIdle.GetIdleIdleHash();
                     m_extendMirrorHash = m_animIdle.GetExtendHash();
-                    InvokeTwoKeyFrames();
+                    m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
+                    m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
+                    m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
+                    //InvokeTwoKeyFrames();
+                    InvokeFiveKeyFrames();
                     m_timeAdjuster = m_animIdle.timeAdjuster;
                     break;
                default:
@@ -123,7 +132,8 @@ public class TransitionUpdater : MonoBehaviour
                 }
                 break;
             case AnimationClips.Idle:
-                if (poses.Count > 1)
+                m_animIdle.SetFrames(m_framesToAdd);
+                if (poses.Count > 3)
                 {
                     m_animIdle.IdleUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);
                 }
@@ -311,6 +321,60 @@ public class TransitionUpdater : MonoBehaviour
         //print(hipspos+"crouchinvoke");
         hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
     }
+    void SaveKeyFramesIdleBetween1_1()
+    {
+        GameObject t_hips;
+        List<Transform> t_transforms = new List<Transform>();
+        m_animator.Play(m_between1_1, 0, 0);
+        m_animator.Update(0.001f);
+        m_animator.Stop();
+        t_hips = GameObject.Find("Hips");
+        t_hips.GetComponentsInChildren<Transform>(t_transforms);
+        List<Quaternion> t_quaternions = new List<Quaternion>();
+        for (int i = 0; i < t_transforms.Count; i++)
+        {
+            t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
+                t_transforms[i].rotation.w));
+        }
+        poses.Add(t_quaternions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
+    }
+    void SaveKeyFramesIdleBetween2_1()
+    {
+        GameObject t_hips;
+        List<Transform> t_transforms = new List<Transform>();
+        m_animator.Play(m_between2_1, 0, 0);
+        m_animator.Update(0.001f);
+        m_animator.Stop();
+        t_hips = GameObject.Find("Hips");
+        t_hips.GetComponentsInChildren<Transform>(t_transforms);
+        List<Quaternion> t_quaternions = new List<Quaternion>();
+        for (int i = 0; i < t_transforms.Count; i++)
+        {
+            t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
+                t_transforms[i].rotation.w));
+        }
+        poses.Add(t_quaternions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
+    }
+    void SaveKeyFramesIdleBetween2_2()
+    {
+        GameObject t_hips;
+        List<Transform> t_transforms = new List<Transform>();
+        m_animator.Play(m_between2_2, 0, 0);
+        m_animator.Update(0.001f);
+        m_animator.Stop();
+        t_hips = GameObject.Find("Hips");
+        t_hips.GetComponentsInChildren<Transform>(t_transforms);
+        List<Quaternion> t_quaternions = new List<Quaternion>();
+        for (int i = 0; i < t_transforms.Count; i++)
+        {
+            t_quaternions.Add(new Quaternion(t_transforms[i].rotation.x, t_transforms[i].rotation.y, t_transforms[i].rotation.z,
+                t_transforms[i].rotation.w));
+        }
+        poses.Add(t_quaternions);
+        hipspos.Add(new Vector3(t_hips.transform.position.x, t_hips.transform.position.y, t_hips.transform.position.z));
+    }
     void MakeGameObjectsForDebuggingRotations()
     {
         GameObject hello = new GameObject();
@@ -341,5 +405,13 @@ public class TransitionUpdater : MonoBehaviour
     {
         Invoke("SaveKeyFramesWalkFWD0", 0.25f);
         Invoke("SaveKeyFramesWalkFWD2", 0.5f);
+    }
+    void InvokeFiveKeyFrames()
+    {
+        Invoke("SaveKeyFramesWalkFWD0", 0.25f);
+        Invoke("SaveKeyFramesIdleBetween2_1", 0.5f);
+        Invoke("SaveKeyFramesIdleBetween1_1", 0.75f);
+        Invoke("SaveKeyFramesIdleBetween2_2", 1.0f);
+        Invoke("SaveKeyFramesWalkFWD2", 1.25f);
     }
 }

@@ -8,11 +8,14 @@ public class AnimIdle : MonoBehaviour {
     Animator m_animator;
     int m_IdleIdleHash = Animator.StringToHash("IdleIdle");
     int m_IdleExtendHash = Animator.StringToHash("IdleExtend");
+    int m_IdleBetween1_1 = Animator.StringToHash("IdleBetween1_1");
+    int m_IdleBetween2_1 = Animator.StringToHash("IdleBetween2_1");
+    int m_IdleBetween2_2 = Animator.StringToHash("IdleBetween2_2");
     public float timeAdjuster = 5.733333333333333f;//2.866666666666667f*2.0f;
     float m_prevTransition = 0.0f;
     bool m_switch = false;
     float hipstest = 1;
-
+    int m_frames = 2;
     float yrand = 0;
     float xrand = 0;
     float zrand = 0;
@@ -22,7 +25,10 @@ public class AnimIdle : MonoBehaviour {
         m_animator = p_animator;
 
     }
-
+    public void SetFrames(int p_framesToAdd)
+    {
+        m_frames = p_framesToAdd + 2;
+    }
     public int GetIdleIdleHash()
     {
         return m_IdleIdleHash;
@@ -31,7 +37,18 @@ public class AnimIdle : MonoBehaviour {
     {
         return m_IdleExtendHash;
     }
-
+    public int GetIdleInbetweenOneOne()
+    {
+        return m_IdleBetween1_1;
+    }
+    public int GetIdleInbetweenTwoOne()
+    {
+        return m_IdleBetween2_1;
+    }
+    public int GetIdleInbetweenTwoTwo()
+    {
+        return m_IdleBetween2_2;
+    }
     public void IdleUpdate(float p_transition, float p_prevTrans, List<List<Quaternion>> p_poses,
         List<Vector3> p_hipspos, bool p_headbob, GameObject p_gameObject)
     {
@@ -71,33 +88,103 @@ public class AnimIdle : MonoBehaviour {
         //    hipstest = 1;
         //}
         //print(t_tempTransition + " "+p_transition);
-        for (int i = 0; i < t_bones.Length; i++)
+        if (m_frames != 2)
         {
-            //print(t_bones[i].name + " " + i);
-            if (t_bones[i].name.Contains("RightHand"))
+        print(m_frames + "inte 2");
+            List<Quaternion> t_qList = new List<Quaternion>();
+            int poseListSize = p_poses.Count;
+
+            for (int i = 0; i < t_bones.Length; i++)
             {
-                // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
-                if (t_tempTransition > 0.5f)
+                //print(t_bones[i].name + " " + i);
+                //if (t_bones[i].name.Contains("RightHand"))
+                //{
+                //    // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
+                //    if (t_tempTransition > 0.5f)
+                //    {
+                //        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
+                //    }
+                //    else
+                //    {
+                //        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
+                //    }
+                //    //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+                //}
+               // else
                 {
-                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
+
+                    for (int k = 0; k < poseListSize; k++)
+                    {
+                        t_qList.Add(p_poses[k][i]);
+                    }
+                    //print(t_qList.Count);
+                    //print(SQUAD.SplineMoreThanFivePoints(t_qList, p_transition).m_section); //SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
+                    t_bones[i].rotation = SQUAD.SplineMoreThanFivePoints(t_qList, p_transition).quat; //SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
+                    t_qList.Clear();
+                }
+            }
+        }
+
+        if (m_frames == 2)
+        {
+        print(m_frames + "   2 st");
+            for (int i = 0; i < t_bones.Length; i++)
+            {
+                //print(t_bones[i].name + " " + i);
+                if (t_bones[i].name.Contains("RightHand"))
+                {
+                    // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
+                    if (t_tempTransition > 0.5f)
+                    {
+                        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
+                    }
+                    else
+                    {
+                        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
+                    }
+                    //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
                 }
                 else
                 {
-                    t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
+                    t_bones[i].rotation = SQUAD.Spline(p_poses[1][i], p_poses[0][i], p_poses[1][i], p_poses[0][i], p_transition).quat;
                 }
-                //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
-            }
-            else
-            {
-                t_bones[i].rotation = SQUAD.Spline(p_poses[1][i], p_poses[0][i], p_poses[1][i], p_poses[0][i], p_transition).quat;
             }
         }
+
+        ///////////////////// om fler än 2 frames
+        //for (int i = 0; i < t_bones.Length; i++)
+        //{
+        //    //print(t_bones[i].name + " " + i);
+        //    if (t_bones[i].name.Contains("RightHand"))
+        //    {
+        //        // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
+        //        if (t_tempTransition > 0.5f)
+        //        {
+        //            t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
+        //        }
+        //        else
+        //        {
+        //            t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
+        //        }
+        //        //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
+        //    }
+        //    else
+        //    {
+        //        t_bones[i].rotation = SQUAD.Spline(p_poses[1][i], p_poses[0][i], p_poses[1][i], p_poses[0][i], p_transition).quat;
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
         //t_bones[0].rotation = t_bones[0].rotation *  Quaternion.AngleAxis(5 * Mathf.Sin(t_tempTransition*3.14f*2+(3.14f/2.0f)), new Vector3(0, 0, 1));
         //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(t_tempTransition*3.14f*2+(3.14f/2.0f)), new Vector3(0, 0, 1));
         //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(t_tempTransition*3.14f*2+(3.14f/2.0f)), new Vector3(0, 0, 1));
-        t_bones[0].rotation = t_bones[0].rotation *  Quaternion.AngleAxis(5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
-        t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
-        t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //t_bones[0].rotation = t_bones[0].rotation * Quaternion.AngleAxis(5 * Mathf.Sin(hipstest) * zrand, new Vector3(0, 0, 1));
         //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest)* zrand, new Vector3(0, 0, 1));
         //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest) * zrand, new Vector3(0, 0, 1));
@@ -108,22 +195,29 @@ public class AnimIdle : MonoBehaviour {
         //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest) * xrand, new Vector3(1, 0, 0));
         //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest) * xrand, new Vector3(1, 0, 0));
         //t_bones[0].rotation = QuaternionExtensionsC.Add(t_bones[0].rotation,  Quaternion.AngleAxis(20 * hipstest, new Vector3(0, 0, 1)));
-        m_prevTransition = p_transition;
-        if (true) 
-        {
-            if (p_transition < 0.5f)
-            {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
-                    p_transition / 0.5f);
-            }
-           
-            else if (p_transition < 1.0f)
-            {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[0],
-                    (p_transition - 0.5f) / 0.5f);
-                
-            }
-        }
+
+
+
+        /// added skön effekt
+        //t_bones[0].rotation = t_bones[0].rotation *  Quaternion.AngleAxis(5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
+        //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
+        //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
+        //m_prevTransition = p_transition;
+        //if (true) 
+        //{
+        //    if (p_transition < 0.5f)
+        //    {
+        //        t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
+        //            p_transition / 0.5f);
+        //    }
+        //   
+        //    else if (p_transition < 1.0f)
+        //    {
+        //        t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[0],
+        //            (p_transition - 0.5f) / 0.5f);
+        //        
+        //    }
+        //}
     }
 
 }
