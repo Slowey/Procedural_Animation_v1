@@ -58,35 +58,35 @@ public class AnimWalkFWD : MonoBehaviour {
             t_bones[i].rotation = SQUAD.SplineFromListLoop(t_quatList, p_transition);
             //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
         }
-        if (!p_headbob)
-        {
-            if (p_transition < 0.25f)
-            {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
-                    p_transition / 0.25f);
-            }
-
-            else if (p_transition < 0.5f)
-            {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[2],
-                    (p_transition - 0.25f) / 0.25f);
-                //print(poses[1][1].name + poses[1][1].transform.rotation.eulerAngles);
-            }
-            else if (p_transition < 0.75f)
-            {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[2], p_hipspos[3],
-                    (p_transition - 0.5f) / 0.25f);
-            }
-            else if (p_transition < 1.0f)
-            {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[3], p_hipspos[0],
-                    (p_transition - 0.75f) / 0.25f);
-            }
-        }
-        else
-        {
-            HeadbobUpdate(p_transition, p_gameObject);
-        }
+        //if (!p_headbob)
+        //{
+        //    if (p_transition < 0.25f)
+        //    {
+        //        t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
+        //            p_transition / 0.25f);
+        //    }
+        //
+        //    else if (p_transition < 0.5f)
+        //    {
+        //        t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[2],
+        //            (p_transition - 0.25f) / 0.25f);
+        //        //print(poses[1][1].name + poses[1][1].transform.rotation.eulerAngles);
+        //    }
+        //    else if (p_transition < 0.75f)
+        //    {
+        //        t_bones[0].position = Vector3.Slerp(p_hipspos[2], p_hipspos[3],
+        //            (p_transition - 0.5f) / 0.25f);
+        //    }
+        //    else if (p_transition < 1.0f)
+        //    {
+        //        t_bones[0].position = Vector3.Slerp(p_hipspos[3], p_hipspos[0],
+        //            (p_transition - 0.75f) / 0.25f);
+        //    }
+        //}
+        //else
+        //{
+        //    HeadbobUpdate(p_transition, p_gameObject);
+        //}
     }
     public void HeadbobUpdate(float p_transition, GameObject p_gameObject)
     {

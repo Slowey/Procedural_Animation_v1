@@ -91,17 +91,24 @@ public class TransitionUpdater : MonoBehaviour
                     if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesWalkFWD0();
+                        SaveKeyFramesWalkFWD1();
                         SaveKeyFramesWalkFWD2();
+                        SaveKeyFramesWalkFWD3();
                     }
-                    if (m_framesToAdd == 3)
+                    else if (m_framesToAdd == 4)
                     {
                         SaveKeyFramesWalkFWD0();
                         m_between1_1 = Animator.StringToHash("WalkFWD_Extend1_1");
                         SaveKeyFramesBetween1_1();
-                        m_between1_1 = Animator.StringToHash("WalkFWD_Extend1_1");
-                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesWalkFWD1();
+                        m_between1_1 = Animator.StringToHash("WalkFWD_Cross1_1");
                         SaveKeyFramesBetween1_1();
                         SaveKeyFramesWalkFWD2();
+                        m_between1_1 = Animator.StringToHash("WalkFWD_Extend_Mirror1_1");
+                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesWalkFWD3();
+                        m_between1_1 = Animator.StringToHash("WalkFWD_Cross_Mirror1_1");
+                        SaveKeyFramesBetween1_1();
                     }
                     break;
                 case AnimationClips.Runnning:
@@ -172,7 +179,7 @@ public class TransitionUpdater : MonoBehaviour
         switch (activeClip)
         {
             case AnimationClips.Walking:
-                if (poses.Count > 3)
+                if (poses.Count > 3 + m_framesToAdd)
                 {
                     //print(poses[0][1] + " " + poses[1][1] + " "+ poses[2][1]+" " + poses[3][1]);
                     m_animWalk.WalkingUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);//UpdateAnimationASD();
@@ -341,7 +348,7 @@ public class TransitionUpdater : MonoBehaviour
         //print(hipspos[2].y);
         //print(hipspos[3].y);
 
-        MakeGameObjectsForDebuggingRotations();
+        //MakeGameObjectsForDebuggingRotations();
     }
     void SaveKeyFramesStanding()
     {
