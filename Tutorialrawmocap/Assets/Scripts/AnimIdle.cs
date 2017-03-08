@@ -11,7 +11,7 @@ public class AnimIdle : MonoBehaviour {
     int m_IdleBetween1_1 = Animator.StringToHash("IdleBetween1_1");
     int m_IdleBetween2_1 = Animator.StringToHash("IdleBetween2_1");
     int m_IdleBetween2_2 = Animator.StringToHash("IdleBetween2_2");
-    public float timeAdjuster = 5.733333333333333f / 4;//2.866666666666667f*2.0f;
+    public float timeAdjuster = 5.733333333333333f;// / 4;//2.866666666666667f*2.0f;
     float m_prevTransition = 0.0f;
     bool m_switch = false;
     float hipstest = 1;
@@ -24,6 +24,24 @@ public class AnimIdle : MonoBehaviour {
     {
         m_animator = p_animator;
 
+    }
+    public void ChangeKeyFrames(int p_nrKeyFrames)
+    {
+        if(p_nrKeyFrames == 0)
+        {
+            SetFrames(p_nrKeyFrames);
+            SetTimeAdjuster(5.733333333333333f);
+        }
+        else if(p_nrKeyFrames == 3)
+        {
+            SetFrames(p_nrKeyFrames);
+            SetTimeAdjuster(5.733333333333333f*0.25f);
+        }
+
+    }
+    public void SetTimeAdjuster(float p_newTimeAdjuster)
+    {
+        timeAdjuster = p_newTimeAdjuster;
     }
     public void SetFrames(int p_framesToAdd)
     {
@@ -111,11 +129,12 @@ public class AnimIdle : MonoBehaviour {
         //    hipstest = 1;
         //}
         //print(t_tempTransition + " "+p_transition);
+        int poseListSize = p_poses.Count;
         if (m_frames != 2)
         {
         //print(m_frames + "inte 2");
             List<Quaternion> t_qList = new List<Quaternion>();
-            int poseListSize = p_poses.Count;
+            
 
             for (int i = 0; i < t_bones.Length; i++)
             {
@@ -159,11 +178,11 @@ public class AnimIdle : MonoBehaviour {
                     // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
                     if (t_tempTransition > 0.5f)
                     {
-                        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
+                        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[poseListSize-1][i], p_poses[0][i], t_tempTransition / 0.5f);
                     }
                     else
                     {
-                        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
+                        t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[poseListSize-1][i], (t_tempTransition - 0.5f) / 0.5f);
                     }
                     //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
                 }

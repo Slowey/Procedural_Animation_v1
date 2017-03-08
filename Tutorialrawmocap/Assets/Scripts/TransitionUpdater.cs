@@ -14,6 +14,7 @@ public class TransitionUpdater : MonoBehaviour
     public float angularVelo = 6.0f;
     public AnimationClips activeClip;
     public int m_framesToAdd = 0;
+    int m_prevFramesToAdd = 0;
     AnimationClips prevClip;
     Animator m_animator;
     AnimWalkFWD m_animWalk;
@@ -59,6 +60,36 @@ public class TransitionUpdater : MonoBehaviour
         {
             loadAnims = true;
         }
+        if (m_prevFramesToAdd != m_framesToAdd)
+        {
+            //poses.Clear();
+            //hipspos.Clear();
+            switch (activeClip)
+            {
+                case AnimationClips.Idle:
+                    poses.Clear();
+                    hipspos.Clear();
+                    if (m_framesToAdd==0)
+                    {
+                        SaveKeyFramesWalkFWD0();
+                        SaveKeyFramesWalkFWD2();
+                    }
+                    else if (m_framesToAdd == 3)
+                    {
+                        SaveKeyFramesWalkFWD0();
+                        SaveKeyFramesIdleBetween2_1();
+                        SaveKeyFramesIdleBetween1_1();
+                        SaveKeyFramesIdleBetween2_2();
+                        SaveKeyFramesWalkFWD2();
+                    }
+                    m_animIdle.ChangeKeyFrames(m_framesToAdd);
+                    m_timeAdjuster = m_animIdle.timeAdjuster;
+                    break;
+                default:
+                    break;
+
+            }
+        }
         m_prevTrans = m_transition;
         m_transition += Time.deltaTime / m_timeAdjuster;
         if (m_transition > 1.0f)
@@ -98,8 +129,16 @@ public class TransitionUpdater : MonoBehaviour
                     m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
                     m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
                     m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
+                    if (m_framesToAdd == 0)
+                    {
+                        InvokeTwoKeyFrames();
+                    }
+                    else if (m_framesToAdd == 3)
+                    {
+                        InvokeFiveKeyFrames();
+                    }
                     //InvokeTwoKeyFrames();
-                    InvokeFiveKeyFrames();
+                    //InvokeFiveKeyFrames();
                     m_timeAdjuster = m_animIdle.timeAdjuster;
                     break;
                default:
@@ -132,8 +171,8 @@ public class TransitionUpdater : MonoBehaviour
                 }
                 break;
             case AnimationClips.Idle:
-                m_animIdle.SetFrames(m_framesToAdd);
-                if (poses.Count > 3)
+                //m_animIdle.SetFrames(m_framesToAdd);
+                if (poses.Count > 1 + m_framesToAdd)
                 {
                     m_animIdle.IdleUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);
                 }
@@ -143,6 +182,7 @@ public class TransitionUpdater : MonoBehaviour
         }
 
         prevClip = activeClip;
+        m_prevFramesToAdd = m_framesToAdd;
     }
     //void UpdateAnimationASD()
     //{
