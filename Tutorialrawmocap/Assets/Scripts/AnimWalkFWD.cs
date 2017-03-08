@@ -47,26 +47,16 @@ public class AnimWalkFWD : MonoBehaviour {
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
-        //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 0.0f).eulerAngles);
-        //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 1.0f).eulerAngles);
         
         for (int i = 0; i < t_bones.Length; i++)
         {
-            if (i == 2 && p_transition > 0.5f && p_prevTrans < 0.5f)
+            List<Quaternion> t_quatList = new List<Quaternion>();
+            for (int j = 0; j < p_poses.Count; j++)
             {
-                //print(t_bones[i].rotation.eulerAngles);
-                //testStruct d = new  testStruct();
-                SQUAD.testStruct d = new SQUAD.testStruct();
-                d = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_prevTrans);
-                //print(d.alongLine);
-                d = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition);
-                t_bones[i].rotation = d.quat;
-                //print(d.alongLine);
+                t_quatList.Add(p_poses[j][i]);
             }
-            else
-            {
-                t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
-            }
+            t_bones[i].rotation = SQUAD.SplineFromListLoop(t_quatList, p_transition);
+            //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
         }
         if (!p_headbob)
         {

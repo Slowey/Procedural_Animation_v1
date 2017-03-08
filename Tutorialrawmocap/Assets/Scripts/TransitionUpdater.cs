@@ -85,6 +85,15 @@ public class TransitionUpdater : MonoBehaviour
                     m_animIdle.ChangeKeyFrames(m_framesToAdd);
                     m_timeAdjuster = m_animIdle.timeAdjuster;
                     break;
+                case AnimationClips.Walking:
+                    poses.Clear();
+                    hipspos.Clear();
+                    if (m_framesToAdd == 0)
+                    {
+                        SaveKeyFramesWalkFWD0();
+                        SaveKeyFramesWalkFWD2();
+                    }
+                    break;
                 default:
                     break;
 

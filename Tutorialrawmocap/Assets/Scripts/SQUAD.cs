@@ -38,6 +38,53 @@ public static class SQUAD
         public float alongLine;
         public float m_section;
     }
+    public static Quaternion SplineFromListLoop(List<Quaternion> p_quatList, float t)
+    {
+        Quaternion r_quat = new Quaternion(0,0,0,0);
+
+        int t_listSize = p_quatList.Count;
+        int section = (int)Mathf.Floor((t_listSize) * t);// Mathf.Floor(4.0f * t); // kanske knas här
+        float alongLine = (t_listSize) * t - section;
+        if (section == 0)
+        {
+            r_quat = SplineSegment(p_quatList[p_quatList.Count-1], p_quatList[section], p_quatList[section + 1], p_quatList[section + 2], alongLine);
+        }
+        else if (section == t_listSize - 2 && section > 0)
+        {
+            r_quat = SplineSegment(p_quatList[section - 1], p_quatList[section], p_quatList[section + 1], p_quatList[0], alongLine);
+            return r_quat;
+        }
+        else if (section == t_listSize - 1 && section > 0)
+        {
+            r_quat = SplineSegment(p_quatList[section - 1], p_quatList[section], p_quatList[0], p_quatList[1], alongLine);
+            return r_quat;
+        }
+        else if (section >= 1 && section < t_listSize - 2)
+        {
+            r_quat = SplineSegment(p_quatList[section - 1], p_quatList[section], p_quatList[section + 1], p_quatList[section + 2], alongLine);
+            return r_quat;
+        }
+
+
+        //int t_listSize = p_quatList.Count;
+        //int section = (int)Mathf.Floor((t_listSize - 1) * t);// Mathf.Floor(4.0f * t); // kanske knas här
+        //float alongLine = (t_listSize - 1) * t - section;
+        //if (section == 0)
+        //{
+        //    r_quat = SplineSegment(p_quatList[p_quatList.Count - 1], p_quatList[section], p_quatList[section + 1], p_quatList[section + 2], alongLine);
+        //}
+        //else if (section == t_listSize - 2 && section > 0)
+        //{
+        //    r_quat = SplineSegment(p_quatList[section - 1], p_quatList[section], p_quatList[section + 1], p_quatList[0], alongLine);
+        //    return r_quat;
+        //}
+        //else if (section >= 1 && section < t_listSize - 2)
+        //{
+        //    r_quat = SplineSegment(p_quatList[section - 1], p_quatList[section], p_quatList[section + 1], p_quatList[section + 2], alongLine);
+        //    return r_quat;
+        //}
+        return r_quat;
+    }
     public static testStruct Spline(Quaternion q1, Quaternion q2, Quaternion q3, Quaternion q4, float t)
     {
         float section = Mathf.Floor(4.0f * t);
