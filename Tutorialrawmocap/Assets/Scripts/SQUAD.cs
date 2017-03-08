@@ -83,7 +83,7 @@ public static class SQUAD
     {
         int t_listSize = p_qList.Count;
         int section =(int) Mathf.Floor((t_listSize - 1) * t);// Mathf.Floor(4.0f * t); // kanske knas här
-        float alongLine = t_listSize * t - section;
+        float alongLine = (t_listSize -1) * t - section;
         if (section == 0)
         {
             testStruct d = new testStruct();

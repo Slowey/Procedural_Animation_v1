@@ -683,6 +683,7 @@ MonoBehaviour:
   damper: 0.7
   angularVelo: 10
   activeClip: 3
+  m_framesToAdd: 3
   headBob: 0
 --- !u!1 &1341971558
 GameObject:

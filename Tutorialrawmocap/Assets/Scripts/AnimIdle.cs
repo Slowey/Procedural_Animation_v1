@@ -11,7 +11,7 @@ public class AnimIdle : MonoBehaviour {
     int m_IdleBetween1_1 = Animator.StringToHash("IdleBetween1_1");
     int m_IdleBetween2_1 = Animator.StringToHash("IdleBetween2_1");
     int m_IdleBetween2_2 = Animator.StringToHash("IdleBetween2_2");
-    public float timeAdjuster = 5.733333333333333f;//2.866666666666667f*2.0f;
+    public float timeAdjuster = 5.733333333333333f / 4;//2.866666666666667f*2.0f;
     float m_prevTransition = 0.0f;
     bool m_switch = false;
     float hipstest = 1;
@@ -54,12 +54,35 @@ public class AnimIdle : MonoBehaviour {
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
+        List<List<Quaternion>> t_poses = new List<List<Quaternion>>();
+        List<Vector3> t_hipspos = new List<Vector3>();
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 0.0f).eulerAngles);
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 1.0f).eulerAngles);
         float t_tempTransition = p_transition * 2;
         if (t_tempTransition > 1.0f)
         {
             t_tempTransition -= 1;
+        }
+        if (p_transition < 0.1f && p_prevTrans > 0.9f)
+        {
+            m_switch = !m_switch;
+            print("asdasd");
+        }
+        if (m_switch)
+        {
+            for (int i = 0; i < p_poses.Count; i++)
+            {
+                t_poses.Add(p_poses[p_poses.Count-1- i]);
+                t_hipspos.Add(p_hipspos[p_hipspos.Count - 1 - i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < p_poses.Count; i++)
+            {
+                t_poses.Add(p_poses[i]);
+                t_hipspos.Add(p_hipspos[i]);
+            }
         }
         hipstest += 0.01f;
         float mod = (hipstest % (Mathf.PI * 2));
@@ -90,7 +113,7 @@ public class AnimIdle : MonoBehaviour {
         //print(t_tempTransition + " "+p_transition);
         if (m_frames != 2)
         {
-        print(m_frames + "inte 2");
+        //print(m_frames + "inte 2");
             List<Quaternion> t_qList = new List<Quaternion>();
             int poseListSize = p_poses.Count;
 
@@ -115,7 +138,7 @@ public class AnimIdle : MonoBehaviour {
 
                     for (int k = 0; k < poseListSize; k++)
                     {
-                        t_qList.Add(p_poses[k][i]);
+                        t_qList.Add(t_poses[k][i]);
                     }
                     //print(t_qList.Count);
                     //print(SQUAD.SplineMoreThanFivePoints(t_qList, p_transition).m_section); //SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
@@ -203,21 +226,25 @@ public class AnimIdle : MonoBehaviour {
         //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //m_prevTransition = p_transition;
-        //if (true) 
-        //{
-        //    if (p_transition < 0.5f)
-        //    {
-        //        t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
-        //            p_transition / 0.5f);
-        //    }
-        //   
-        //    else if (p_transition < 1.0f)
-        //    {
-        //        t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[0],
-        //            (p_transition - 0.5f) / 0.5f);
-        //        
-        //    }
-        //}
+        if (true)
+        {
+            //if (p_transition < 0.5f)
+            //{
+            //    t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
+            //        p_transition / 0.5f);
+            //}
+            //else if (p_transition < 1.0f)
+            //{
+            //    t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[0],
+            //        (p_transition - 0.5f) / 0.5f);
+            //
+            //}
+            int section = (int)Mathf.Floor((t_hipspos.Count - 1) * p_transition);
+            float alongLine = (t_hipspos.Count - 1) * p_transition - section;
+            t_bones[0].position = Vector3.Lerp(t_hipspos[section], t_hipspos[section + 1],
+                alongLine);
+
+        }
     }
 
 }
