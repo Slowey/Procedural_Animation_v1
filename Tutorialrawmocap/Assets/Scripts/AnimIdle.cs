@@ -239,11 +239,13 @@ public class AnimIdle : MonoBehaviour {
             //        (p_transition - 0.5f) / 0.5f);
             //
             //}
-            int section = (int)Mathf.Floor((t_hipspos.Count - 1) * p_transition);
-            float alongLine = (t_hipspos.Count - 1) * p_transition - section;
-            t_bones[0].position = Vector3.Lerp(t_hipspos[section], t_hipspos[section + 1],
-                alongLine);
-
+            //int section = (int)Mathf.Floor((t_hipspos.Count - 1) * p_transition);
+            //float alongLine = (t_hipspos.Count - 1) * p_transition - section;
+            //t_bones[0].position = Vector3.Lerp(t_hipspos[section], t_hipspos[section + 1],
+            //    alongLine);
+            //
+            
+            //t_bones[0].position = new Vector3(, t_bones[0].position.y, t_bones[0].position.z);
         }
     }
 
