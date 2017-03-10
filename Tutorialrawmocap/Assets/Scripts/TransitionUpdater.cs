@@ -112,6 +112,30 @@ public class TransitionUpdater : MonoBehaviour
                     }
                     break;
                 case AnimationClips.Runnning:
+                    poses.Clear();
+                    hipspos.Clear();
+                    if (m_framesToAdd == 0)
+                    {
+                        SaveKeyFramesWalkFWD0();
+                        SaveKeyFramesWalkFWD1();
+                        SaveKeyFramesWalkFWD2();
+                        SaveKeyFramesWalkFWD3();
+                    }
+                    else if (m_framesToAdd == 4)
+                    {
+                        SaveKeyFramesWalkFWD0();
+                        m_between1_1 = Animator.StringToHash("RunExtend1_1");
+                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesWalkFWD1();
+                        m_between1_1 = Animator.StringToHash("RunCross1_1");
+                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesWalkFWD2();
+                        m_between1_1 = Animator.StringToHash("RunExtendMirrored1_1");
+                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesWalkFWD3();
+                        m_between1_1 = Animator.StringToHash("RunCrossMirrored1_1");
+                        SaveKeyFramesBetween1_1();
+                    }
                     break;
                 default:
                     break;
