@@ -12,9 +12,9 @@ public class AnimDuck : MonoBehaviour
     float timerTransition = 0.0f;
     float springDamperPos = 0.0f;
     float springDamperVel = 0.0f;
-    public float deltaTimeIncreaser = 0.0f;
-    public float angularVelocity = 0.0f;
-    public float damper = 0.0f;
+    //public float deltaTimeIncreaser = 0.0f;
+    //public float angularVelocity = 0.0f;
+    //public float damper = 0.0f;
     float deltatimemodifier = 0.001f;
     public float timeAdjuster = 3.46666666667f;
     public void UpdateAnimation(float p_transition, List<List<Quaternion>> p_poses, List<Vector3> p_hipspos, float p_deltaTimeIncreaser, float p_angularVelocity, float p_damper)

@@ -92,6 +92,7 @@ public class TransitionUpdater : MonoBehaviour
                     {
                         SaveKeyFramesCrouching();
                         SaveKeyFramesStanding();
+                        deltaTimeIncreaser = 2.22f;
                     }
                     else if (m_framesToAdd == 3)
                     {
@@ -103,6 +104,15 @@ public class TransitionUpdater : MonoBehaviour
                         m_between1_1 = Animator.StringToHash("Crouching_2_2");
                         SaveKeyFramesBetween1_1();
                         SaveKeyFramesStanding();
+                        deltaTimeIncreaser = 1.0f;
+                    }
+                    else if (m_framesToAdd == 1)
+                    {
+                        SaveKeyFramesCrouching();
+                        m_between1_1 = Animator.StringToHash("Crouching_1_1");
+                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesStanding();
+                        deltaTimeIncreaser = 1.44f;
                     }
                     break;
                 case AnimationClips.Walking:
