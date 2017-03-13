@@ -406,7 +406,7 @@ MonoBehaviour:
   deltaTimeIncreaser: 6
   damper: 0.7
   angularVelo: 10
-  activeClip: 1
+  activeClip: 3
   m_framesToAdd: 0
   headBob: 0
 --- !u!1 &944770385

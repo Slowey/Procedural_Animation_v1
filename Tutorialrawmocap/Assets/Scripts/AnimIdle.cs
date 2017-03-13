@@ -23,10 +23,15 @@ public class AnimIdle : MonoBehaviour {
             SetFrames(p_nrKeyFrames);
             SetTimeAdjuster(5.733333333333333f);
         }
-        else if(p_nrKeyFrames == 3)
+        else if(p_nrKeyFrames == 2)
         {
             SetFrames(p_nrKeyFrames);
-            SetTimeAdjuster(5.733333333333333f*0.25f);
+            SetTimeAdjuster(5.733333333333333f * 0.25f);
+        }
+        else if (p_nrKeyFrames == 1)
+        {
+            SetFrames(p_nrKeyFrames);
+            SetTimeAdjuster(5.733333333333333f * 0.5f);
         }
 
     }

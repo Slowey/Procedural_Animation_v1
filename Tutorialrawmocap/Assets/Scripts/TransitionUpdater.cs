@@ -13,6 +13,7 @@ public class TransitionUpdater : MonoBehaviour
     [Range(0.0f, 10.0f)]
     public float angularVelo = 6.0f;
     public AnimationClips activeClip;
+    [Range(0, 2)]
     public int m_framesToAdd = 0;
     int m_prevFramesToAdd = 0;
     AnimationClips prevClip;
@@ -70,7 +71,13 @@ public class TransitionUpdater : MonoBehaviour
                         SaveKeyFramesWalkFWD0();
                         SaveKeyFramesWalkFWD2();
                     }
-                    else if (m_framesToAdd == 3)
+                    else if (m_framesToAdd == 1)
+                    {
+                        SaveKeyFramesWalkFWD0();
+                        SaveKeyFramesIdleBetween1_1();
+                        SaveKeyFramesWalkFWD2();
+                    }
+                    else if (m_framesToAdd == 2)
                     {
                         SaveKeyFramesWalkFWD0();
                         SaveKeyFramesIdleBetween2_1();
@@ -90,7 +97,7 @@ public class TransitionUpdater : MonoBehaviour
                         SaveKeyFramesStanding();
                         deltaTimeIncreaser = 2.22f;
                     }
-                    else if (m_framesToAdd == 3)
+                    else if (m_framesToAdd == 2)
                     {
                         SaveKeyFramesCrouching();
                         m_between1_1 = Animator.StringToHash("Crouching_2_1");
@@ -121,7 +128,7 @@ public class TransitionUpdater : MonoBehaviour
                         SaveKeyFramesWalkFWD2();
                         SaveKeyFramesWalkFWD3();
                     }
-                    else if (m_framesToAdd == 4)
+                    else if (m_framesToAdd == 1)
                     {
                         SaveKeyFramesWalkFWD0();
                         m_between1_1 = Animator.StringToHash("WalkFWD_Extend1_1");
@@ -147,7 +154,7 @@ public class TransitionUpdater : MonoBehaviour
                         SaveKeyFramesWalkFWD2();
                         SaveKeyFramesWalkFWD3();
                     }
-                    else if (m_framesToAdd == 4)
+                    else if (m_framesToAdd == 1)
                     {
                         SaveKeyFramesWalkFWD0();
                         m_between1_1 = Animator.StringToHash("RunExtend1_1");
@@ -211,7 +218,7 @@ public class TransitionUpdater : MonoBehaviour
                     {
                         InvokeTwoKeyFrames();
                     }
-                    else if (m_framesToAdd == 3)
+                    else if (m_framesToAdd == 2)
                     {
                         InvokeFiveKeyFrames();
                     }
