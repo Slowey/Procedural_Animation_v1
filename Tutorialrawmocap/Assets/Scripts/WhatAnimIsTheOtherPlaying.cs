@@ -14,7 +14,6 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
     void Start ()
     {
         otherGameObject = GameObject.FindGameObjectWithTag("Player");
-        //transUpdaterScript = otherGameObject.GetComponent<TransitionUpdater>();
         animator = gameObject.GetComponent<Animator>();
         m_activeClip = (AnimationClips)transUpdaterScript.activeClip;
         switch (m_activeClip)
@@ -43,8 +42,6 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
     {
         m_activeClip = (AnimationClips)transUpdaterScript.activeClip;
         animator.SetInteger("whatAnim", (int)m_activeClip);
-        // print("hej");
-        // print((int)m_activeClip);
         if(m_activeClip != prevClip)
         {
             switch (m_activeClip)

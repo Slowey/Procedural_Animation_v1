@@ -16,9 +16,6 @@ public class AnimIdle : MonoBehaviour {
     bool m_switch = false;
     float hipstest = 1;
     int m_frames = 2;
-    float yrand = 0;
-    float xrand = 0;
-    float zrand = 0;
     // Use this for initialization
     public void InitAnim(Animator p_animator)
     {
@@ -103,13 +100,13 @@ public class AnimIdle : MonoBehaviour {
             }
         }
         hipstest += 0.01f;
-        float mod = (hipstest % (Mathf.PI * 2));
-        if (mod < 0.01f || mod > ((Mathf.PI *2) -0.01f))
-        {
-            yrand = Random.Range(0.5f, 1);
-            xrand = Random.Range(0.5f, 1);
-            zrand = Random.Range(0.5f, 1);
-        }
+        //float mod = (hipstest % (Mathf.PI * 2));
+        //if (mod < 0.01f || mod > ((Mathf.PI *2) -0.01f))
+        //{
+        //    yrand = Random.Range(0.5f, 1);
+        //    xrand = Random.Range(0.5f, 1);
+        //    zrand = Random.Range(0.5f, 1);
+        //}
         //if (m_switch)
         //{
         //    hipstest -= 0.01f;

@@ -219,8 +219,6 @@ public class TransitionUpdater : MonoBehaviour
                     {
                         InvokeFiveKeyFrames();
                     }
-                    //InvokeTwoKeyFrames();
-                    //InvokeFiveKeyFrames();
                     m_timeAdjuster = m_animIdle.timeAdjuster;
                     break;
                default:
@@ -235,14 +233,12 @@ public class TransitionUpdater : MonoBehaviour
             case AnimationClips.Walking:
                 if (poses.Count > 3 + m_framesToAdd)
                 {
-                    //print(poses[0][1] + " " + poses[1][1] + " "+ poses[2][1]+" " + poses[3][1]);
                     m_animWalk.WalkingUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);//UpdateAnimationASD();
                 }
                 break;
             case AnimationClips.Runnning:
                 if (poses.Count > 3)
                 {
-                    //print(poses[0][1] + " " + poses[1][1] + " "+ poses[2][1]+" " + poses[3][1]);
                 m_animRun.RunningUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);//UpdateAnimationASD();
                 }
                 break;
@@ -253,7 +249,6 @@ public class TransitionUpdater : MonoBehaviour
                 }
                 break;
             case AnimationClips.Idle:
-                //m_animIdle.SetFrames(m_framesToAdd);
                 if (poses.Count > 1 + m_framesToAdd)
                 {
                     m_animIdle.IdleUpdate(m_transition, m_prevTrans, poses, hipspos, headBob, gameObject);

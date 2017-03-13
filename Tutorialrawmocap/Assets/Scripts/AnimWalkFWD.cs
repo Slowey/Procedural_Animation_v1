@@ -18,14 +18,6 @@ public class AnimWalkFWD : MonoBehaviour {
         m_animator = p_animator;
 
     }
-    //public void LoadKeyFramesHashValues()
-    //{
-
-    //    //o_extend = m_extendHash;
-    //    //o_extendMirror = m_extendMirrorHash;
-    //    //o_cross = m_crossHash;
-    //    //o_crossMirrored = m_crossMirrorHash;
-    //}
     public int GetExtendHash()
     {
         return m_extendHash;
@@ -56,7 +48,6 @@ public class AnimWalkFWD : MonoBehaviour {
                 t_quatList.Add(p_poses[j][i]);
             }
             t_bones[i].rotation = SQUAD.SplineFromListLoop(t_quatList, p_transition);
-            //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[2][i], p_poses[3][i], p_transition).quat;
         }
         //if (!p_headbob)
         //{
@@ -87,6 +78,25 @@ public class AnimWalkFWD : MonoBehaviour {
         //{
         //    HeadbobUpdate(p_transition, p_gameObject);
         //}
+        if (!p_headbob)
+        {
+
+            int t_listSize = p_hipspos.Count;
+            int section = (int)Mathf.Floor((t_listSize) * p_transition);
+            float alongLine = (t_listSize) * p_transition - section;
+            if (section == t_listSize-1)
+            {
+                t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[0], alongLine);
+            }
+            else
+            {
+                t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[section + 1], alongLine);
+            }
+        }
+        else
+        {
+            HeadbobUpdate(p_transition, p_gameObject); //Vet inte om funkar! Har modifierat !p_headbob för att passa fler keyframes
+        }
     }
     public void HeadbobUpdate(float p_transition, GameObject p_gameObject)
     {
@@ -94,24 +104,19 @@ public class AnimWalkFWD : MonoBehaviour {
         {
             float ourX = ((p_transition - 0.25f) * 4) - 1;
             float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
-            // float theX = ourXTwo
             p_gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
         }
         else if (p_transition < 0.25f)
         {
             float ourX = ((p_transition + 0.25f) * 4) - 1;
             float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
-            // float theX = ourXTwo
             p_gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
-            //print(ourX + "under .25");
         }
         else if (p_transition > 0.75f)
         {
             float ourX = ((p_transition - 0.75f) * 4) - 1;
             float ourXTwo = (0.5f * ourX) * -(0.5f * ourX) + 0.25f;
-            // float theX = ourXTwo
             p_gameObject.transform.position = new Vector3(0, ourXTwo * 0.1f, 0);
-            //print(ourX + "över .75");
         }
     }
 }

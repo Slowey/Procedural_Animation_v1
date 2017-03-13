@@ -25,16 +25,6 @@ public class AnimDuck : MonoBehaviour
         float p_transitionExp1 = Mathf.Sqrt(p_transition / 2);
         float p_transitionExp2 = 2 * Mathf.Pow(p_transition - 0.5f, 2);
 
-        //if (!timeToChange)
-        //{
-        //    timer += Time.deltaTime / 2;
-        //}
-        //if (timer > 1.0f && !timeToChange)
-        //{
-        //    timeToChange = true;
-        //    timer = 0.0f;
-        //}
-
         if (p_transition < 0.5f && !crouching) //Stand
         {
             List<Quaternion> t_quatList = new List<Quaternion>();
@@ -42,18 +32,11 @@ public class AnimDuck : MonoBehaviour
             SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             int section = Mathf.FloorToInt(Mathf.Clamp(springDamperPos, 0.0000001f, 0.9999999f) * (p_poses.Count - 1));
             float alongLine = (p_poses.Count-1) * springDamperPos - section;
-            //SpringDamper(ref springDamperPos, ref springDamperVel, 1, (Time.deltaTime+Mathf.Pow(springDamperPos,2)*Time.deltaTime) * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             for (int i = 0; i < t_bones.Length; i++)
             {
-                //t_bones[i].rotation = Quaternion.Slerp(p_poses[0][i], p_poses[1][i], p_transition/0.5f);
                 t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[section][i], p_poses[section+1][i], Mathf.Clamp(alongLine, 0, 2));
-                //t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[0][i], p_poses[1][i], Mathf.Clamp(springDamperPos, 0, 2));
-                //t_bones[i].rotation = poses[1][i];
             }
-            //Vector3 test = Vector3.Slerp(p_hipspos[0], p_hipspos[1], p_transitionExp1 / 0.5f);
             Vector3 test = Vector3.Slerp(p_hipspos[section], p_hipspos[section+1], Mathf.Clamp(alongLine, 0, 2));
-            //Vector3 test = Vector3.Slerp(p_hipspos[0], p_hipspos[1], Mathf.Clamp(springDamperPos, 0, 2));
-            //print(p_transition);
             t_bones[0].transform.position = new Vector3(test.x, test.y + offset, test.z);
         }
         if (prevTrans < 0.5f && p_transition > 0.5f && !crouching)
@@ -65,23 +48,16 @@ public class AnimDuck : MonoBehaviour
         }
         else if (p_transition > 0.5f && crouching) //crouch
         {
-            //print("Im crouching");
             deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
             SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             int section = Mathf.FloorToInt(Mathf.Clamp(springDamperPos, 0.0000001f, 0.9999999f) * (p_poses.Count - 1));
             float alongLine = (p_poses.Count - 1) * springDamperPos - section;
-            //print(springDamperPos);
             for (int i = 0; i < t_bones.Length; i++)
             {
-                //t_bones[i].rotation = Quaternion.Slerp(p_poses[1][i], p_poses[0][i], (p_transition - 0.5f) / 0.5f);
-                //t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[1][i], p_poses[0][i], Mathf.Clamp(springDamperPos, 0, 2));
                 t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[p_poses.Count-1-section][i], p_poses[p_poses.Count-2-section][i], Mathf.Clamp(alongLine, 0, 2));
             }
-            //Vector3 test = Vector3.Slerp(p_hipspos[1], p_hipspos[0], (p_transitionExp2) / 0.5f);
-            //Vector3 test2 = Vector3.SlerpUnclamped(p_hipspos[1], p_hipspos[0], Mathf.Clamp(springDamperPos, 0, 2));
             Vector3 test2 = Vector3.SlerpUnclamped(p_hipspos[p_poses.Count - 1 - section], p_hipspos[p_poses.Count - 2 - section], Mathf.Clamp(alongLine, 0, 2));
             t_bones[0].transform.position = new Vector3(test2.x, test2.y + offset, test2.z);
-            //t_bones[0].transform.position = new Vector3(p_hipspos[1].x, p_hipspos[1].y, p_hipspos[1].z);
         }
         if (prevTrans > 0.9f && p_transition < 0.1f && crouching)
         {
