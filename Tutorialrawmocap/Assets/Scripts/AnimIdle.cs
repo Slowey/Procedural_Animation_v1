@@ -11,7 +11,7 @@ public class AnimIdle : MonoBehaviour {
     int m_IdleBetween2_1 = Animator.StringToHash("IdleBetween2_1");
     int m_IdleBetween2_2 = Animator.StringToHash("IdleBetween2_2");
     public float timeAdjuster = 5.733333333333333f;// / 4;//2.866666666666667f*2.0f;
-    bool m_switch = false;
+    bool m_switch = true;
     float hipstest = 1;
     int m_frames = 2;
     // Use this for initialization
@@ -26,12 +26,12 @@ public class AnimIdle : MonoBehaviour {
         else if(p_nrKeyFrames == 2)
         {
             SetFrames(p_nrKeyFrames);
-            SetTimeAdjuster(5.733333333333333f * 0.25f);
+            SetTimeAdjuster(5.733333333333333f);// * 0.25f);
         }
         else if (p_nrKeyFrames == 1)
         {
             SetFrames(p_nrKeyFrames);
-            SetTimeAdjuster(5.733333333333333f * 0.5f);
+            SetTimeAdjuster(5.733333333333333f);// * 0.25f);
         }
 
     }
@@ -72,15 +72,54 @@ public class AnimIdle : MonoBehaviour {
         List<Vector3> t_hipspos = new List<Vector3>();
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 0.0f).eulerAngles);
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 1.0f).eulerAngles);
-        float t_tempTransition = p_transition * 2;
+        float t_tempTransition = p_transition* 2;
+        float t_tempTransitionNew = p_transition + 0.5f;
+        float t_prevTransNew = p_prevTrans + 0.5f;
         if (t_tempTransition > 1.0f)
         {
             t_tempTransition -= 1;
         }
-        if (p_transition < 0.1f && p_prevTrans > 0.9f)
+        //if (p_transition < 0.1f && p_prevTrans > 0.9f)
+        //{
+        //    m_switch = !m_switch;
+        //}   
+       
+
+        if (p_transition > 1)
+        {
+            p_transition -= 1.0f;
+        }
+        if ((p_transition < 0.1f && p_prevTrans > 0.9f) || (p_transition > 0.25f && p_prevTrans < 0.25f) || (p_transition > 0.5f && p_prevTrans < 0.5f) || (p_transition > 0.75f && p_prevTrans < 0.75f))
         {
             m_switch = !m_switch;
         }
+        if (m_frames != 2)
+        {
+
+            //if ((p_transition < 0.1f && p_prevTrans > 0.9f) || (p_transition > 0.25f && p_prevTrans < 0.25f) || (p_transition > 0.5f && p_prevTrans < 0.5f) || (p_transition > 0.75f && p_prevTrans < 0.75f))
+            //{
+            //    m_switch = !m_switch;
+            //}
+
+            p_transition = p_transition * 4.0f;
+            if (p_transition > 1.0f)
+            {
+                p_transition -= 1;
+            }
+            if (p_transition > 1.0f)
+            {
+                p_transition -= 1;
+            }
+            if (p_transition > 1.0f)
+            {
+                p_transition -= 1;
+            }
+            if (p_transition > 1.0f)
+            {
+                p_transition -= 1;
+            }
+        }
+
         if (m_switch)
         {
             for (int i = 0; i < p_poses.Count; i++)
@@ -129,7 +168,11 @@ public class AnimIdle : MonoBehaviour {
         {
         //print(m_frames + "inte 2");
             List<Quaternion> t_qList = new List<Quaternion>();
-            
+           //p_transition += 0.25f;
+           //if (p_transition > 1)
+           //{
+           //    p_transition -= 1.0f;
+           //}
 
             for (int i = 0; i < t_bones.Length; i++)
             {
@@ -164,6 +207,11 @@ public class AnimIdle : MonoBehaviour {
 
         if (m_frames == 2)
         {
+            //p_transition += 0.5f;
+            //if(p_transition>1)
+            //{
+            //    p_transition -= 1.0f;
+            //}
             for (int i = 0; i < t_bones.Length; i++)
             {
                 //print(t_bones[i].name + " " + i);
@@ -172,6 +220,7 @@ public class AnimIdle : MonoBehaviour {
                     // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
                     if (t_tempTransition > 0.5f)
                     {
+
                         t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[poseListSize-1][i], p_poses[0][i], t_tempTransition / 0.5f);
                     }
                     else
@@ -186,36 +235,6 @@ public class AnimIdle : MonoBehaviour {
                 }
             }
         }
-
-        ///////////////////// om fler än 2 frames
-        //for (int i = 0; i < t_bones.Length; i++)
-        //{
-        //    //print(t_bones[i].name + " " + i);
-        //    if (t_bones[i].name.Contains("RightHand"))
-        //    {
-        //        // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
-        //        if (t_tempTransition > 0.5f)
-        //        {
-        //            t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[1][i], p_poses[0][i], t_tempTransition / 0.5f);
-        //        }
-        //        else
-        //        {
-        //            t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[0][i], p_poses[1][i], (t_tempTransition - 0.5f) / 0.5f);
-        //        }
-        //        //t_bones[i].rotation = SQUAD.Spline(p_poses[0][i], p_poses[1][i], p_poses[0][i], p_poses[1][i], p_transition).quat;
-        //    }
-        //    else
-        //    {
-        //        t_bones[i].rotation = SQUAD.Spline(p_poses[1][i], p_poses[0][i], p_poses[1][i], p_poses[0][i], p_transition).quat;
-        //    }
-        //}
-
-
-
-
-
-
-
 
 
         //t_bones[0].rotation = t_bones[0].rotation *  Quaternion.AngleAxis(5 * Mathf.Sin(t_tempTransition*3.14f*2+(3.14f/2.0f)), new Vector3(0, 0, 1));
