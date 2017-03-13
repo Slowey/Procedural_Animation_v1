@@ -85,6 +85,26 @@ public class TransitionUpdater : MonoBehaviour
                     m_animIdle.ChangeKeyFrames(m_framesToAdd);
                     m_timeAdjuster = m_animIdle.timeAdjuster;
                     break;
+                case AnimationClips.Crouching:
+                    poses.Clear();
+                    hipspos.Clear();
+                    if (m_framesToAdd ==0)
+                    {
+                        SaveKeyFramesCrouching();
+                        SaveKeyFramesStanding();
+                    }
+                    else if (m_framesToAdd == 3)
+                    {
+                        SaveKeyFramesCrouching();
+                        m_between1_1 = Animator.StringToHash("Crouching_2_1");
+                        SaveKeyFramesBetween1_1();
+                        m_between1_1 = Animator.StringToHash("Crouching_1_1");
+                        SaveKeyFramesBetween1_1();
+                        m_between1_1 = Animator.StringToHash("Crouching_2_2");
+                        SaveKeyFramesBetween1_1();
+                        SaveKeyFramesStanding();
+                    }
+                    break;
                 case AnimationClips.Walking:
                     poses.Clear();
                     hipspos.Clear();

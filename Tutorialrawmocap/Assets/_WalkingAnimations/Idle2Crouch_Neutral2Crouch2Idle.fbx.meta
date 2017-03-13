@@ -162,13 +162,13 @@ ModelImporter:
     400154: TongueBack
     400156: TongueTip
     7400000: Idle2Crouch
-    7400002: 1Crouching
-    7400004: 5Standing
+    7400002: Crouching
+    7400004: Standing
     7400006: Crouch2Idle
     7400008: testInbetween
-    7400010: 3Crouching_1_1
-    7400012: 2Crouching 2_1
-    7400014: 4Crouching_2_2
+    7400010: Crouching_1_1
+    7400012: Crouching_2_1
+    7400014: Crouching_2_2
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -224,7 +224,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 1Crouching
+      name: Crouching
       takeName: _142_TO_161_a_U1_M_P_idle2Crouch_Neutral2Crouch2Idle_Fb_p0_No_0_PJ_2
       firstFrame: 304
       lastFrame: 305
@@ -410,7 +410,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: 5Standing
+      name: Standing
       takeName: _142_TO_161_a_U1_M_P_idle2Crouch_Neutral2Crouch2Idle_Fb_p0_No_0_PJ_2
       firstFrame: 208
       lastFrame: 209
@@ -782,7 +782,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 208
     - serializedVersion: 16
-      name: 3Crouching_1_1
+      name: Crouching_1_1
       takeName: _142_TO_161_a_U1_M_P_idle2Crouch_Neutral2Crouch2Idle_Fb_p0_No_0_PJ_2
       firstFrame: 229
       lastFrame: 230
@@ -968,7 +968,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 208
     - serializedVersion: 16
-      name: 2Crouching 2_1
+      name: Crouching_2_1
       takeName: _142_TO_161_a_U1_M_P_idle2Crouch_Neutral2Crouch2Idle_Fb_p0_No_0_PJ_2
       firstFrame: 236
       lastFrame: 237
@@ -1154,10 +1154,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 208
     - serializedVersion: 16
-      name: 4Crouching_2_2
+      name: Crouching_2_2
       takeName: _142_TO_161_a_U1_M_P_idle2Crouch_Neutral2Crouch2Idle_Fb_p0_No_0_PJ_2
       firstFrame: 223
-      lastFrame: 223
+      lastFrame: 224
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
