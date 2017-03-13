@@ -7,27 +7,17 @@ public class AnimDuck : MonoBehaviour
     float epsilon = 0.0001f;
     float prevTrans = 0.0f;
     bool crouching = true;
-    bool timeToChange = false;
-    float timer = 0.0f;
-    float timerTransition = 0.0f;
     float springDamperPos = 0.0f;
     float springDamperVel = 0.0f;
-    //public float deltaTimeIncreaser = 0.0f;
-    //public float angularVelocity = 0.0f;
-    //public float damper = 0.0f;
     float deltatimemodifier = 0.001f;
     public float timeAdjuster = 3.46666666667f;
     public void UpdateAnimation(float p_transition, List<List<Quaternion>> p_poses, List<Vector3> p_hipspos, float p_deltaTimeIncreaser, float p_angularVelocity, float p_damper)
     {
         GameObject t_hips = GameObject.FindGameObjectWithTag("Bicubic");
         Transform[] t_bones = t_hips.GetComponentsInChildren<Transform>();
-        float offset = 0f;
-        float p_transitionExp1 = Mathf.Sqrt(p_transition / 2);
-        float p_transitionExp2 = 2 * Mathf.Pow(p_transition - 0.5f, 2);
 
         if (p_transition < 0.5f && !crouching) //Stand
         {
-            List<Quaternion> t_quatList = new List<Quaternion>();
             deltatimemodifier = Mathf.Clamp(deltatimemodifier + (Time.deltaTime * 0.7f), 0.0f, 20.0f);
             SpringDamper(ref springDamperPos, ref springDamperVel, 1, deltatimemodifier * Time.deltaTime * p_deltaTimeIncreaser, p_angularVelocity, p_damper);
             int section = Mathf.FloorToInt(Mathf.Clamp(springDamperPos, 0.0000001f, 0.9999999f) * (p_poses.Count - 1));
@@ -37,11 +27,10 @@ public class AnimDuck : MonoBehaviour
                 t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[section][i], p_poses[section+1][i], Mathf.Clamp(alongLine, 0, 2));
             }
             Vector3 test = Vector3.Slerp(p_hipspos[section], p_hipspos[section+1], Mathf.Clamp(alongLine, 0, 2));
-            t_bones[0].transform.position = new Vector3(test.x, test.y + offset, test.z);
+            t_bones[0].transform.position = new Vector3(test.x, test.y, test.z);
         }
         if (prevTrans < 0.5f && p_transition > 0.5f && !crouching)
         {
-            timeToChange = false;
             crouching = true;
             springDamperPos = 0.0f;
             deltatimemodifier = 0.001f;
@@ -57,11 +46,10 @@ public class AnimDuck : MonoBehaviour
                 t_bones[i].rotation = Quaternion.SlerpUnclamped(p_poses[p_poses.Count-1-section][i], p_poses[p_poses.Count-2-section][i], Mathf.Clamp(alongLine, 0, 2));
             }
             Vector3 test2 = Vector3.SlerpUnclamped(p_hipspos[p_poses.Count - 1 - section], p_hipspos[p_poses.Count - 2 - section], Mathf.Clamp(alongLine, 0, 2));
-            t_bones[0].transform.position = new Vector3(test2.x, test2.y + offset, test2.z);
+            t_bones[0].transform.position = new Vector3(test2.x, test2.y, test2.z);
         }
         if (prevTrans > 0.9f && p_transition < 0.1f && crouching)
         {
-            timeToChange = false;
             crouching = false;
             springDamperPos = 0.0f;
             deltatimemodifier = 0.001f;

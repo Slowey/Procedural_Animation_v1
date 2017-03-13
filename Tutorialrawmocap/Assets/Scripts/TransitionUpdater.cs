@@ -49,8 +49,6 @@ public class TransitionUpdater : MonoBehaviour
         m_animRun = new AnimRun();
         m_animIdle = new AnimIdle();
         m_animIdle.SetFrames(m_framesToAdd);
-        m_animWalk.InitAnim(m_animator);
-        m_animRun.InitAnim(m_animator);
     }
 
     // Update is called once per frame
@@ -62,8 +60,6 @@ public class TransitionUpdater : MonoBehaviour
         }
         if (m_prevFramesToAdd != m_framesToAdd)
         {
-            //poses.Clear();
-            //hipspos.Clear();
             switch (activeClip)
             {
                 case AnimationClips.Idle:

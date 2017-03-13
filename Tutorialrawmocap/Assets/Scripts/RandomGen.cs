@@ -25,7 +25,7 @@ public class RandomGen : MonoBehaviour {
     }
     float GiveRandomFloatBack(float p_floatIn, float p_originalValue, float p_randomRange)
     {
-        Random rnd = new Random();
+        //Random rnd = new Random();
         //int month = Random.
         return 0.0f;
     }

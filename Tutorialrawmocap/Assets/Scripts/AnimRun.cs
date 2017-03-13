@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class AnimRun : MonoBehaviour
 {
-
-    Animator m_animator;
+    
     int m_extendHash = Animator.StringToHash("RunExtend");
     int m_crossHash = Animator.StringToHash("RunCross");
     int m_extendMirrorHash = Animator.StringToHash("RunExtendMirrored");
     int m_crossMirrorHash = Animator.StringToHash("RunCrossMirrored");
     public float timeAdjuster = 0.7f;
-
-    // Use this for initialization
-    public void InitAnim(Animator p_animator)
-    {
-        m_animator = p_animator;
-
-    }
+    
     public int GetExtendHash()
     {
         return m_extendHash;

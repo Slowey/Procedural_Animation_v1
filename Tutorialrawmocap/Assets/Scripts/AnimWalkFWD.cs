@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimWalkFWD : MonoBehaviour {
-
-    Animator m_animator;
+    
     int m_extendHash = Animator.StringToHash("WalkFWD_Extend");
     int m_extendMirrorHash = Animator.StringToHash("WalkFWD_Extend_Mirror");
     int m_crossHash = Animator.StringToHash("WalkFWD_Cross");
     int m_crossMirrorHash = Animator.StringToHash("WalkFWD_Cross_Mirror");
 
     public float timeAdjuster = 1.0f;
-
-    // Use this for initialization
-    public void InitAnim(Animator p_animator)
-    {
-        m_animator = p_animator;
-
-    }
+    
     public int GetExtendHash()
     {
         return m_extendHash;

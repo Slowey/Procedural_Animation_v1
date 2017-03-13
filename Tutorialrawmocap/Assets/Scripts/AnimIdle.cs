@@ -4,24 +4,18 @@ using UnityEngine;
 
 public class AnimIdle : MonoBehaviour {
 
-
-    Animator m_animator;
+    
     int m_IdleIdleHash = Animator.StringToHash("IdleIdle");
     int m_IdleExtendHash = Animator.StringToHash("IdleExtend");
     int m_IdleBetween1_1 = Animator.StringToHash("IdleBetween1_1");
     int m_IdleBetween2_1 = Animator.StringToHash("IdleBetween2_1");
     int m_IdleBetween2_2 = Animator.StringToHash("IdleBetween2_2");
     public float timeAdjuster = 5.733333333333333f;// / 4;//2.866666666666667f*2.0f;
-    float m_prevTransition = 0.0f;
     bool m_switch = false;
     float hipstest = 1;
     int m_frames = 2;
     // Use this for initialization
-    public void InitAnim(Animator p_animator)
-    {
-        m_animator = p_animator;
-
-    }
+    
     public void ChangeKeyFrames(int p_nrKeyFrames)
     {
         if(p_nrKeyFrames == 0)
@@ -81,7 +75,6 @@ public class AnimIdle : MonoBehaviour {
         if (p_transition < 0.1f && p_prevTrans > 0.9f)
         {
             m_switch = !m_switch;
-            print("asdasd");
         }
         if (m_switch)
         {
@@ -166,7 +159,6 @@ public class AnimIdle : MonoBehaviour {
 
         if (m_frames == 2)
         {
-        print(m_frames + "   2 st");
             for (int i = 0; i < t_bones.Length; i++)
             {
                 //print(t_bones[i].name + " " + i);
