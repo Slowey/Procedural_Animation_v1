@@ -258,26 +258,32 @@ public class AnimIdle : MonoBehaviour {
         //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //m_prevTransition = p_transition;
-        if (true)
+        if (m_frames ==2)
         {
-            //if (p_transition < 0.5f)
-            //{
-            //    t_bones[0].position = Vector3.Slerp(p_hipspos[0], p_hipspos[1],
-            //        p_transition / 0.5f);
-            //}
-            //else if (p_transition < 1.0f)
-            //{
-            //    t_bones[0].position = Vector3.Slerp(p_hipspos[1], p_hipspos[0],
-            //        (p_transition - 0.5f) / 0.5f);
-            //
-            //}
-            //int section = (int)Mathf.Floor((t_hipspos.Count - 1) * p_transition);
-            //float alongLine = (t_hipspos.Count - 1) * p_transition - section;
-            //t_bones[0].position = Vector3.Lerp(t_hipspos[section], t_hipspos[section + 1],
-            //    alongLine);
-            //
+            int section = (int)Mathf.Floor((t_hipspos.Count) * p_transition);
+            float alongLine = (t_hipspos.Count) * p_transition - section;
+            if (section == t_hipspos.Count - 1)
+            {
+                t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[0], alongLine);
+            }
+            else
+            {
+                t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[section + 1], alongLine);
+
+            }
+            
             
             //t_bones[0].position = new Vector3(, t_bones[0].position.y, t_bones[0].position.z);
+        }
+        else
+        {
+            int section = (int)Mathf.Floor((t_hipspos.Count-1) * p_transition);
+            float alongLine = (t_hipspos.Count-1) * p_transition - section;
+            //if (section == t_hipspos.Count - 1)
+            //{
+            //    t_bones[0].position = Vector3.Slerp(t_hipspos[section], t_hipspos[section-1], alongLine);
+            //}
+            t_bones[0].position = Vector3.Slerp(t_hipspos[section], t_hipspos[section + 1], alongLine);
         }
     }
 

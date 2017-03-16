@@ -177,7 +177,7 @@ public class TransitionUpdater : MonoBehaviour
         }
         m_prevTrans = m_transition;
         m_transition += Time.deltaTime / m_timeAdjuster;
-        print(m_transition);///// PRINTHÄR asdasdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        //print(m_transition);///// PRINTHÄR asdasdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         if (m_transition > 1.0f)
         {
             m_transition -= 1.0f;
