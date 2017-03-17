@@ -72,55 +72,7 @@ public class TransitionUpdater : MonoBehaviour
         {
             m_transition -= 1.0f;
         }
-        if (loadAnims)
-        {
-            poses.Clear();
-            hipspos.Clear();
-            switch (activeClip)
-            {
-               case AnimationClips.Walking:
-                    m_extendHash = m_animWalk.GetExtendHash();
-                    m_extendMirrorHash = m_animWalk.GetExtendMirrorHash();
-                    m_crossHash = m_animWalk.GetCrossHash();
-                    m_crossMirrorHash = m_animWalk.GetCrossMirrorHash();
-                    InvokeKeyFramesWalkingFWD();
-                    m_timeAdjuster = m_animWalk.timeAdjuster;
-                    break;
-               case AnimationClips.Runnning:
-                    m_extendHash = m_animRun.GetExtendHash();
-                    m_extendMirrorHash = m_animRun.GetExtendMirrorHash();
-                    m_crossHash = m_animRun.GetCrossHash();
-                    m_crossMirrorHash = m_animRun.GetCrossMirrorHash();
-                    InvokeKeyFramesWalkingFWD();
-                    m_timeAdjuster = m_animRun.timeAdjuster;
-                    break;
-               case AnimationClips.Crouching:
-                    Invoke("SaveKeyFramesCrouching", 0.25f);
-                    Invoke("SaveKeyFramesStanding", 0.5f);
-                    m_timeAdjuster = m_animDuck.timeAdjuster;
-                    break;
-                case AnimationClips.Idle:
-                    m_extendHash = m_animIdle.GetIdleIdleHash();
-                    m_extendMirrorHash = m_animIdle.GetExtendHash();
-                    m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
-                    m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
-                    m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
-                    if (m_framesToAdd == 0)
-                    {
-                        InvokeTwoKeyFrames();
-                    }
-                    else if (m_framesToAdd == 2)
-                    {
-                        InvokeFiveKeyFrames();
-                    }
-                    m_timeAdjuster = m_animIdle.timeAdjuster;
-                    break;
-               default:
-                    break;
-            }
-            loadAnims = false;
-            m_transition = 0;
-        }
+        
         if (m_prevFramesToAdd != m_framesToAdd)
         {
             switch (activeClip)
@@ -236,6 +188,55 @@ public class TransitionUpdater : MonoBehaviour
                     break;
 
             }
+        }
+        if (loadAnims)
+        {
+            poses.Clear();
+            hipspos.Clear();
+            switch (activeClip)
+            {
+                case AnimationClips.Walking:
+                    m_extendHash = m_animWalk.GetExtendHash();
+                    m_extendMirrorHash = m_animWalk.GetExtendMirrorHash();
+                    m_crossHash = m_animWalk.GetCrossHash();
+                    m_crossMirrorHash = m_animWalk.GetCrossMirrorHash();
+                    InvokeKeyFramesWalkingFWD();
+                    m_timeAdjuster = m_animWalk.timeAdjuster;
+                    break;
+                case AnimationClips.Runnning:
+                    m_extendHash = m_animRun.GetExtendHash();
+                    m_extendMirrorHash = m_animRun.GetExtendMirrorHash();
+                    m_crossHash = m_animRun.GetCrossHash();
+                    m_crossMirrorHash = m_animRun.GetCrossMirrorHash();
+                    InvokeKeyFramesWalkingFWD();
+                    m_timeAdjuster = m_animRun.timeAdjuster;
+                    break;
+                case AnimationClips.Crouching:
+                    Invoke("SaveKeyFramesCrouching", 0.25f);
+                    Invoke("SaveKeyFramesStanding", 0.5f);
+                    m_timeAdjuster = m_animDuck.timeAdjuster;
+                    break;
+                case AnimationClips.Idle:
+                    m_extendHash = m_animIdle.GetIdleIdleHash();
+                    m_extendMirrorHash = m_animIdle.GetExtendHash();
+                    m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
+                    m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
+                    m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
+                    if (m_framesToAdd == 0)
+                    {
+                        InvokeTwoKeyFrames();
+                    }
+                    else if (m_framesToAdd == 2)
+                    {
+                        InvokeFiveKeyFrames();
+                    }
+                    m_timeAdjuster = m_animIdle.timeAdjuster;
+                    break;
+                default:
+                    break;
+            }
+            loadAnims = false;
+            m_transition = 0;
         }
         switch (activeClip)
         {

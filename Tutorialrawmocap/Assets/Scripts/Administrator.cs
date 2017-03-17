@@ -16,6 +16,8 @@ public class Administrator : MonoBehaviour{
     ClipIncrement CurrentClipLeft;
     ClipIncrement CurrentClipRight;
     bool passed = true;
+    GameObject LoadingScreenObj;
+    GameObject VotingOverlay;
     struct ClipIncrement
     {
         public int clipNumber;
@@ -27,6 +29,9 @@ public class Administrator : MonoBehaviour{
         relativePath = Application.dataPath; ;
         //fileName = relativePath + "/ratings.txt";
         //print(fileName);
+        LoadingScreenObj = GameObject.Find("LoadingScreen").gameObject;
+        LoadingScreenObj.SetActive(false);
+        VotingOverlay = GameObject.Find("VotingOverlay").gameObject;
         for (int i = 0; i < 4; i++)
         {
             List<int> t_list = new List<int>();
@@ -87,9 +92,17 @@ public class Administrator : MonoBehaviour{
         {
             sw.WriteLine(t_lineToWrite);
         }
-
-        print(fileName);
         ChangeClips();
+    }
+    private void LoadingScreen()
+    {
+        ToggleLoadingScreen();
+        Invoke("ToggleLoadingScreen", 1.5f);
+    }
+    private void ToggleLoadingScreen()
+    {
+        LoadingScreenObj.SetActive(!LoadingScreenObj.activeSelf);
+        VotingOverlay.SetActive(!VotingOverlay.activeSelf);
     }
     private void ChangeClips()
     {
@@ -97,10 +110,11 @@ public class Administrator : MonoBehaviour{
         {
             //experiment over thank you
             print("Experiment over thank yoU!");
+            return;
         }
         int t_clip = Random.Range(0, 4);
         int t_increment = Random.Range(0, 3);
-        while (clipsNotUsed[t_clip][t_increment] == 0)
+        while (clipsNotUsed[t_clip][t_increment] == 0 && passed)
         {
             t_clip = Random.Range(0, 4);
             t_increment = Random.Range(0, 3);
@@ -119,6 +133,8 @@ public class Administrator : MonoBehaviour{
                 }
             }
         }
+
+        LoadingScreen();
         GameObject.Find("DefaultAvatar").GetComponent<TransitionUpdater>().ChangeClips(CurrentClipLeft.clipNumber, CurrentClipLeft.increment, CurrentClipRight.clipNumber, CurrentClipRight.increment);
         // Använd listan för vilket clip å vilken increment som ska användas
     }
