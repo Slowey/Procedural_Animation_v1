@@ -73,8 +73,6 @@ public class AnimIdle : MonoBehaviour {
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 0.0f).eulerAngles);
         //print(SQUAD.Spline(poses[0][1], poses[1][1], poses[2][1], poses[3][1], 1.0f).eulerAngles);
         float t_tempTransition = p_transition* 2;
-        float t_tempTransitionNew = p_transition + 0.5f;
-        float t_prevTransNew = p_prevTrans + 0.5f;
         if (t_tempTransition > 1.0f)
         {
             t_tempTransition -= 1;

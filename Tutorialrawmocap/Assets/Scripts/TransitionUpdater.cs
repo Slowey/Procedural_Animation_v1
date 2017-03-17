@@ -37,9 +37,9 @@ public class TransitionUpdater : MonoBehaviour
     List<List<Quaternion>> poses = new List<List<Quaternion>>();
     List<Vector3> hipspos = new List<Vector3>();
     public bool headBob = true;
-    bool walkFWD =  true; //Tror inte denna används.
     bool loadAnims = true;
     float m_timeAdjuster = 1.0f;
+
     // Use this for initialization
     void Start()
     {
@@ -51,13 +51,75 @@ public class TransitionUpdater : MonoBehaviour
         m_animIdle = new AnimIdle();
         m_animIdle.SetFrames(m_framesToAdd);
     }
-
+    public void ChangeClips(int leftScreenClip, int leftScreenframeIncrement, int rightScreenClip, int rightScreenframeIncrement)
+    {
+        //kommer enbart använda rightsideclippet så ändras left också. Kanske inte ska funka så senare så därför finns elftscreen
+        activeClip = (AnimationClips)rightScreenClip;
+        m_framesToAdd = rightScreenframeIncrement;
+    }
     // Update is called once per frame
     void Update()
     {   
         if(prevClip!=activeClip)
         {
             loadAnims = true;
+        }
+        
+        m_prevTrans = m_transition;
+        m_transition += Time.deltaTime / m_timeAdjuster;
+        //print(m_transition);///// PRINTHÄR asdasdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        if (m_transition > 1.0f)
+        {
+            m_transition -= 1.0f;
+        }
+        if (loadAnims)
+        {
+            poses.Clear();
+            hipspos.Clear();
+            switch (activeClip)
+            {
+               case AnimationClips.Walking:
+                    m_extendHash = m_animWalk.GetExtendHash();
+                    m_extendMirrorHash = m_animWalk.GetExtendMirrorHash();
+                    m_crossHash = m_animWalk.GetCrossHash();
+                    m_crossMirrorHash = m_animWalk.GetCrossMirrorHash();
+                    InvokeKeyFramesWalkingFWD();
+                    m_timeAdjuster = m_animWalk.timeAdjuster;
+                    break;
+               case AnimationClips.Runnning:
+                    m_extendHash = m_animRun.GetExtendHash();
+                    m_extendMirrorHash = m_animRun.GetExtendMirrorHash();
+                    m_crossHash = m_animRun.GetCrossHash();
+                    m_crossMirrorHash = m_animRun.GetCrossMirrorHash();
+                    InvokeKeyFramesWalkingFWD();
+                    m_timeAdjuster = m_animRun.timeAdjuster;
+                    break;
+               case AnimationClips.Crouching:
+                    Invoke("SaveKeyFramesCrouching", 0.25f);
+                    Invoke("SaveKeyFramesStanding", 0.5f);
+                    m_timeAdjuster = m_animDuck.timeAdjuster;
+                    break;
+                case AnimationClips.Idle:
+                    m_extendHash = m_animIdle.GetIdleIdleHash();
+                    m_extendMirrorHash = m_animIdle.GetExtendHash();
+                    m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
+                    m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
+                    m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
+                    if (m_framesToAdd == 0)
+                    {
+                        InvokeTwoKeyFrames();
+                    }
+                    else if (m_framesToAdd == 2)
+                    {
+                        InvokeFiveKeyFrames();
+                    }
+                    m_timeAdjuster = m_animIdle.timeAdjuster;
+                    break;
+               default:
+                    break;
+            }
+            loadAnims = false;
+            m_transition = 0;
         }
         if (m_prevFramesToAdd != m_framesToAdd)
         {
@@ -66,7 +128,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Idle:
                     poses.Clear();
                     hipspos.Clear();
-                    if (m_framesToAdd==0)
+                    if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesWalkFWD0();
                         SaveKeyFramesWalkFWD2();
@@ -91,7 +153,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Crouching:
                     poses.Clear();
                     hipspos.Clear();
-                    if (m_framesToAdd ==0)
+                    if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesCrouching();
                         SaveKeyFramesStanding();
@@ -175,63 +237,6 @@ public class TransitionUpdater : MonoBehaviour
 
             }
         }
-        m_prevTrans = m_transition;
-        m_transition += Time.deltaTime / m_timeAdjuster;
-        //print(m_transition);///// PRINTHÄR asdasdsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        if (m_transition > 1.0f)
-        {
-            m_transition -= 1.0f;
-        }
-        if (loadAnims)
-        {
-            poses.Clear();
-            hipspos.Clear();
-            switch (activeClip)
-            {
-               case AnimationClips.Walking:
-                    m_extendHash = m_animWalk.GetExtendHash();
-                    m_extendMirrorHash = m_animWalk.GetExtendMirrorHash();
-                    m_crossHash = m_animWalk.GetCrossHash();
-                    m_crossMirrorHash = m_animWalk.GetCrossMirrorHash();
-                    InvokeKeyFramesWalkingFWD();
-                    m_timeAdjuster = m_animWalk.timeAdjuster;
-                    break;
-               case AnimationClips.Runnning:
-                    m_extendHash = m_animRun.GetExtendHash();
-                    m_extendMirrorHash = m_animRun.GetExtendMirrorHash();
-                    m_crossHash = m_animRun.GetCrossHash();
-                    m_crossMirrorHash = m_animRun.GetCrossMirrorHash();
-                    InvokeKeyFramesWalkingFWD();
-                    m_timeAdjuster = m_animRun.timeAdjuster;
-                    break;
-               case AnimationClips.Crouching:
-                    Invoke("SaveKeyFramesCrouching", 0.25f);
-                    Invoke("SaveKeyFramesStanding", 0.5f);
-                    m_timeAdjuster = m_animDuck.timeAdjuster;
-                    break;
-                case AnimationClips.Idle:
-                    m_extendHash = m_animIdle.GetIdleIdleHash();
-                    m_extendMirrorHash = m_animIdle.GetExtendHash();
-                    m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
-                    m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
-                    m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
-                    if (m_framesToAdd == 0)
-                    {
-                        InvokeTwoKeyFrames();
-                    }
-                    else if (m_framesToAdd == 2)
-                    {
-                        InvokeFiveKeyFrames();
-                    }
-                    m_timeAdjuster = m_animIdle.timeAdjuster;
-                    break;
-               default:
-                    break;
-            }
-            loadAnims = false;
-            m_transition = 0;
-        }
-
         switch (activeClip)
         {
             case AnimationClips.Walking:
