@@ -212,8 +212,23 @@ public class TransitionUpdater : MonoBehaviour
                     m_timeAdjuster = m_animRun.timeAdjuster;
                     break;
                 case AnimationClips.Crouching:
-                    Invoke("SaveKeyFramesCrouching", 0.25f);
-                    Invoke("SaveKeyFramesStanding", 0.5f);
+                    if (m_framesToAdd == 0)
+                    {
+                        Invoke("SaveKeyFramesCrouching", 0.25f);
+                        Invoke("SaveKeyFramesStanding", 0.5f);
+                        deltaTimeIncreaser = 2.22f;
+                    }
+                    else if (m_framesToAdd == 1)
+                    {
+                        Invoke("InvokeCrouchFirstIncrement", 0.25f);
+                        deltaTimeIncreaser = 1.44f;
+                    }
+                    
+                    else if (m_framesToAdd == 2)
+                    {
+                        Invoke("InvokeCrouchSecondIncrement", 0.25f);
+                        deltaTimeIncreaser = 1.0f;
+                    }
                     m_timeAdjuster = m_animDuck.timeAdjuster;
                     break;
                 case AnimationClips.Idle:
@@ -559,5 +574,23 @@ public class TransitionUpdater : MonoBehaviour
         Invoke("SaveKeyFramesIdleBetween1_1", 0.75f);
         Invoke("SaveKeyFramesIdleBetween2_2", 1.0f);
         Invoke("SaveKeyFramesWalkFWD2", 1.25f);
+    }
+    void InvokeCrouchFirstIncrement()
+    {
+        SaveKeyFramesCrouching();
+        m_between1_1 = Animator.StringToHash("Crouching_1_1");
+        SaveKeyFramesBetween1_1();
+        SaveKeyFramesStanding();
+    }
+    void InvokeCrouchSecondIncrement()
+    {
+        SaveKeyFramesCrouching();
+        m_between1_1 = Animator.StringToHash("Crouching_2_1");
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = Animator.StringToHash("Crouching_1_1");
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = Animator.StringToHash("Crouching_2_2");
+        SaveKeyFramesBetween1_1();
+        SaveKeyFramesStanding();
     }
 }
