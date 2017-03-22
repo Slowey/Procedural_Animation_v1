@@ -121,7 +121,7 @@ public class TransitionUpdater : MonoBehaviour
                         m_between1_1 = Animator.StringToHash("Crouching_2_2");
                         SaveKeyFramesBetween1_1();
                         SaveKeyFramesStanding();
-                        deltaTimeIncreaser = 1.0f;
+                        deltaTimeIncreaser = 0.7f;
                     }
                     else if (m_framesToAdd == 1)
                     {
@@ -129,7 +129,7 @@ public class TransitionUpdater : MonoBehaviour
                         m_between1_1 = Animator.StringToHash("Crouching_1_1");
                         SaveKeyFramesBetween1_1();
                         SaveKeyFramesStanding();
-                        deltaTimeIncreaser = 1.44f;
+                        deltaTimeIncreaser = 0.7f;
                     }
                     break;
                 case AnimationClips.Walking:
@@ -243,13 +243,13 @@ public class TransitionUpdater : MonoBehaviour
                     else if (m_framesToAdd == 1)
                     {
                         Invoke("InvokeCrouchFirstIncrement", 0.25f);
-                        deltaTimeIncreaser = 1.44f;
+                        deltaTimeIncreaser = 0.7f;
                     }
                     
                     else if (m_framesToAdd == 2)
                     {
                         Invoke("InvokeCrouchSecondIncrement", 0.25f);
-                        deltaTimeIncreaser = 1.0f;
+                        deltaTimeIncreaser = 0.7f;
                     }
                     m_timeAdjuster = m_animDuck.timeAdjuster;
                     break;
