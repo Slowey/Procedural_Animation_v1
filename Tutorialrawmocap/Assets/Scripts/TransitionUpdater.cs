@@ -49,7 +49,7 @@ public class TransitionUpdater : MonoBehaviour
         m_animDuck = new AnimDuck();
         m_animRun = new AnimRun();
         m_animIdle = new AnimIdle();
-        m_animIdle.SetFrames(m_framesToAdd);
+        //m_animIdle.SetFrames(m_framesToAdd);
     }
     public void ChangeClips(int leftScreenClip, int leftScreenframeIncrement, int rightScreenClip, int rightScreenframeIncrement)
     {
@@ -231,6 +231,7 @@ public class TransitionUpdater : MonoBehaviour
                         InvokeFiveKeyFrames();
                     }
                     m_timeAdjuster = m_animIdle.timeAdjuster;
+                    m_animIdle.ChangeKeyFrames(m_framesToAdd);
                     break;
                 default:
                     break;

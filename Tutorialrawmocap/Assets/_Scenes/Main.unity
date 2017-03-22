@@ -353,7 +353,7 @@ Prefab:
     - target: {fileID: 114635819168085804, guid: 1593083573ba7864d8e77bcaedd4dc01,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1593083573ba7864d8e77bcaedd4dc01, type: 2}
@@ -1136,7 +1136,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 504952615}
   m_GameObject: {fileID: 943277140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b19cf64e7962fd74781564a5237f95ca, type: 3}
   m_Name: 
@@ -1394,8 +1394,8 @@ MonoBehaviour:
   deltaTimeIncreaser: 2.22
   damper: 0.7
   angularVelo: 10
-  activeClip: 0
-  m_framesToAdd: 0
+  activeClip: 2
+  m_framesToAdd: 2
   headBob: 0
 --- !u!1 &1294870334
 GameObject:
