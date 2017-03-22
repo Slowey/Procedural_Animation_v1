@@ -638,35 +638,35 @@ public class TransitionUpdater : MonoBehaviour
     {
         m_between1_1 = Animator.StringToHash("WalkFWD_Extend");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk1");
+        m_between1_1 = Animator.StringToHash("Walk3");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Extend_1_1");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk2");
+        m_between1_1 = Animator.StringToHash("Walk4");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Cross");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk3");
+        m_between1_1 = Animator.StringToHash("Walk1");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Cross_1_1");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk4");
+        m_between1_1 = Animator.StringToHash("Walk2");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Extend_Mirror");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk5");
+        m_between1_1 = Animator.StringToHash("Walk7");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Extend_Mirror_1_1");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk6");
+        m_between1_1 = Animator.StringToHash("Walk8");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Cross_Mirror");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk7");
+        m_between1_1 = Animator.StringToHash("Walk5");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("WalkFWD_Cross_Mirror_1_1");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("Walk8");
+        m_between1_1 = Animator.StringToHash("Walk6");
         SaveKeyFramesBetween1_1();
     }
     void InvokeRunFirstIncrement()
