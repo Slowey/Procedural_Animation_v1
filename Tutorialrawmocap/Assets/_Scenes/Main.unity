@@ -1394,8 +1394,8 @@ MonoBehaviour:
   deltaTimeIncreaser: 2.22
   damper: 0.7
   angularVelo: 10
-  activeClip: 2
-  m_framesToAdd: 1
+  activeClip: 0
+  m_framesToAdd: 2
   headBob: 0
 --- !u!1 &1294870334
 GameObject:
