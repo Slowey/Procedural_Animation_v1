@@ -636,37 +636,37 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeWalkSecondIncrement()
     {
-        m_between1_1 = Animator.StringToHash("31");
+        m_between1_1 = Animator.StringToHash("11");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("32");
+        m_between1_1 = Animator.StringToHash("12");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("33");
+        m_between1_1 = Animator.StringToHash("13");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("34");
+        m_between1_1 = Animator.StringToHash("14");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("35");
+        m_between1_1 = Animator.StringToHash("15");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("36");
+        m_between1_1 = Animator.StringToHash("16");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("37");
+        m_between1_1 = Animator.StringToHash("17");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("38");
+        m_between1_1 = Animator.StringToHash("18");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("39");
+        m_between1_1 = Animator.StringToHash("19");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("40");
+        m_between1_1 = Animator.StringToHash("20");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("41");
+        m_between1_1 = Animator.StringToHash("21");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("42");
+        m_between1_1 = Animator.StringToHash("22");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("43");
+        m_between1_1 = Animator.StringToHash("23");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("44");
+        m_between1_1 = Animator.StringToHash("24");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("45");
+        m_between1_1 = Animator.StringToHash("25");
         SaveKeyFramesBetween1_1();
-        m_between1_1 = Animator.StringToHash("46");
+        m_between1_1 = Animator.StringToHash("26");
         SaveKeyFramesBetween1_1();
     }
     void InvokeRunFirstIncrement()
