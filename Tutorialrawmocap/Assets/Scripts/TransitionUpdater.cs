@@ -37,12 +37,14 @@ public class TransitionUpdater : MonoBehaviour
     List<List<Quaternion>> poses = new List<List<Quaternion>>();
     List<Vector3> hipspos = new List<Vector3>();
     public bool headBob = true;
+    public bool m_flip = false;
     bool loadAnims = true;
     float m_timeAdjuster = 1.0f;
-
+    public static TransitionUpdater m_instance;
     // Use this for initialization
     void Start()
     {
+        m_instance = this;
         m_animator = GetComponent<Animator>();
         m_transition = 0.0f;
         m_animWalk  = new AnimWalkFWD();
@@ -51,11 +53,19 @@ public class TransitionUpdater : MonoBehaviour
         m_animIdle = new AnimIdle();
         //m_animIdle.SetFrames(m_framesToAdd);
     }
-    public void ChangeClips(int leftScreenClip, int leftScreenframeIncrement, int rightScreenClip, int rightScreenframeIncrement)
+    public void ChangeClips(int p_clip, int p_increment, int p_flip)
     {
         //kommer enbart använda rightsideclippet så ändras left också. Kanske inte ska funka så senare så därför finns elftscreen
-        activeClip = (AnimationClips)rightScreenClip;
-        m_framesToAdd = rightScreenframeIncrement;
+        activeClip = (AnimationClips)p_clip;
+        m_framesToAdd = p_increment;
+        if (p_flip == 1)
+        {
+            m_flip = true;
+        }
+        else
+        {
+            m_flip = false;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -75,8 +85,21 @@ public class TransitionUpdater : MonoBehaviour
         
         if (m_prevFramesToAdd != m_framesToAdd)
         {
+            GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+            GameObject t_original1 = GameObject.Find("OriginalAnimation");
+            if (m_flip)
+            {
+                t_hybrid1.transform.position = new Vector3(1, 0, 0);
+                t_original1.transform.position = new Vector3(-1, 0, 0);
+            }
+            else
+            {
+                t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+                t_original1.transform.position = new Vector3(1, 0, 0);
+            }
             switch (activeClip)
             {
+
                 case AnimationClips.Idle:
                     poses.Clear();
                     hipspos.Clear();
@@ -321,7 +344,18 @@ public class TransitionUpdater : MonoBehaviour
             default:
                 break;
         }
-
+        GameObject t_hybrid = GameObject.Find("HybridAnimation");
+        GameObject t_original = GameObject.Find("OriginalAnimation");
+        if (m_flip)
+        {
+            t_hybrid.transform.position = new Vector3(1, 0, 0);
+            t_original.transform.position = new Vector3(-1, 0, 0);
+        }
+        else
+        {
+            t_hybrid.transform.position = new Vector3(-1, 0, 0);
+            t_original.transform.position = new Vector3(1, 0, 0);
+        }
         prevClip = activeClip;
         m_prevFramesToAdd = m_framesToAdd;
     }
@@ -379,6 +413,15 @@ public class TransitionUpdater : MonoBehaviour
 
     void SaveKeyFramesWalkFWD0()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_extendHash, 0, 0);
@@ -397,6 +440,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesWalkFWD1()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_crossHash, 0, 0);
@@ -417,6 +469,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesWalkFWD2()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_extendMirrorHash, 0, 0);
@@ -435,6 +496,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesWalkFWD3()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_crossMirrorHash, 0, 0);
@@ -465,6 +535,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesStanding()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_standingHash, 0, 0);
@@ -484,6 +563,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesCrouching()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
 
@@ -504,6 +592,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesIdleBetween1_1()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_between1_1, 0, 0);
@@ -522,6 +619,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesBetween1_1()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_between1_1, 0, 0);
@@ -540,6 +646,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesIdleBetween2_1()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_between2_1, 0, 0);
@@ -558,6 +673,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void SaveKeyFramesIdleBetween2_2()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject t_hips;
         List<Transform> t_transforms = new List<Transform>();
         m_animator.Play(m_between2_2, 0, 0);
@@ -576,6 +700,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void MakeGameObjectsForDebuggingRotations()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         GameObject hello = new GameObject();
         hello.name = "hello";
         GameObject rot1 = new GameObject();
@@ -595,6 +728,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeKeyFramesWalkingFWD()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         Invoke("SaveKeyFramesWalkFWD0", 0.25f);
         Invoke("SaveKeyFramesWalkFWD1", 0.5f);
         Invoke("SaveKeyFramesWalkFWD2", 0.75f);
@@ -602,11 +744,29 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeTwoKeyFrames()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         Invoke("SaveKeyFramesWalkFWD0", 0.25f);
         Invoke("SaveKeyFramesWalkFWD2", 0.5f);
     }
     void InvokeFiveKeyFrames()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         Invoke("SaveKeyFramesWalkFWD0", 0.25f);
         Invoke("SaveKeyFramesIdleBetween2_1", 0.5f);
         Invoke("SaveKeyFramesIdleBetween1_1", 0.75f);
@@ -615,12 +775,30 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeIdleFirstIncrement()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         SaveKeyFramesWalkFWD0();
         SaveKeyFramesIdleBetween1_1();
         SaveKeyFramesWalkFWD2();
     }
     void InvokeCrouchFirstIncrement()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         SaveKeyFramesCrouching();
         m_between1_1 = Animator.StringToHash("Crouching_1_1");
         SaveKeyFramesBetween1_1();
@@ -628,6 +806,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeCrouchSecondIncrement()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         SaveKeyFramesCrouching();
         m_between1_1 = Animator.StringToHash("Crouching_2_1");
         SaveKeyFramesBetween1_1();
@@ -639,6 +826,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeWalkFirstIncrement()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         SaveKeyFramesWalkFWD0();
         m_between1_1 = Animator.StringToHash("WalkFWD_Extend1_1");
         SaveKeyFramesBetween1_1();
@@ -654,6 +850,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeWalkSecondIncrement()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         m_between1_1 = Animator.StringToHash("11");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("12");
@@ -689,6 +894,15 @@ public class TransitionUpdater : MonoBehaviour
     }
     void InvokeRunFirstIncrement()
     {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
         //SaveKeyFramesWalkFWD0();
         //m_between1_1 = Animator.StringToHash("RunExtend1_1");
         //SaveKeyFramesBetween1_1();
@@ -701,7 +915,7 @@ public class TransitionUpdater : MonoBehaviour
         //SaveKeyFramesWalkFWD3();
         //m_between1_1 = Animator.StringToHash("RunCrossMirrored1_1");
         //SaveKeyFramesBetween1_1();
-        
+
         m_between1_1 = Animator.StringToHash("1");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("2");
