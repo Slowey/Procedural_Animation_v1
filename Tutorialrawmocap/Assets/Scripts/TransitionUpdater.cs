@@ -109,7 +109,7 @@ public class TransitionUpdater : MonoBehaviour
                     {
                         SaveKeyFramesCrouching();
                         SaveKeyFramesStanding();
-                        deltaTimeIncreaser = 2.22f;
+                        deltaTimeIncreaser = 0.86f;
                     }
                     else if (m_framesToAdd == 2)
                     {
@@ -242,7 +242,7 @@ public class TransitionUpdater : MonoBehaviour
                     {
                         Invoke("SaveKeyFramesCrouching", 0.25f);
                         Invoke("SaveKeyFramesStanding", 0.5f);
-                        deltaTimeIncreaser = 2.22f;
+                        deltaTimeIncreaser = 0.86f;
                     }
                     else if (m_framesToAdd == 1)
                     {
@@ -266,6 +266,10 @@ public class TransitionUpdater : MonoBehaviour
                     if (m_framesToAdd == 0)
                     {
                         InvokeTwoKeyFrames();
+                    }
+                    else if (m_framesToAdd == 1)
+                    {
+                        Invoke("InvokeIdleFirstIncrement", 0.25f);
                     }
                     else if (m_framesToAdd == 2)
                     {
@@ -600,6 +604,12 @@ public class TransitionUpdater : MonoBehaviour
         Invoke("SaveKeyFramesIdleBetween1_1", 0.75f);
         Invoke("SaveKeyFramesIdleBetween2_2", 1.0f);
         Invoke("SaveKeyFramesWalkFWD2", 1.25f);
+    }
+    void InvokeIdleFirstIncrement()
+    {
+        SaveKeyFramesWalkFWD0();
+        SaveKeyFramesIdleBetween1_1();
+        SaveKeyFramesWalkFWD2();
     }
     void InvokeCrouchFirstIncrement()
     {
