@@ -80,6 +80,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Idle:
                     poses.Clear();
                     hipspos.Clear();
+                    m_animator.applyRootMotion = true;
                     if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesWalkFWD0();
@@ -105,6 +106,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Crouching:
                     poses.Clear();
                     hipspos.Clear();
+                    m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesCrouching();
@@ -135,6 +137,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Walking:
                     poses.Clear();
                     hipspos.Clear();
+                    m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesWalkFWD0();
@@ -165,6 +168,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Runnning:
                     poses.Clear();
                     hipspos.Clear();
+                    m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
                         SaveKeyFramesWalkFWD0();
@@ -208,6 +212,7 @@ public class TransitionUpdater : MonoBehaviour
                     m_extendMirrorHash = m_animWalk.GetExtendMirrorHash();
                     m_crossHash = m_animWalk.GetCrossHash();
                     m_crossMirrorHash = m_animWalk.GetCrossMirrorHash();
+                    m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
                         InvokeKeyFramesWalkingFWD();
@@ -227,6 +232,7 @@ public class TransitionUpdater : MonoBehaviour
                     m_extendMirrorHash = m_animRun.GetExtendMirrorHash();
                     m_crossHash = m_animRun.GetCrossHash();
                     m_crossMirrorHash = m_animRun.GetCrossMirrorHash();
+                    m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
                         InvokeKeyFramesWalkingFWD();
@@ -238,6 +244,7 @@ public class TransitionUpdater : MonoBehaviour
                     m_timeAdjuster = m_animRun.timeAdjuster;
                     break;
                 case AnimationClips.Crouching:
+                    m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
                         Invoke("SaveKeyFramesCrouching", 0.25f);
@@ -263,6 +270,7 @@ public class TransitionUpdater : MonoBehaviour
                     m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
                     m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
                     m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
+                    m_animator.applyRootMotion = true;
                     if (m_framesToAdd == 0)
                     {
                         InvokeTwoKeyFrames();
