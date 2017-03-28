@@ -218,7 +218,6 @@ public class AnimIdle : MonoBehaviour {
                     // This really shouldnt work. But for some reason a mistake made it look good and now we don't wanna change it
                     if (t_tempTransition > 0.5f)
                     {
-
                         t_bones[i].rotation = QuaternionExtensionsC.SlerpNoInvertForceShortWay(p_poses[poseListSize-1][i], p_poses[0][i], t_tempTransition / 0.5f);
                     }
                     else
@@ -256,33 +255,76 @@ public class AnimIdle : MonoBehaviour {
         //t_bones[1].rotation = t_bones[1].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //t_bones[5].rotation = t_bones[5].rotation * Quaternion.AngleAxis(-5 * Mathf.Sin(hipstest), new Vector3(0, 0, 1));
         //m_prevTransition = p_transition;
-        if (m_frames ==2)
+        if (m_frames ==4 || m_frames ==3)
         {
-            int section = (int)Mathf.Floor((t_hipspos.Count) * p_transition);
-            float alongLine = (t_hipspos.Count) * p_transition - section;
+            //int section = (int)Mathf.Floor((t_hipspos.Count) * p_transition);
+            //float alongLine = (t_hipspos.Count) * p_transition - section;
+            int section = (int)Mathf.Floor((t_hipspos.Count-1) * p_transition);
+            float alongLine = (t_hipspos.Count-1) * p_transition - section;
             if (section == t_hipspos.Count - 1)
             {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[0], alongLine);
+                //t_bones[0].position = CubicInterp(p_hipspos[section-1], p_hipspos[section], p_hipspos[section+1], p_hipspos[section], alongLine);
+                print("Derpderp Idle fail inne i en konstig seciton");
+                
+                //t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[0], alongLine); // OM vi skippar cubic kolla över denna kan vara fel
+            }
+            else if (section == 0)
+            {
+                t_bones[0].position = CubicInterp(t_hipspos[section+1], t_hipspos[section], t_hipspos[section + 1], t_hipspos[section+2], alongLine);
+            }
+            else if (section == t_hipspos.Count -2)
+            {
+                t_bones[0].position = CubicInterp(t_hipspos[section - 1], t_hipspos[section], t_hipspos[section + 1], t_hipspos[section], alongLine);
             }
             else
             {
-                t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[section + 1], alongLine);
-        
+                t_bones[0].position = CubicInterp(t_hipspos[section - 1], t_hipspos[section], t_hipspos[section + 1], t_hipspos[section + 2], alongLine);
+
+                //t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[section + 1], alongLine);
+
             }
-            
-            
+
+
             //t_bones[0].position = new Vector3(, t_bones[0].position.y, t_bones[0].position.z);
         }
         else
         {
-            int section = (int)Mathf.Floor((t_hipspos.Count-1) * p_transition);
-            float alongLine = (t_hipspos.Count-1) * p_transition - section;
+            //int section = (int)Mathf.Floor((p_hipspos.Count-1) * p_transition);
+            //float alongLine = (p_hipspos.Count-1) * p_transition - section;
+            int section = (int)Mathf.Floor((p_hipspos.Count - 1) * t_tempTransition);
+            float alongLine = (p_hipspos.Count - 1) * t_tempTransition - section;
             //if (section == t_hipspos.Count - 1)
             //{
             //    t_bones[0].position = Vector3.Slerp(t_hipspos[section], t_hipspos[section-1], alongLine);
             //}
+
+            //t_bones[0].position = CubicInterp(p_hipspos[1], p_hipspos[0], p_hipspos[1], p_hipspos[0], alongLine);
+
             t_bones[0].position = Vector3.Slerp(t_hipspos[section], t_hipspos[section + 1], alongLine);
+
+
+
+
         }
     }
+    Vector3 CubicInterp(Vector3 p_y0, Vector3 p_y1, Vector3 p_y2, Vector3 p_y3, float alongLine)
+    {
+        return p_y1 + 0.5f * alongLine * (p_y2 - p_y0+ alongLine * (2.0f * p_y0 - 5.0f * p_y1 + 4.0f * p_y2 - p_y3 + alongLine * (3.0f * (p_y1 - p_y2) + p_y3 - p_y0)));
+    }
+    Vector3 CubicInterpolate(
+                Vector3 y0, Vector3 y1,
+                Vector3 y2, Vector3 y3,
+                float mu)
+    {
+        Vector3 a0, a1, a2, a3;
+        float mu2;
 
+        mu2 = mu * mu;
+        a0 = y3 - y2 - y0 + y1;
+        a1 = y0 - y1 - a0;
+        a2 = y2 - y0;
+        a3 = y1;
+
+        return (a0 * mu * mu2 + a1 * mu2 + a2 * mu + a3);
+    }
 }

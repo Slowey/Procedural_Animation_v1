@@ -85,16 +85,16 @@ public class TransitionUpdater : MonoBehaviour
         
         if (m_prevFramesToAdd != m_framesToAdd)
         {
-            GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+            //GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
             GameObject t_original1 = GameObject.Find("OriginalAnimation");
             if (m_flip)
             {
-                t_hybrid1.transform.position = new Vector3(1, 0, 0);
+                //t_hybrid1.transform.position = new Vector3(1, 0, 0);
                 t_original1.transform.position = new Vector3(-1, 0, 0);
             }
             else
             {
-                t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+                //t_hybrid1.transform.position = new Vector3(-1, 0, 0);
                 t_original1.transform.position = new Vector3(1, 0, 0);
             }
             switch (activeClip)
@@ -344,16 +344,16 @@ public class TransitionUpdater : MonoBehaviour
             default:
                 break;
         }
-        GameObject t_hybrid = GameObject.Find("HybridAnimation");
+        //GameObject t_hybrid = GameObject.Find("HybridAnimation");
         GameObject t_original = GameObject.Find("OriginalAnimation");
         if (m_flip)
         {
-            t_hybrid.transform.position = new Vector3(1, 0, 0);
+            //t_hybrid.transform.position = new Vector3(1, 0, 0);
             t_original.transform.position = new Vector3(-1, 0, 0);
         }
         else
         {
-            t_hybrid.transform.position = new Vector3(-1, 0, 0);
+            //t_hybrid.transform.position = new Vector3(-1, 0, 0);
             t_original.transform.position = new Vector3(1, 0, 0);
         }
         prevClip = activeClip;
