@@ -198,7 +198,9 @@ public class Administrator : MonoBehaviour{
                 t_lineToWrite = "Something went wrong ur in defaul case in administrator";
                 break;
         }
-        fileName = "D:/_Skolgrejer/ratings.txt";
+        fileName = Application.dataPath+"/ratings.txt";
+        //print(fileName);
+        //fileName = "D:/_Skolgrejer/ratings.txt";
         if (!File.Exists(fileName))
         {
             // Create a file to write to.
