@@ -267,7 +267,7 @@ public class AnimIdle : MonoBehaviour {
             else
             {
                 t_bones[0].position = Vector3.Slerp(p_hipspos[section], p_hipspos[section + 1], alongLine);
-
+        
             }
             
             
