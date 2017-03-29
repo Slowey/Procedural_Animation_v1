@@ -19,6 +19,7 @@ public class Administrator : MonoBehaviour{
     GameObject LoadingScreenObj;
     GameObject VotingOverlay;
     GameObject ExperimentOverObj;
+    GameObject selectedToggle;
     struct ClipIncrement
     {
         public int clipNumber;
@@ -74,7 +75,56 @@ public class Administrator : MonoBehaviour{
 	}
 	void Update()
     {
+        
+    }
+    public void DeselectOtherButtons(GameObject thisButton)
+    {
 
+        //print(thisButton.name);
+        if(thisButton.name == "1Toggle")
+        {
+            //GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = true;
+            GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("3Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = false;
+        }
+        else if(thisButton.name == "2Toggle")
+        {
+            GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = false;
+            //GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = true;
+            GameObject.Find("3Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = false;
+        }
+        else if (thisButton.name == "3Toggle")
+        {
+            GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = false;
+            //GameObject.Find("3Toggle").GetComponent<Toggle>().isOn = true;
+            GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = false;
+        }
+        else if (thisButton.name == "4Toggle")
+        {
+            GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("3Toggle").GetComponent<Toggle>().isOn = false;
+            //GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = true;
+            GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = false;
+        }
+        else if (thisButton.name == "5Toggle")
+        {
+            GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("3Toggle").GetComponent<Toggle>().isOn = false;
+            GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = false;
+            //GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = true;
+        }
+
+        //thisButton.GetComponent<Toggle>().isOn = true;
+        selectedToggle = thisButton;
+        //print(selectedToggle.name);
     }
     public void SaveRatingToFile()
     {
