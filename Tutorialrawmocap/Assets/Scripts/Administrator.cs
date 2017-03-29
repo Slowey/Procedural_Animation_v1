@@ -13,6 +13,7 @@ public class Administrator : MonoBehaviour{
         2 = Crouching
         3 = Idle
     */
+    float selectCooldown = 0f;
     ClipIncrement CurrentClipLeft;
     ClipIncrement CurrentClipRight;
     bool passed = true;
@@ -75,13 +76,20 @@ public class Administrator : MonoBehaviour{
 	}
 	void Update()
     {
-        
+        if (selectCooldown >= 0)
+        {
+            selectCooldown -= Time.deltaTime;
+        }
     }
     public void DeselectOtherButtons(GameObject thisButton)
     {
-
         //print(thisButton.name);
-        if(thisButton.name == "1Toggle")
+        if (selectCooldown>= 0f)
+        {
+            return;
+        }
+        selectCooldown = 0.01f;
+        if (thisButton.name == "1Toggle")
         {
             //GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = true;
             GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = false;
@@ -121,7 +129,6 @@ public class Administrator : MonoBehaviour{
             GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = false;
             //GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = true;
         }
-
         //thisButton.GetComponent<Toggle>().isOn = true;
         selectedToggle = thisButton;
         //print(selectedToggle.name);
