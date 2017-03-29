@@ -14,13 +14,11 @@ public class Administrator : MonoBehaviour{
         3 = Idle
     */
     float selectCooldown = 0f;
-    ClipIncrement CurrentClipLeft;
     ClipIncrement CurrentClipRight;
     bool passed = true;
     GameObject LoadingScreenObj;
     GameObject VotingOverlay;
     GameObject ExperimentOverObj;
-    GameObject selectedToggle;
     struct ClipIncrement
     {
         public int clipNumber;
@@ -130,130 +128,72 @@ public class Administrator : MonoBehaviour{
             //GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = true;
         }
         //thisButton.GetComponent<Toggle>().isOn = true;
-        selectedToggle = thisButton;
         //print(selectedToggle.name);
     }
     public void SaveRatingToFile()
     {
-        //int leftSliderValue = (int)GameObject.Find("LeftScreenSlider").GetComponent<Slider>().value;
-        int rightSliderValue = (int)GameObject.Find("RightScreenSlider").GetComponent<Slider>().value;
-        bool leftToggle = GameObject.Find("LeftToggle").GetComponent<Toggle>().isOn;
-        bool rightToggle = GameObject.Find("RightToggle").GetComponent<Toggle>().isOn;
+        string whatButton = "";
+        if (TransitionUpdater.m_instance.m_flip)
+        {
+            if (GameObject.Find("1Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Hybrid significantly better";
+            }
+            if (GameObject.Find("2Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Hybrid slightly better";
+            }
+            if (GameObject.Find("3Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "The two animations are quality wise equal";
+            }
+            if (GameObject.Find("4Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Original slightly better";
+            }
+            if (GameObject.Find("5Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Original significantly better";
+            }
+        }
+        else
+        {
+            if (GameObject.Find("1Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Original significantly better";
+            }
+            if (GameObject.Find("2Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Original slightly better";
+            }
+            if (GameObject.Find("3Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "The two animations are quality wise equal";
+            }
+            if (GameObject.Find("4Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Hybrid slightly better";
+            }
+            if (GameObject.Find("5Toggle").GetComponent<Toggle>().isOn)
+            {
+                whatButton = "Hybrid significantly better";
+            }
+        }
         //find which box is toggled.
         string t_lineToWrite;// = p_clipName1 + p_rating1.ToString();
         switch (CurrentClipRight.clipNumber)
         {
-           // case 0:
-           //     t_lineToWrite = "Walking FullKeyFrame Rating: " + leftSliderValue + " Walking Increment: " + CurrentClipRight.increment + " Rating: " + rightSliderValue;
-           //     break;
-           // case 1:
-           //     t_lineToWrite = "Running FullKeyFrame Rating: " + leftSliderValue + " Running Increment: " + CurrentClipRight.increment + " Rating: " + rightSliderValue;
-           //     break;
-           // case 2:
-           //     t_lineToWrite = "Crouching FullKeyFrame Rating: " + leftSliderValue + " Crouching Increment: " + CurrentClipRight.increment + " Rating: " + rightSliderValue;
-           //     break;
-           // case 3:
-           //     t_lineToWrite = "Idle FullKeyFrame Rating: " + leftSliderValue + " Idle Increment: " + CurrentClipRight.increment + " Rating: " + rightSliderValue;
-           //     break;
-           // default:
-           //     t_lineToWrite = "Something went wrong ur in defaul case in administrator";
-           //     break;
-
             case 0:
-                if (TransitionUpdater.m_instance.m_flip)
-                {
-                    if (leftToggle)
-                    {
-                        t_lineToWrite = "Walking Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Walking Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
-                else
-                {
-                    if (rightToggle)
-                    {
-                        t_lineToWrite = "Walking Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Walking Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
+                    t_lineToWrite = "Walking : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
                 break;
             case 1:
-                if (TransitionUpdater.m_instance.m_flip)
-                {
-                    if (leftToggle)
-                    {
-                        t_lineToWrite = "Running Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Running Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
-                else
-                {
-                    if (rightToggle)
-                    {
-                        t_lineToWrite = "Running Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Running Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
+                    t_lineToWrite = "Running : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
                 break;
             case 2:
-                if (TransitionUpdater.m_instance.m_flip)
-                {
-                    if (leftToggle)
-                    {
-                        t_lineToWrite = "Crouching Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Crouching Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
-                else
-                {
-                    if (rightToggle)
-                    {
-                        t_lineToWrite = "Crouching Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Crouching Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
+                t_lineToWrite = "Crouching : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
                 break;
             case 3:
-                if (TransitionUpdater.m_instance.m_flip)
-                {
-                    if (leftToggle)
-                    {
-                        t_lineToWrite = "Idle Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Idle Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
-                else
-                {
-                    if (rightToggle)
-                    {
-                        t_lineToWrite = "Idle Preferred: Hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                    else
-                    {
-                        t_lineToWrite = "Idle Preferred: Original against hybrid with " + CurrentClipRight.increment + " increments SliderValue was: " + rightSliderValue;
-                    }
-                }
+                t_lineToWrite = "Idle : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
                 break;
             default:
                 t_lineToWrite = "Something went wrong ur in defaul case in administrator";
@@ -274,10 +214,18 @@ public class Administrator : MonoBehaviour{
         {
             sw.WriteLine(t_lineToWrite);
         }
+        print(t_lineToWrite);
         ChangeClips();
     }
     private void LoadingScreen()
     {
+        //Unmark every toggle
+        GameObject.Find("1Toggle").GetComponent<Toggle>().isOn = false;
+        GameObject.Find("2Toggle").GetComponent<Toggle>().isOn = false;
+        GameObject.Find("3Toggle").GetComponent<Toggle>().isOn = false;
+        GameObject.Find("4Toggle").GetComponent<Toggle>().isOn = false;
+        GameObject.Find("5Toggle").GetComponent<Toggle>().isOn = false;
+
         ToggleLoadingScreen();
         Invoke("ToggleLoadingScreen", 2.0f);
     }
