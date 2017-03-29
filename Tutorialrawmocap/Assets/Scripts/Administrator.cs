@@ -132,6 +132,7 @@ public class Administrator : MonoBehaviour{
         int rightSliderValue = (int)GameObject.Find("RightScreenSlider").GetComponent<Slider>().value;
         bool leftToggle = GameObject.Find("LeftToggle").GetComponent<Toggle>().isOn;
         bool rightToggle = GameObject.Find("RightToggle").GetComponent<Toggle>().isOn;
+        //find which box is toggled.
         string t_lineToWrite;// = p_clipName1 + p_rating1.ToString();
         switch (CurrentClipRight.clipNumber)
         {
