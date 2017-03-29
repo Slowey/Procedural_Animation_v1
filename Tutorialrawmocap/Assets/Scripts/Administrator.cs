@@ -18,6 +18,7 @@ public class Administrator : MonoBehaviour{
     bool passed = true;
     GameObject LoadingScreenObj;
     GameObject VotingOverlay;
+    GameObject ExperimentOverObj;
     struct ClipIncrement
     {
         public int clipNumber;
@@ -31,7 +32,9 @@ public class Administrator : MonoBehaviour{
         //fileName = relativePath + "/ratings.txt";
         //print(fileName);
         LoadingScreenObj = GameObject.Find("LoadingScreen").gameObject;
+        ExperimentOverObj = GameObject.Find("ExperimentOver").gameObject;
         LoadingScreenObj.SetActive(false);
+        ExperimentOverObj.SetActive(false);
         VotingOverlay = GameObject.Find("VotingOverlay").gameObject;
 
         // Nu vill vi ha increment 0 och 1 och sen flippa dom.
@@ -218,7 +221,11 @@ public class Administrator : MonoBehaviour{
     private void LoadingScreen()
     {
         ToggleLoadingScreen();
-        Invoke("ToggleLoadingScreen", 1.5f);
+        Invoke("ToggleLoadingScreen", 2.0f);
+    }
+    private void ExperimentOver()
+    {
+        ExperimentOverObj.SetActive(true);
     }
     private void ToggleLoadingScreen()
     {
@@ -231,6 +238,7 @@ public class Administrator : MonoBehaviour{
         {
             //experiment over thank you
             print("Experiment over thank yoU!");
+            ExperimentOver();
             return;
         }
         //int t_clip = Random.Range(0, 4);
