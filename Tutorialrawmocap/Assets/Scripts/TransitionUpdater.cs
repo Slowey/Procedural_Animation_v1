@@ -41,6 +41,7 @@ public class TransitionUpdater : MonoBehaviour
     bool loadAnims = true;
     float m_timeAdjuster = 1.0f;
     public static TransitionUpdater m_instance;
+    public bool m_sync = false;
     // Use this for initialization
     void Start()
     {
@@ -58,6 +59,7 @@ public class TransitionUpdater : MonoBehaviour
         //kommer enbart använda rightsideclippet så ändras left också. Kanske inte ska funka så senare så därför finns elftscreen
         activeClip = (AnimationClips)p_clip;
         m_framesToAdd = p_increment;
+        loadAnims = true;
         if (p_flip == 1)
         {
             m_flip = true;
@@ -66,6 +68,7 @@ public class TransitionUpdater : MonoBehaviour
         {
             m_flip = false;
         }
+        m_sync = true;
     }
     // Update is called once per frame
     void Update()
@@ -85,16 +88,16 @@ public class TransitionUpdater : MonoBehaviour
         
         if (m_prevFramesToAdd != m_framesToAdd)
         {
-            //GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+            GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
             GameObject t_original1 = GameObject.Find("OriginalAnimation");
             if (m_flip)
             {
-                //t_hybrid1.transform.position = new Vector3(1, 0, 0);
+                t_hybrid1.transform.position = new Vector3(1, 0, 0);
                 t_original1.transform.position = new Vector3(-1, 0, 0);
             }
             else
             {
-                //t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+                t_hybrid1.transform.position = new Vector3(-1, 0, 0);
                 t_original1.transform.position = new Vector3(1, 0, 0);
             }
             switch (activeClip)
@@ -194,10 +197,19 @@ public class TransitionUpdater : MonoBehaviour
                     m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
-                        SaveKeyFramesWalkFWD0();
-                        SaveKeyFramesWalkFWD1();
-                        SaveKeyFramesWalkFWD2();
-                        SaveKeyFramesWalkFWD3();
+                        //SaveKeyFramesWalkFWD0();
+                        //SaveKeyFramesWalkFWD1();
+                        //SaveKeyFramesWalkFWD2();
+                        //SaveKeyFramesWalkFWD3();
+
+                        m_between1_1 = Animator.StringToHash("1");
+                        SaveKeyFramesBetween1_1();
+                        m_between1_1 = Animator.StringToHash("3");
+                        SaveKeyFramesBetween1_1();
+                        m_between1_1 = Animator.StringToHash("5");
+                        SaveKeyFramesBetween1_1();
+                        m_between1_1 = Animator.StringToHash("7");
+                        SaveKeyFramesBetween1_1();
                     }
                     else if (m_framesToAdd == 1)
                     {
@@ -258,11 +270,12 @@ public class TransitionUpdater : MonoBehaviour
                     m_animator.applyRootMotion = false;
                     if (m_framesToAdd == 0)
                     {
-                        InvokeKeyFramesWalkingFWD();
+                        //InvokeKeyFramesWalkingFWD();
+                        Invoke("InvokeRunNoIncrement", 0.25f);
                     }
                     else if (m_framesToAdd == 1)
                     {
-                        InvokeRunFirstIncrement();
+                        Invoke("InvokeRunFirstIncrement",0.25f);
                     }
                     m_timeAdjuster = m_animRun.timeAdjuster;
                     break;
@@ -293,10 +306,9 @@ public class TransitionUpdater : MonoBehaviour
                     m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
                     m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
                     m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
-                    m_animator.applyRootMotion = true;
                     if (m_framesToAdd == 0)
                     {
-                        InvokeTwoKeyFrames();
+                        Invoke("InvokeIdleNoIncrement", 0.25f);
                     }
                     else if (m_framesToAdd == 1)
                     {
@@ -304,7 +316,7 @@ public class TransitionUpdater : MonoBehaviour
                     }
                     else if (m_framesToAdd == 2)
                     {
-                        InvokeFiveKeyFrames();
+                        Invoke("InvokeIdleSecondIncrement",0.25f);
                     }
                     m_timeAdjuster = m_animIdle.timeAdjuster;
                     m_animIdle.ChangeKeyFrames(m_framesToAdd);
@@ -742,8 +754,9 @@ public class TransitionUpdater : MonoBehaviour
         Invoke("SaveKeyFramesWalkFWD2", 0.75f);
         Invoke("SaveKeyFramesWalkFWD3", 1.0f);
     }
-    void InvokeTwoKeyFrames()
+    void InvokeIdleNoIncrement()
     {
+        m_animator.applyRootMotion = true;
         GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
         if (m_flip)
         {
@@ -753,11 +766,14 @@ public class TransitionUpdater : MonoBehaviour
         {
             t_hybrid1.transform.position = new Vector3(-1, 0, 0);
         }
-        Invoke("SaveKeyFramesWalkFWD0", 0.25f);
-        Invoke("SaveKeyFramesWalkFWD2", 0.5f);
+        m_between1_1 = m_animIdle.GetIdleIdleHash();
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = m_animIdle.GetExtendHash();
+        SaveKeyFramesBetween1_1();
     }
-    void InvokeFiveKeyFrames()
+    void InvokeIdleSecondIncrement()
     {
+        m_animator.applyRootMotion = true;
         GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
         if (m_flip)
         {
@@ -767,14 +783,20 @@ public class TransitionUpdater : MonoBehaviour
         {
             t_hybrid1.transform.position = new Vector3(-1, 0, 0);
         }
-        Invoke("SaveKeyFramesWalkFWD0", 0.25f);
-        Invoke("SaveKeyFramesIdleBetween2_1", 0.5f);
-        Invoke("SaveKeyFramesIdleBetween1_1", 0.75f);
-        Invoke("SaveKeyFramesIdleBetween2_2", 1.0f);
-        Invoke("SaveKeyFramesWalkFWD2", 1.25f);
+        m_between1_1 = m_animIdle.GetIdleIdleHash();
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = m_animIdle.GetIdleInbetweenTwoOne();
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = m_animIdle.GetIdleInbetweenTwoTwo();
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = m_animIdle.GetExtendHash();
+        SaveKeyFramesBetween1_1();
     }
     void InvokeIdleFirstIncrement()
     {
+        m_animator.applyRootMotion = true;
         GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
         if (m_flip)
         {
@@ -890,6 +912,27 @@ public class TransitionUpdater : MonoBehaviour
         m_between1_1 = Animator.StringToHash("25");
         SaveKeyFramesBetween1_1();
         m_between1_1 = Animator.StringToHash("26");
+        SaveKeyFramesBetween1_1();
+    }
+    void InvokeRunNoIncrement()
+    {
+        GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
+        if (m_flip)
+        {
+            t_hybrid1.transform.position = new Vector3(1, 0, 0);
+        }
+        else
+        {
+            t_hybrid1.transform.position = new Vector3(-1, 0, 0);
+        }
+
+        m_between1_1 = Animator.StringToHash("1");
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = Animator.StringToHash("3");
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = Animator.StringToHash("5");
+        SaveKeyFramesBetween1_1();
+        m_between1_1 = Animator.StringToHash("7");
         SaveKeyFramesBetween1_1();
     }
     void InvokeRunFirstIncrement()

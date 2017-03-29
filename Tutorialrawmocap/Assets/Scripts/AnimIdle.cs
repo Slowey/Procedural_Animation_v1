@@ -302,10 +302,8 @@ public class AnimIdle : MonoBehaviour {
 
             t_bones[0].position = Vector3.Slerp(t_hipspos[section], t_hipspos[section + 1], alongLine);
 
-
-
-
         }
+        t_bones[0].position = new Vector3(t_bones[0].position.x, t_bones[0].position.y, 0);
     }
     Vector3 CubicInterp(Vector3 p_y0, Vector3 p_y1, Vector3 p_y2, Vector3 p_y3, float alongLine)
     {

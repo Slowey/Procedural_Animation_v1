@@ -42,7 +42,7 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
     {
         m_activeClip = (AnimationClips)transUpdaterScript.activeClip;
         animator.SetInteger("whatAnim", (int)m_activeClip);
-        if(m_activeClip != prevClip)
+        if(TransitionUpdater.m_instance.m_sync)
         {
             switch (m_activeClip)
             {
@@ -62,9 +62,10 @@ public class WhatAnimIsTheOtherPlaying : MonoBehaviour
                 default:
                     break;
             }
+            TransitionUpdater.m_instance.m_sync = false;
         }
 
 
-        prevClip = m_activeClip;
+        //prevClip = m_activeClip;
     }
 }

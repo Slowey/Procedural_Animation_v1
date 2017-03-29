@@ -263,6 +263,33 @@ public class Administrator : MonoBehaviour{
             t_increment = Random.Range(0, 2);
             t_flip = Random.Range(0, 2);
         }
+
+        //List<ClipIncrement> t_unusedClips = new List<ClipIncrement>();
+
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    for (int k = 0; k < 2; k++)
+        //    {
+        //        for (int j = 0; j < 2; j++)
+        //        {
+        //            if (clipsNotUsed[i][k][j] == 1)
+        //            {
+        //                ClipIncrement t_tempclip;
+        //                t_tempclip.clipNumber = i;
+        //                t_tempclip.increment = k;
+        //                t_tempclip.flip = j;
+        //                t_unusedClips.Add(t_tempclip);
+        //            }
+        //        }
+        //    }
+        //}
+        //if (t_unusedClips.Count == 3)
+        //{
+        //    for (int i = 0; i < length; i++)
+        //    {
+
+        //    }
+        //}
         CurrentClipRight.clipNumber = t_clip;
         CurrentClipRight.increment = t_increment;
         CurrentClipRight.flip = t_flip;
