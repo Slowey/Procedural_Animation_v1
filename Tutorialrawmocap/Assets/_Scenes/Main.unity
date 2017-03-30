@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 205496041}
   - component: {fileID: 205496042}
   m_Layer: 5
-  m_Name: 3Toggle (1)
+  m_Name: 3Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 223520840}
   - component: {fileID: 223520841}
   m_Layer: 5
-  m_Name: 5Toggle (1)
+  m_Name: 5Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 339292928}
   - component: {fileID: 339292929}
   m_Layer: 5
-  m_Name: 1Toggle (1)
+  m_Name: 1Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1931,7 +1931,7 @@ GameObject:
   - component: {fileID: 717782416}
   - component: {fileID: 717782417}
   m_Layer: 5
-  m_Name: 2Toggle (1)
+  m_Name: 2Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2269,7 +2269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &830222309
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2775,7 +2775,7 @@ GameObject:
   - component: {fileID: 1045135478}
   - component: {fileID: 1045135479}
   m_Layer: 5
-  m_Name: 2Toggle
+  m_Name: 2ToggleHori
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2935,7 +2935,7 @@ GameObject:
   - component: {fileID: 1093980134}
   - component: {fileID: 1093980135}
   m_Layer: 5
-  m_Name: 5Toggle
+  m_Name: 5ToggleHori
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3027,7 +3027,7 @@ GameObject:
   - component: {fileID: 1095463540}
   - component: {fileID: 1095463541}
   m_Layer: 5
-  m_Name: 3Toggle
+  m_Name: 3ToggleHori
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3135,7 +3135,7 @@ GameObject:
   - component: {fileID: 1152904633}
   - component: {fileID: 1152904634}
   m_Layer: 5
-  m_Name: 1Toggle
+  m_Name: 1ToggleHori
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3558,7 +3558,7 @@ GameObject:
   - component: {fileID: 1350999507}
   - component: {fileID: 1350999508}
   m_Layer: 5
-  m_Name: 4Toggle
+  m_Name: 4ToggleHori
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3854,7 +3854,7 @@ GameObject:
   - component: {fileID: 1437898396}
   - component: {fileID: 1437898397}
   m_Layer: 5
-  m_Name: 4Toggle (1)
+  m_Name: 4Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
