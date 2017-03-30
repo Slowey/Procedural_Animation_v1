@@ -76,6 +76,7 @@ public class TransitionUpdater : MonoBehaviour
         if(prevClip!=activeClip)
         {
             loadAnims = true;
+            m_sync = true;
         }
         
         m_prevTrans = m_transition;
@@ -86,7 +87,7 @@ public class TransitionUpdater : MonoBehaviour
             m_transition -= 1.0f;
         }
         
-        if (m_prevFramesToAdd != m_framesToAdd)
+        if (m_prevFramesToAdd != m_framesToAdd && !m_sync)
         {
             GameObject t_hybrid1 = GameObject.Find("HybridAnimation");
             GameObject t_original1 = GameObject.Find("OriginalAnimation");
@@ -106,6 +107,7 @@ public class TransitionUpdater : MonoBehaviour
                 case AnimationClips.Idle:
                     poses.Clear();
                     hipspos.Clear();
+                    m_animIdle.ResetSwitch();
                     m_animator.applyRootMotion = true;
                     if (m_framesToAdd == 0)
                     {
@@ -233,8 +235,9 @@ public class TransitionUpdater : MonoBehaviour
                     break;
                 default:
                     break;
-
             }
+            m_transition = 0;
+            m_prevTrans = 0;
         }
         if (loadAnims)
         {
@@ -306,6 +309,7 @@ public class TransitionUpdater : MonoBehaviour
                     m_between1_1 = m_animIdle.GetIdleInbetweenOneOne();
                     m_between2_1 = m_animIdle.GetIdleInbetweenTwoOne();
                     m_between2_2 = m_animIdle.GetIdleInbetweenTwoTwo();
+                    m_animIdle.ResetSwitch();
                     if (m_framesToAdd == 0)
                     {
                         Invoke("InvokeIdleNoIncrement", 0.25f);
@@ -326,6 +330,7 @@ public class TransitionUpdater : MonoBehaviour
             }
             loadAnims = false;
             m_transition = 0;
+            m_prevTrans = 0;
         }
         switch (activeClip)
         {

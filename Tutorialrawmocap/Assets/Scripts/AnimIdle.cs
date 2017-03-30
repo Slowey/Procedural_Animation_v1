@@ -35,6 +35,12 @@ public class AnimIdle : MonoBehaviour {
         }
 
     }
+
+    public void ResetSwitch()
+    {
+        m_switch = true;
+    }
+
     public void SetTimeAdjuster(float p_newTimeAdjuster)
     {
         timeAdjuster = p_newTimeAdjuster;
