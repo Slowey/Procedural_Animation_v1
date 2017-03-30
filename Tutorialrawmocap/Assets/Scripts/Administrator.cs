@@ -133,28 +133,34 @@ public class Administrator : MonoBehaviour{
     public void SaveRatingToFile()
     {
         string whatButton = "";
+        bool anyButtonPressed = true;
         if (TransitionUpdater.m_instance.m_flip)
         {
             if (GameObject.Find("1Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Hybrid significantly better";
             }
-            if (GameObject.Find("2Toggle").GetComponent<Toggle>().isOn)
+            else if (GameObject.Find("2Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Hybrid slightly better";
             }
-            if (GameObject.Find("3Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("3Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "The two animations are quality wise equal";
             }
-            if (GameObject.Find("4Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("4Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Original slightly better";
             }
-            if (GameObject.Find("5Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("5Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Original significantly better";
             }
+            else
+            {
+                anyButtonPressed = false;
+            }
+            
         }
         else
         {
@@ -162,60 +168,68 @@ public class Administrator : MonoBehaviour{
             {
                 whatButton = "Original significantly better";
             }
-            if (GameObject.Find("2Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("2Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Original slightly better";
             }
-            if (GameObject.Find("3Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("3Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "The two animations are quality wise equal";
             }
-            if (GameObject.Find("4Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("4Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Hybrid slightly better";
             }
-            if (GameObject.Find("5Toggle").GetComponent<Toggle>().isOn)
+            else if(GameObject.Find("5Toggle").GetComponent<Toggle>().isOn)
             {
                 whatButton = "Hybrid significantly better";
             }
-        }
-        //find which box is toggled.
-        string t_lineToWrite;// = p_clipName1 + p_rating1.ToString();
-        switch (CurrentClipRight.clipNumber)
-        {
-            case 0:
-                    t_lineToWrite = "Walking : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
-                break;
-            case 1:
-                    t_lineToWrite = "Running : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
-                break;
-            case 2:
-                t_lineToWrite = "Crouching : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
-                break;
-            case 3:
-                t_lineToWrite = "Idle : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
-                break;
-            default:
-                t_lineToWrite = "Something went wrong ur in defaul case in administrator";
-                break;
-        }
-        fileName = Application.dataPath+"/ratings.txt";
-        //print(fileName);
-        //fileName = "D:/_Skolgrejer/ratings.txt";
-        if (!File.Exists(fileName))
-        {
-            // Create a file to write to.
-            using (StreamWriter sw = File.CreateText(fileName))
+            else
             {
-                sw.WriteLine("Ratings per clip");
+                anyButtonPressed = false;
             }
         }
-        using (StreamWriter sw = File.AppendText(fileName))
+        //find which box is toggled.
+        if(anyButtonPressed)
         {
-            sw.WriteLine(t_lineToWrite);
+            string t_lineToWrite;// = p_clipName1 + p_rating1.ToString();
+            switch (CurrentClipRight.clipNumber)
+            {
+                case 0:
+                        t_lineToWrite = "Walking : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
+                    break;
+                case 1:
+                        t_lineToWrite = "Running : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
+                    break;
+                case 2:
+                    t_lineToWrite = "Crouching : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
+                    break;
+                case 3:
+                    t_lineToWrite = "Idle : " + whatButton + ", Clipincrement:  " + CurrentClipRight.increment;
+                    break;
+                default:
+                    t_lineToWrite = "Something went wrong ur in defaul case in administrator";
+                    break;
+            }
+            fileName = Application.dataPath+"/ratings.txt";
+            //print(fileName);
+            //fileName = "D:/_Skolgrejer/ratings.txt";
+            if (!File.Exists(fileName))
+            {
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(fileName))
+                {
+                    sw.WriteLine("Ratings per clip");
+                }
+            }
+            using (StreamWriter sw = File.AppendText(fileName))
+            {
+                sw.WriteLine(t_lineToWrite);
+            }
+            print(t_lineToWrite);
+            ChangeClips();
+
         }
-        print(t_lineToWrite);
-        ChangeClips();
     }
     private void LoadingScreen()
     {
