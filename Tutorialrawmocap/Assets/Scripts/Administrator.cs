@@ -19,6 +19,7 @@ public class Administrator : MonoBehaviour{
     GameObject LoadingScreenObj;
     GameObject VotingOverlay;
     GameObject ExperimentOverObj;
+    GameObject ExpOverImage;
     struct ClipIncrement
     {
         public int clipNumber;
@@ -36,7 +37,8 @@ public class Administrator : MonoBehaviour{
         LoadingScreenObj.SetActive(false);
         ExperimentOverObj.SetActive(false);
         VotingOverlay = GameObject.Find("VotingOverlay").gameObject;
-
+        ExpOverImage = GameObject.Find("ExpOverImage");
+        ExpOverImage.SetActive(false);
         // Nu vill vi ha increment 0 och 1 och sen flippa dom.
         //for (int i = 0; i < 4; i++)
         //{
@@ -246,14 +248,61 @@ public class Administrator : MonoBehaviour{
     private void ExperimentOver()
     {
         ExperimentOverObj.SetActive(true);
+        GameObject.Find("HybridAnimation").SetActive(false);
+        GameObject.Find("OriginalAnimation").SetActive(false);
+        VotingOverlay.SetActive(false);
     }
     private void ToggleLoadingScreen()
     {
         LoadingScreenObj.SetActive(!LoadingScreenObj.activeSelf);
         VotingOverlay.SetActive(!VotingOverlay.activeSelf);
     }
+    public void SaveDetails()
+    {
+        int t_dropDownValue = 0;
+        string t_lineToWriteEndExp = "";
+        t_dropDownValue = GameObject.Find("DropdownTech").GetComponent<Dropdown>().value;
+        if(t_dropDownValue == 0)
+        {
+            t_lineToWriteEndExp = "Technical experience: Yes";
+        }
+        else if(t_dropDownValue == 1)
+        {
+            t_lineToWriteEndExp = "Technical experience: No";
+        }
+        else if(t_dropDownValue == 2)
+        {
+            t_lineToWriteEndExp = "Technical experience: Don't know";
+        }
+
+        t_dropDownValue = GameObject.Find("DropdownGame").GetComponent<Dropdown>().value;
+        if (t_dropDownValue == 0)
+        {
+            t_lineToWriteEndExp += " Gaming experience: Yes";
+        }
+        else if (t_dropDownValue == 1)
+        {
+            t_lineToWriteEndExp += " Gaming experience: No";
+        }
+        else if (t_dropDownValue == 2)
+        {
+            t_lineToWriteEndExp += " Gaming experience: Don't know";
+        }
+        fileName = Application.dataPath + "/ratings.txt";
+        //print(fileName);
+        //fileName = "D:/_Skolgrejer/ratings.txt";
+
+        using (StreamWriter sw = File.AppendText(fileName))
+        {
+            sw.WriteLine(t_lineToWriteEndExp);
+            sw.WriteLine("Participant done.");
+            sw.WriteLine("");
+        }
+        ExpOverImage.SetActive(true);
+    }
     private void ChangeClips()
     {
+        //passed = false;
         if (!passed)
         {
             //experiment over thank you
