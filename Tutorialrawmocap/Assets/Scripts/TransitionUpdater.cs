@@ -139,7 +139,7 @@ public class TransitionUpdater : MonoBehaviour
                     {
                         SaveKeyFramesCrouching();
                         SaveKeyFramesStanding();
-                        deltaTimeIncreaser = 0.86f;
+                        deltaTimeIncreaser = 0.7f; // 0.86
                     }
                     else if (m_framesToAdd == 2)
                     {
