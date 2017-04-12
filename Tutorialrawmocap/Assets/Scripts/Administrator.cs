@@ -262,29 +262,29 @@ public class Administrator : MonoBehaviour{
         int t_dropDownValue = 0;
         string t_lineToWriteEndExp = "";
         t_dropDownValue = GameObject.Find("DropdownTech").GetComponent<Dropdown>().value;
-        if(t_dropDownValue == 0)
+        if(t_dropDownValue == 1)
         {
             t_lineToWriteEndExp = "Technical experience: Yes";
         }
-        else if(t_dropDownValue == 1)
+        else if(t_dropDownValue == 2)
         {
             t_lineToWriteEndExp = "Technical experience: No";
         }
-        else if(t_dropDownValue == 2)
+        else if(t_dropDownValue == 0)
         {
             t_lineToWriteEndExp = "Technical experience: Don't know";
         }
 
         t_dropDownValue = GameObject.Find("DropdownGame").GetComponent<Dropdown>().value;
-        if (t_dropDownValue == 0)
+        if (t_dropDownValue == 1)
         {
             t_lineToWriteEndExp += " Gaming experience: Yes";
         }
-        else if (t_dropDownValue == 1)
+        else if (t_dropDownValue == 2)
         {
             t_lineToWriteEndExp += " Gaming experience: No";
         }
-        else if (t_dropDownValue == 2)
+        else if (t_dropDownValue == 0)
         {
             t_lineToWriteEndExp += " Gaming experience: Don't know";
         }
