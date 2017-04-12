@@ -228,7 +228,7 @@ public class Administrator : MonoBehaviour{
             {
                 sw.WriteLine(t_lineToWrite);
             }
-            print(t_lineToWrite);
+            //print(t_lineToWrite);
             ChangeClips();
 
         }
@@ -306,7 +306,7 @@ public class Administrator : MonoBehaviour{
         if (!passed)
         {
             //experiment over thank you
-            print("Experiment over thank yoU!");
+            //print("Experiment over thank yoU!");
             ExperimentOver();
             return;
         }
